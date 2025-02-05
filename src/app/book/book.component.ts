@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { Book, PageType } from './book.types';
 
 @Component({
   selector: 'app-book',
@@ -7,67 +8,52 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class BookComponent {
+  bookImages: string[];
+  windowWidth: number;
+  frontImage = 'images/milyen-szin-lennel/borito_front.jpg';
+
   book: Book = {
-    width: 1190,
-    height: 800,
+    width: 1020,
+    height: 520,
     zoom: 1,
     cover: {
       front: {
-        imageUrl: 'images/milyen-szin-lennel/borito-0001.jpg',
+        imageUrl: this.frontImage,
       },
       back: {
-        imageUrl: 'images/milyen-szin-lennel/borito-0001.jpg',
+        imageUrl: this.frontImage,
       },
     },
-    pages: [
-      {
-        imageUrl: 'images/milyen-szin-lennel/1-fejezet_page-0001_left.jpg',
-        backgroundColor: '#f0f0f0',
-      },
-      {
-        imageUrl: 'images/milyen-szin-lennel/1-fejezet_page-0001_right.jpg',
-        backgroundColor: '#f0f0f0',
-      },
-      {
-        imageUrl: 'images/milyen-szin-lennel/1-fejezet_page-0002_left.jpg',
-        backgroundColor: '#f0f0f0',
-      },
-      {
-        imageUrl: 'images/milyen-szin-lennel/1-fejezet_page-0002_right.jpg',
-        backgroundColor: '#f0f0f0',
-      },
-    ],
-    pageWidth: 585,
-    pageHeight: 780,
+    pages: [],
+    pageWidth: 500,
+    pageHeight: 500,
     startPageType: PageType.Double,
     endPageType: PageType.Double,
   };
-}
 
-interface Cover {
-  front: BookPageSide;
-  back: BookPageSide;
-}
+  constructor() {
+    this.bookImages = [];
+    for (let i = 1; i <= 18; i++) {
+      this.bookImages.push(`images/milyen-szin-lennel/page${i}.jpg`);
+    }
+    this.windowWidth = window.innerWidth;
 
-enum PageType {
-  Single,
-  Double,
-}
+    for (let i = 0; i < this.bookImages.length; i++) {
+      this.book.pages.push({
+        imageUrl: this.bookImages[i],
+        backgroundColor: '#f0f0f0',
+      });
+    }
+  }
 
-interface BookPageSide {
-  imageUrl: string;
-  backgroundColor?: string;
-  opacity?: number;
-}
-
-interface Book {
-  width: number;
-  height: number;
-  zoom: number;
-  cover?: Cover;
-  pages: BookPageSide[];
-  pageWidth?: number;
-  pageHeight?: number;
-  startPageType?: PageType;
-  endPageType?: PageType;
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    const newWidth = event.target.innerWidth;
+    if (
+      (this.windowWidth < 1200 && newWidth >= 1200) ||
+      (this.windowWidth >= 1200 && newWidth < 1200)
+    ) {
+      this.windowWidth = newWidth;
+    }
+  }
 }

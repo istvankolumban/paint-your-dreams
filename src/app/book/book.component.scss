@@ -1,20 +1,24 @@
-.card {
-  width: 100%;
-  height: 100%;
-  border: none;
-  box-shadow: none;
-}
-
-.carousel-inner {
-  height: 70vh;
-}
-
-.carousel-item {
+.flipbook-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
-.card-body {
-  text-align: center;
+.carousel-inner {
+  display: flex;
+  margin: auto;
+  height: 400px;
+  width: 400px;
+
+  img {
+    align-items: center;
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 600px) {
+    height: 300px;
+    width: 300px;
+  }
 }
