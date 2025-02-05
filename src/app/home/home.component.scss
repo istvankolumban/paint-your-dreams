@@ -1,1 +1,12 @@
-/* Add your styles here */
+.carousel-inner {
+  height: 70vh;
+
+  img {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 992px) {
+    height: unset;
+  }
+}
