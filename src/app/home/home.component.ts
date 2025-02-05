@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class HomeComponent {
+  orderForm: FormGroup;
+  formSubmitted = false;
+
   testimonials = [
     {
       title: 'Falfestés nőkről és nőiességről',
@@ -65,4 +69,28 @@ export class HomeComponent {
         'Önismereti műhelyünk egy 4-6 órás alkalom, ahol egy kis időre kizökkenhetünk a megszokott gondolkodási sémáinkból és lehetőségünk van megállni és egy pillanatra befele figyelni, reflektálni érzéseinkre, jelenelgi életállapotunkra.',
     },
   ];
+
+  book = {
+    title:
+      'Milyen szín lennél?<br/>Önismeretet segítő, kreatív gyakorlatok gyűjteménye',
+    description:
+      'Ha önfejlesztésre vágysz és nyitott vagy az újszerű önkifejezést segítő módszerekre akkor ez a könyv neked szól. A gyakorlatgyűjtemény alkotásra és önismereti munkára hív. Olyan kreatív gyakorlatokat találsz benne, melyek az elmélyülést, érzelmeidre való reflektálást és az önmagadra való figyelést teszik lehetővé. A rajzolásra, festésre és kollázs technikára épülő témafeldolgozás kizökkent a megszokott gondolkodási sémákból és új perspektívát kínál az önismereti utadon. Mindezt teszi úgy, hogy közben az alkotás örömét éled át. A gyakorlatok végzése során olyan önismereti témákat járhatsz körül, mint „ki vagyok én?” kérdéskör, érzések, értékek és tulajdonságok, múlt és jövő, kapcsolatok, jelenben lenni és a problémamegoldás.<br/><br/>Az 52 gyakorlat némelyikéhez letölthető mellékleteket is találsz, ezek segítik egyes gyakorlatok elvégzését. Gyere és fedezd fel az alkotás által az önmagad felé vezető utat és ne feledd, az alkotási folyamat legalább annyira fontos, mint a végeredmény!',
+  };
+
+  constructor(private fb: FormBuilder) {
+    this.orderForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      address: ['', Validators.required],
+    });
+  }
+
+  onSubmit() {
+    if (this.orderForm.valid) {
+      console.log(this.orderForm.value);
+      this.formSubmitted = true;
+      this.orderForm.disable();
+    }
+  }
 }

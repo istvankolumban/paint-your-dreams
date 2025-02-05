@@ -142,5 +142,67 @@
   </div>
 </div>
 <div class="container mb-5">
+  <div class="row bookDetails">
+    <div class="col md-6">
+      <h2 [innerHTML]="book.title" class="mb-3"></h2>
+      <p [innerHTML]="book.description"></p>
+    </div>
+    <div class="col md-6">
+      <h3>Rendelj most!</h3>
+      <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            formControlName="name"
+            required
+            [readonly]="formSubmitted"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            required
+            [readonly]="formSubmitted"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input
+            type="tel"
+            class="form-control"
+            id="phone"
+            formControlName="phone"
+            required
+            [readonly]="formSubmitted"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <textarea
+            class="form-control"
+            id="address"
+            rows="3"
+            formControlName="address"
+            required
+            [readonly]="formSubmitted"
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="orderForm.invalid || formSubmitted"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
   <app-book></app-book>
 </div>

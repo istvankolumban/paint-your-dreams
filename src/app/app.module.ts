@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -26,7 +27,7 @@ import { FlipBookModule } from '@labsforge/flipbook';
     ContactComponent,
     BookComponent,
   ],
-  imports: [BrowserModule, RouterModule.forRoot(routes), FlipBookModule],
+  imports: [BrowserModule, RouterModule.forRoot(routes), FlipBookModule, ReactiveFormsModule ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })
