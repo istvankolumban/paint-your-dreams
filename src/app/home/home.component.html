@@ -139,65 +139,9 @@
 </div>
 <div class="container mb-5">
   <div class="row bookDetails">
-    <div class="col md-6">
+    <div class="col">
       <h2 class="mb-3">{{ book.title }}</h2>
       <p [innerHTML]="book.description"></p>
-    </div>
-    <div class="col md-6">
-      <h3>Rendelj most!</h3>
-      <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            formControlName="name"
-            required
-            [readonly]="formSubmitted"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            formControlName="email"
-            required
-            [readonly]="formSubmitted"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="phone" class="form-label">Phone Number</label>
-          <input
-            type="tel"
-            class="form-control"
-            id="phone"
-            formControlName="phone"
-            required
-            [readonly]="formSubmitted"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="address" class="form-label">Address</label>
-          <textarea
-            class="form-control"
-            id="address"
-            rows="3"
-            formControlName="address"
-            required
-            [readonly]="formSubmitted"
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="orderForm.invalid || formSubmitted"
-        >
-          Submit
-        </button>
-      </form>
     </div>
   </div>
   <div class="row">
@@ -205,22 +149,58 @@
       <app-book></app-book>
     </div>
   </div>
-  <div class="row pdfRow">
+  <!-- <div class="row pdfRow mt-5">
     <div class="col">
-      <h2>Letölthető mellékletek</h2>
       <div class="row">
+        <h2>Letölthető mellékletek</h2>
         <div class="col-md-6" *ngFor="let attachment of book.attachments">
           <ul class="list-group">
             <li class="list-group-item">
-              <a
-                [href]="attachment.url"
-                target="_blank"
-                class="pdf-link"
-                >{{ attachment.title }}</a
-              >
+              <a [href]="attachment.url" target="_blank" class="pdf-link">{{
+                attachment.title
+              }}</a>
             </li>
           </ul>
         </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="row" id="orderNow">
+    <div class="text-center mt-4">
+      <button
+        id="orderNowButton"
+        class="btn btn-success btn-lg"
+        (click)="onOrderNowClick()"
+      >
+        Megrendelem a könyvet!
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal"
+  id="orderModal"
+  tabindex="-1"
+  aria-labelledby="orderModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">
+          {{ orderNowModal.title }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="onCloseOrderModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p [innerHTML]="orderNowModal.content"></p>
       </div>
     </div>
   </div>

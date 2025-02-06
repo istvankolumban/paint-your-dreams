@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +7,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   standalone: false,
 })
 export class HomeComponent {
-  orderForm: FormGroup;
-  formSubmitted = false;
-
   testimonials = [
     {
       title: 'Falfestés nőkről és nőiességről',
@@ -139,20 +135,23 @@ export class HomeComponent {
     ],
   };
 
-  constructor(private fb: FormBuilder) {
-    this.orderForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
-      address: ['', Validators.required],
-    });
+  orderNowModal = {
+    title: 'Rendelj most!',
+    content:
+      'Ha szeretnéd megrendelni a könyvet, kérlek vedd fel a kapcsolatot Ritával a következő elérhetőségek egyikén:<br/><br/><i class="bi bi-telephone"></i> 0740-519-728<br/><i class="bi bi-envelope"></i> kolumbanrita01@gmail.com',
+  };
+
+  onOrderNowClick() {
+    const modal = document.getElementById('orderModal');
+    if (modal !== null) {
+      modal.style.display = 'block';
+    }
   }
 
-  onSubmit() {
-    if (this.orderForm.valid) {
-      console.log(this.orderForm.value);
-      this.formSubmitted = true;
-      this.orderForm.disable();
+  onCloseOrderModal() {
+    const modal = document.getElementById('orderModal');
+    if (modal !== null) {
+      modal.style.display = 'none';
     }
   }
 }

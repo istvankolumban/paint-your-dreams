@@ -51,7 +51,7 @@ p {
 }
 
 .bookDetails {
-  background: linear-gradient(225deg, #7bc8b7 0%, #7ec3b6 100%);
+  background: #7bc8b7;
   text-align: left;
   color: #fff;
   padding: 20px;
@@ -66,4 +66,25 @@ a {
 a:hover {
   color: darken(#ed145b, 10%);
   text-decoration: underline;
+}
+
+#orderModal {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  background: #7bc8b7;
+  color: white;
+}
+
+#orderNowButton {
+  background: #7bc8b7;
+  border-color: #7bc8b7;
+  color: white;
+
+  &:hover {
+    background: darken(#7bc8b7, 10%);
+    border-color: darken(#7bc8b7, 10%);
+  }
 }
