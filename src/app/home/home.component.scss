@@ -57,3 +57,13 @@ p {
   padding: 20px;
   margin-bottom: 20px;
 }
+
+a {
+  color: #ed145b;
+  text-decoration: none;
+}
+
+a:hover {
+  color: darken(#ed145b, 10%);
+  text-decoration: underline;
+}

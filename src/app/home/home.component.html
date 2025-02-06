@@ -52,11 +52,7 @@
   Célunk a mentálhigiénés szemlélet és a művészeti eszközök ötvözése olyan
   programokba építve melyek elsősorban a közösségfejlesztést, csapatépítést és
   önismeretet célozzák. Az általunk alkalmazott eszközök egy része a
-  <a
-    href="https://muralmoral.hu/"
-    target="_blank"
-    rel="noopener"
-    style="color: #ed145b"
+  <a href="https://muralmoral.hu/" target="_blank" rel="noopener"
     >Mural Moral Módszer</a
   >&nbsp; eszköztárát követik. Más eszközök mentálhigiénés szakirodalmat vesznek
   alapul, valamint egyesek közülük saját fejlesztésűek. Hiszünk abban, hogy a
@@ -144,7 +140,7 @@
 <div class="container mb-5">
   <div class="row bookDetails">
     <div class="col md-6">
-      <h2 [innerHTML]="book.title" class="mb-3"></h2>
+      <h2 class="mb-3">{{ book.title }}</h2>
       <p [innerHTML]="book.description"></p>
     </div>
     <div class="col md-6">
@@ -204,5 +200,28 @@
       </form>
     </div>
   </div>
-  <app-book></app-book>
+  <div class="row">
+    <div class="col">
+      <app-book></app-book>
+    </div>
+  </div>
+  <div class="row pdfRow">
+    <div class="col">
+      <h2>Letölthető mellékletek</h2>
+      <div class="row">
+        <div class="col-md-6" *ngFor="let attachment of book.attachments">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a
+                [href]="attachment.url"
+                target="_blank"
+                class="pdf-link"
+                >{{ attachment.title }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
