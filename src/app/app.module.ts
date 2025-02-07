@@ -16,6 +16,10 @@ import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { BookComponent } from './book/book.component';
 import { FlipBookModule } from '@labsforge/flipbook';
+import { CarouselComponent } from './carousel/carousel.component';
+import { OurServicesComponent } from './our-services/our-services.component';
+import { TestimonialsComponent } from './testimonials/testimonials.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +30,17 @@ import { FlipBookModule } from '@labsforge/flipbook';
     AboutComponent,
     ContactComponent,
     BookComponent,
+    CarouselComponent,
+    OurServicesComponent,
+    TestimonialsComponent,
+    BookDetailsComponent,
   ],
-  imports: [BrowserModule, RouterModule.forRoot(routes), FlipBookModule, ReactiveFormsModule ],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(routes),
+    FlipBookModule,
+    ReactiveFormsModule,
+  ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })
