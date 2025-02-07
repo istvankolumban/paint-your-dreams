@@ -13,5 +13,6 @@ export class CarouselComponent {
     'images/home_carousel_3.jpg',
     'images/home_carousel_4.jpg',
     'images/home_carousel_5.jpg',
+    'images/home_carousel_6.jpg',
   ];
 }

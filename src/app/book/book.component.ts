@@ -11,6 +11,7 @@ export class BookComponent {
   bookImages: string[];
   windowWidth: number;
   frontImage = 'images/milyen-szin-lennel/borito_front.jpg';
+  backImage = 'images/milyen-szin-lennel/borito_back.jpg';
 
   book: Book = {
     width: 1020,
@@ -21,7 +22,7 @@ export class BookComponent {
         imageUrl: this.frontImage,
       },
       back: {
-        imageUrl: this.frontImage,
+        imageUrl: this.backImage,
       },
     },
     pages: [],
