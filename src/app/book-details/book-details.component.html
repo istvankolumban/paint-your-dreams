@@ -1,37 +1,39 @@
-<div class="row row-book-details">
-  <div class="col">
-    <h2 class="mb-3">{{ book.title }}</h2>
-    <p [innerHTML]="book.description"></p>
+<ng-container *ngIf="book">
+  <div class="row row-book-details">
+    <div class="col">
+      <h2 class="mb-3">{{ book.title }}</h2>
+      <p [innerHTML]="book.description"></p>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col">
-    <app-book></app-book>
+  <div class="row">
+    <div class="col">
+      <app-book></app-book>
+    </div>
   </div>
-</div>
-<div
-  *ngIf="showAttachments && book.attachments.length > 0"
-  class="row pdfRow mt-5"
->
-  <h2>Letölthető mellékletek</h2>
-  <div class="col-md-6" *ngFor="let attachment of book.attachments">
-    <ul class="list-group">
-      <li class="list-group-item">
-        <a [href]="attachment.url" target="_blank" class="pdf-link">{{
-          attachment.title
-        }}</a>
-      </li>
-    </ul>
+  <div
+    *ngIf="showAttachments && book.attachments.length > 0"
+    class="row pdfRow mt-5"
+  >
+    <h2>Letölthető mellékletek</h2>
+    <div class="col-md-6" *ngFor="let attachment of book.attachments">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a [href]="attachment.url" target="_blank" class="pdf-link">{{
+            attachment.title
+          }}</a>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
-<div *ngIf="showOrderButton" class="row" id="orderNow">
-  <div class="text-center mt-4">
-    <button
-      id="orderNowButton"
-      class="btn btn-success btn-lg"
-      (click)="onOrderNowClick()"
-    >
-      Megrendelem a könyvet!
-    </button>
+  <div *ngIf="showOrderButton" class="row" id="orderNow">
+    <div class="text-center mt-4">
+      <button
+        id="orderNowButton"
+        class="btn btn-success btn-lg"
+        (click)="onOrderNowClick()"
+      >
+        Megrendelem a könyvet!
+      </button>
+    </div>
   </div>
-</div>
+</ng-container>
