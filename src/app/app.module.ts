@@ -11,7 +11,7 @@ import { routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { AboutComponent } from './about/about.component';
+import { OurProjectsComponent } from './our-projects/our-projects.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { BookComponent } from './book/book.component';
@@ -20,6 +20,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { OurServicesComponent } from './our-services/our-services.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
+import { ProjectCardComponent } from './our-projects/project-card/project-card.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +28,14 @@ import { BookDetailsComponent } from './book-details/book-details.component';
     HeaderComponent,
     FooterComponent,
     HomeComponent,
-    AboutComponent,
+    OurProjectsComponent,
     ContactComponent,
     BookComponent,
     CarouselComponent,
     OurServicesComponent,
     TestimonialsComponent,
     BookDetailsComponent,
+    ProjectCardComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,39 @@
+<div class="card mb-3">
+  <img
+    src="{{ project.coverImage }}"
+    class="card-img-top"
+    alt="{{ project.title }}"
+  />
+  <div class="card-body">
+    <h5 class="card-title">{{ project.title }}</h5>
+    <p>
+      <b>Időpont:</b> {{ project.year }}, {{ project.month }}
+      <br />
+      <b>Helyszín:</b> {{ project.location }} <br />
+      <b>Résztvevők:</b> {{ project.participants }} <br />
+      <b>Programért felelős:</b>
+      {{ project.organizers.join(", ") }}
+    </p>
+    <p
+      class="mb-1"
+      [innerHTML]="
+        project.expanded
+          ? project.description
+          : (project.description | slice : 0 : 120) + '...'
+      "
+    ></p>
+    <div *ngIf="project.expanded === true">
+      <div id="column-wrapper-3">
+        <ng-container *ngFor="let image of project.images; let i = index">
+          <img [src]="image" alt="{{ project.title }}_{{ i }}" />
+        </ng-container>
+      </div>
+    </div>
+    <button
+      class="btn btn-link p-0"
+      (click)="project.expanded = !project.expanded"
+    >
+      {{ project.expanded ? "Kevesebb" : "Tovább" }}
+    </button>
+  </div>
+</div>
