@@ -25,3 +25,14 @@ export interface Book {
   startPageType?: PageType;
   endPageType?: PageType;
 }
+
+export interface BookComponent {
+  title: string;
+  description: string;
+  attachments: Array<Attachment>;
+}
+
+export interface Attachment {
+  title: string;
+  url: string;
+}

@@ -21,6 +21,9 @@ import { OurServicesComponent } from './our-services/our-services.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { ProjectCardComponent } from './our-projects/project-card/project-card.component';
+import { OurWritingsComponent } from './our-writings/our-writings.component';
+import { BookService } from './book.service';
+import { OrderModalComponent } from './order-modal/order-modal.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { ProjectCardComponent } from './our-projects/project-card/project-card.c
     TestimonialsComponent,
     BookDetailsComponent,
     ProjectCardComponent,
+    OurWritingsComponent,
+    OrderModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +48,7 @@ import { ProjectCardComponent } from './our-projects/project-card/project-card.c
     FlipBookModule,
     ReactiveFormsModule,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [BookService, provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

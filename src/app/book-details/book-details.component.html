@@ -9,23 +9,22 @@
     <app-book></app-book>
   </div>
 </div>
-<!-- <div class="row pdfRow mt-5">
-  <div class="col">
-    <div class="row">
-      <h2>Letölthető mellékletek</h2>
-      <div class="col-md-6" *ngFor="let attachment of book.attachments">
-        <ul class="list-group">
-          <li class="list-group-item">
-            <a [href]="attachment.url" target="_blank" class="pdf-link">{{
-              attachment.title
-            }}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+<div
+  *ngIf="showAttachments && book.attachments.length > 0"
+  class="row pdfRow mt-5"
+>
+  <h2>Letölthető mellékletek</h2>
+  <div class="col-md-6" *ngFor="let attachment of book.attachments">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <a [href]="attachment.url" target="_blank" class="pdf-link">{{
+          attachment.title
+        }}</a>
+      </li>
+    </ul>
   </div>
-</div> -->
-<div class="row" id="orderNow">
+</div>
+<div *ngIf="showOrderButton" class="row" id="orderNow">
   <div class="text-center mt-4">
     <button
       id="orderNowButton"
@@ -34,33 +33,5 @@
     >
       Megrendelem a könyvet!
     </button>
-  </div>
-</div>
-
-<div
-  class="modal"
-  id="orderModal"
-  tabindex="-1"
-  aria-labelledby="orderModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="orderModalLabel">
-          {{ orderNowModal.title }}
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          (click)="onCloseOrderModal()"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <p [innerHTML]="orderNowModal.content"></p>
-      </div>
-    </div>
   </div>
 </div>
