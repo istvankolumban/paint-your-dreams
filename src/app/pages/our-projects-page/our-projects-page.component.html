@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="text-center mb-5 mt-3">Projektek</h1>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-lg-6">
+      <div class="search-bar mb-4">
+        <label for="search" class="form-label">Keresés: </label>
+        <input
+          type="text"
+          id="search"
+          class="form-control"
+          (input)="filterProjectsBySearch($event)"
+          placeholder="Keress cím, időpont, helyszín vagy leírás alapján"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 mb-3">
+      <ng-container *ngFor="let project of filteredProjects; let i = index">
+        <ng-container *ngIf="i % 2 !== 1">
+          <app-project-card [project]="project"></app-project-card>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="col-lg-6 mb-3">
+      <ng-container *ngFor="let project of filteredProjects; let i = index">
+        <ng-container *ngIf="i % 2 !== 0">
+          <app-project-card [project]="project"></app-project-card>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

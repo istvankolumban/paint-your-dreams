@@ -1,0 +1,18 @@
+.row-book-details {
+  background: #7bc8b7;
+  text-align: left;
+  color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+#orderNowButton {
+  background: #7bc8b7;
+  border-color: #7bc8b7;
+  color: white;
+
+  &:hover {
+    background: darken(#7bc8b7, 10%);
+    border-color: darken(#7bc8b7, 10%);
+  }
+}

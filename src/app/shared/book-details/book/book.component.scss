@@ -1,0 +1,24 @@
+.flipbook-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.carousel-inner {
+  display: flex;
+  margin: auto;
+  height: 400px;
+  width: 400px;
+
+  img {
+    align-items: center;
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 600px) {
+    height: 300px;
+    width: 300px;
+  }
+}

@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col">
+    <h1 class="text-center mb-5">Rólunk írták</h1>
+    <ul class="list-group">
+      <li
+        class="list-group-item d-flex flex-column flex-md-row align-items-start"
+        *ngFor="let testimonial of testimonials; let i = index"
+        [ngClass]="{ 'flex-md-row-reverse': i % 2 !== 0 }"
+      >
+        <img
+          src="{{ testimonial.image }}"
+          alt="{{ testimonial.author }}"
+          class="img-thumbnail me-3 mb-3 mb-md-0"
+        />
+        <div>
+          <h5 class="mb-1">{{ testimonial.title }}</h5>
+          <p
+            class="mb-1"
+            [innerHTML]="
+              testimonial.expanded
+                ? testimonial.content
+                : (testimonial.content | slice : 0 : 600) + '...'
+            "
+          ></p>
+          <button
+            class="btn btn-link p-0"
+            (click)="testimonial.expanded = !testimonial.expanded"
+          >
+            {{ testimonial.expanded ? "Kevesebb" : "Tovább" }}
+          </button>
+          <p class="text-muted mt-2">
+            {{ testimonial.author }}, (<a
+              [href]="testimonial.link"
+              target="_blank"
+              class="text-muted"
+              >Forrás</a
+            >)
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

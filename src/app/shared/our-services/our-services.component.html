@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col">
+    <h1 class="text-center mb-5">Szolgáltatásaink</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-3" *ngFor="let service of services">
+          <div class="card">
+            <img
+              src="{{ service.image }}"
+              class="card-img-top"
+              alt="{{ service.title }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ service.title }}</h5>
+              <p class="card-text">{{ service.content }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
