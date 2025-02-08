@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BookComponent } from '../book/book.types';
+import { BookDetailsModel } from './book/book.types';
 
 @Component({
   selector: 'app-book-details',
@@ -15,7 +15,7 @@ export class BookDetailsComponent {
   showOrderButton = false;
 
   @Input()
-  book?: BookComponent;
+  book?: BookDetailsModel;
 
   onOrderNowClick() {
     const modal = document.getElementById('orderModal');

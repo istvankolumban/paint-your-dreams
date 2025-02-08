@@ -9,20 +9,21 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 
 import { AppComponent } from './app.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { OurProjectsPageComponent } from './pages/our-projects-page/our-projects-page.component';
+import { ProjectCardComponent } from './pages/our-projects-page/project-card/project-card.component';
+import { OurWritingsPageComponent } from './pages/our-writings-page/our-writings-page.component';
+
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { OurProjectsComponent } from './our-projects/our-projects.component';
-import { HomeComponent } from './home/home.component';
-import { ContactComponent } from './contact/contact.component';
-import { BookComponent } from './book/book.component';
+
+import { BookComponent } from './shared/book-details/book/book.component';
 import { FlipBookModule } from '@labsforge/flipbook';
-import { CarouselComponent } from './carousel/carousel.component';
-import { OurServicesComponent } from './our-services/our-services.component';
-import { TestimonialsComponent } from './testimonials/testimonials.component';
-import { BookDetailsComponent } from './book-details/book-details.component';
-import { ProjectCardComponent } from './our-projects/project-card/project-card.component';
-import { OurWritingsComponent } from './our-writings/our-writings.component';
-import { BookService } from './book.service';
+import { CarouselComponent } from './shared/carousel/carousel.component';
+import { OurServicesComponent } from './shared/our-services/our-services.component';
+import { TestimonialsComponent } from './shared/testimonials/testimonials.component';
+import { BookDetailsComponent } from './shared/book-details/book-details.component';
+import { BookService } from './services/book.service';
 import { OrderModalComponent } from './order-modal/order-modal.component';
 
 @NgModule({
@@ -30,16 +31,15 @@ import { OrderModalComponent } from './order-modal/order-modal.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent,
-    OurProjectsComponent,
-    ContactComponent,
+    HomePageComponent,
+    OurProjectsPageComponent,
+    OurWritingsPageComponent,
     BookComponent,
     CarouselComponent,
     OurServicesComponent,
     TestimonialsComponent,
     BookDetailsComponent,
     ProjectCardComponent,
-    OurWritingsComponent,
     OrderModalComponent,
   ],
   imports: [

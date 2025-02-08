@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-our-projects',
-  templateUrl: './our-projects.component.html',
-  styleUrls: ['./our-projects.component.scss'],
+  selector: 'app-our-projects-page',
+  templateUrl: './our-projects-page.component.html',
+  styleUrls: ['./our-projects-page.component.scss'],
   standalone: false,
 })
-export class OurProjectsComponent {
+export class OurProjectsPageComponent {
   projects = Array<Project>(
     {
       coverImage: 'images/our-projects/fessunk_almokat_kezdokep.jpg',

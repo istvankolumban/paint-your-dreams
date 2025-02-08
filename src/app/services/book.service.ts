@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BookComponent } from './book/book.types';
+import { BookDetailsModel } from '../shared/book-details/book/book.types';
 
 @Injectable()
 export class BookService {
-  private readonly books = Array<BookComponent>({
+  private readonly books = Array<BookDetailsModel>({
     title:
       'Milyen szín lennél? Önismeretet segítő, kreatív gyakorlatok gyűjteménye',
     description:
@@ -72,11 +72,11 @@ export class BookService {
     ],
   });
 
-  getBooks(): BookComponent[] {
+  getBooks(): BookDetailsModel[] {
     return this.books;
   }
 
-  getMilyenSzinLennelBook = (): BookComponent =>
+  getMilyenSzinLennelBook = (): BookDetailsModel =>
     this.books.find(
       (book) =>
         book.title ===

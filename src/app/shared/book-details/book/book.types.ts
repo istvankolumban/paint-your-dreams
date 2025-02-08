@@ -26,7 +26,7 @@ export interface Book {
   endPageType?: PageType;
 }
 
-export interface BookComponent {
+export interface BookDetailsModel {
   title: string;
   description: string;
   attachments: Array<Attachment>;

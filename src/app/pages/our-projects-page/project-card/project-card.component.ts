@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Project } from '../our-projects.component';
+import { Project } from '../our-projects-page.component';
 
 @Component({
   selector: 'app-project-card',
