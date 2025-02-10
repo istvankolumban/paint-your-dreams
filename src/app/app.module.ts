@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -25,6 +25,10 @@ import { TestimonialsComponent } from './shared/testimonials/testimonials.compon
 import { BookDetailsComponent } from './shared/book-details/book-details.component';
 import { BookService } from './services/book.service';
 import { OrderModalComponent } from './order-modal/order-modal.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { AlertComponent } from './shared/alert/alert.component';
+import { AuthComponent } from './auth/auth.component';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -41,14 +45,21 @@ import { OrderModalComponent } from './order-modal/order-modal.component';
     BookDetailsComponent,
     ProjectCardComponent,
     OrderModalComponent,
+    LoadingSpinnerComponent,
+    AlertComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     FlipBookModule,
-    ReactiveFormsModule,
+    FormsModule,
   ],
-  providers: [BookService, provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    BookService,
+    AuthService,
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
