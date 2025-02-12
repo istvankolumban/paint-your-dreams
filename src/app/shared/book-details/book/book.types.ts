@@ -30,6 +30,7 @@ export interface BookDetailsModel {
   title: string;
   description: string;
   attachments: Array<Attachment>;
+  pages: Array<string>;
 }
 
 export interface Attachment {

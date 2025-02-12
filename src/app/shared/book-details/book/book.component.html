@@ -1,7 +1,7 @@
-<div *ngIf="windowWidth >= 1200" class="flipbook-container">
-  <flipbook [model]="book" [startAt]="2"></flipbook>
+<div *ngIf="windowWidth >= 1200 && readyToRender" class="flipbook-container">
+  <flipbook [model]="book!" [startAt]="0"></flipbook>
 </div>
-<div
+<!-- <div
   *ngIf="windowWidth < 1200"
   id="carouselBook"
   class="carousel slide"
@@ -33,4 +33,4 @@
     <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-</div>
+</div> -->

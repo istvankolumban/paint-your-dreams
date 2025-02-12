@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, importProvidersFrom } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import {
@@ -7,6 +7,9 @@ import {
 } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -29,6 +32,16 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { AlertComponent } from './shared/alert/alert.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './auth/auth.service';
+import { AsyncPipe } from '@angular/common';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyAZjANsGZAViJOhs0qHqJZ5TztwCkLKDVA',
+  authDomain: 'paint-your-dreams.firebaseapp.com',
+  projectId: 'paint-your-dreams',
+  storageBucket: 'paint-your-dreams.firebasestorage.app',
+  messagingSenderId: '465030610562',
+  appId: '1:465030610562:web:a35660aa769bac9f75fe9b',
+};
 
 @NgModule({
   declarations: [
@@ -54,10 +67,16 @@ import { AuthService } from './auth/auth.service';
     RouterModule.forRoot(routes),
     FlipBookModule,
     FormsModule,
+    AsyncPipe
   ],
   providers: [
     BookService,
     AuthService,
+    importProvidersFrom(
+      provideFirebaseApp(() => initializeApp(firebaseConfig))
+    ),
+    importProvidersFrom(provideStorage(() => getStorage())),
+    importProvidersFrom(provideFirestore(() => getFirestore())),
     provideHttpClient(withInterceptorsFromDi()),
   ],
   bootstrap: [AppComponent],

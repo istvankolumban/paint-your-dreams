@@ -1,13 +1,14 @@
-import { Component, Input } from '@angular/core';
-import { BookDetailsModel } from './book/book.types';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Attachment, BookDetailsModel } from './book/book.types';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-book-details',
   templateUrl: './book-details.component.html',
-  styleUrl: './book-details.component.scss',
+  styleUrls: ['./book-details.component.scss'],
   standalone: false,
 })
-export class BookDetailsComponent {
+export class BookDetailsComponent implements OnInit {
   @Input()
   showAttachments = false;
 
@@ -15,7 +16,18 @@ export class BookDetailsComponent {
   showOrderButton = false;
 
   @Input()
-  book?: BookDetailsModel;
+  book$?: Observable<BookDetailsModel>;
+
+  attachments?: Array<Attachment>;
+  pages?: Array<string>;
+
+  ngOnInit(): void {
+    this.book$?.subscribe((book) => {
+      this.attachments = book.attachments ? book.attachments : [];
+      this.pages = book.pages ? book.pages : [];
+      console.log(this.pages)
+    });
+  }
 
   onOrderNowClick() {
     const modal = document.getElementById('orderModal');

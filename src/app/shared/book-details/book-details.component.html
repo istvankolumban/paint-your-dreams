@@ -1,21 +1,18 @@
-<ng-container *ngIf="book">
+<ng-container *ngIf="book$">
   <div class="row row-book-details">
     <div class="col">
-      <h2 class="mb-3">{{ book.title }}</h2>
-      <p [innerHTML]="book.description"></p>
+      <h2 class="mb-3">{{ (book$ | async)?.title }}</h2>
+      <p [innerHTML]="(book$ | async)?.description"></p>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="pages">
     <div class="col">
-      <app-book></app-book>
+      <app-book [pages]="pages"></app-book>
     </div>
   </div>
-  <div
-    *ngIf="showAttachments && book.attachments.length > 0"
-    class="row pdfRow mt-5"
-  >
+  <div *ngIf="showAttachments && attachments?.length" class="row pdfRow mt-5">
     <h2>Letölthető mellékletek</h2>
-    <div class="col-md-6" *ngFor="let attachment of book.attachments">
+    <div class="col-md-6" *ngFor="let attachment of attachments">
       <ul class="list-group">
         <li class="list-group-item">
           <a [href]="attachment.url" target="_blank" class="pdf-link">{{

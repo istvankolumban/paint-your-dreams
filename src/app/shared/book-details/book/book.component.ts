@@ -1,50 +1,60 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Book, PageType } from './book.types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
-  styleUrl: './book.component.scss',
+  styleUrls: ['./book.component.scss'],
   standalone: false,
 })
-export class BookComponent {
-  bookImages: string[];
+export class BookComponent implements OnInit {
+  @Input()
+  pages?: Array<string>;
+
+  bookImages: string[] = [];
   windowWidth: number;
   frontImage = 'images/milyen-szin-lennel/borito_front.jpg';
   backImage = 'images/milyen-szin-lennel/borito_back.jpg';
 
-  book: Book = {
-    width: 1020,
-    height: 520,
-    zoom: 1,
-    cover: {
-      front: {
-        imageUrl: this.frontImage,
-      },
-      back: {
-        imageUrl: this.backImage,
-      },
-    },
-    pages: [],
-    pageWidth: 500,
-    pageHeight: 500,
-    startPageType: PageType.Double,
-    endPageType: PageType.Double,
-  };
+  book?: Book;
+  readyToRender = false;
 
   constructor() {
-    this.bookImages = [];
-    for (let i = 1; i <= 18; i++) {
-      this.bookImages.push(`images/milyen-szin-lennel/page${i}.jpg`);
-    }
     this.windowWidth = window.innerWidth;
+  }
 
-    for (let i = 0; i < this.bookImages.length; i++) {
-      this.book.pages.push({
-        imageUrl: this.bookImages[i],
-        backgroundColor: '#f0f0f0',
-      });
+  ngOnInit(): void {
+    if (this.pages) {
+      this.frontImage = this.pages[0];
+      this.backImage = this.pages[this.pages.length - 1];
+      this.book = {
+        width: 1020,
+        height: 520,
+        zoom: 1,
+        cover: {
+          front: {
+            imageUrl: this.pages[0],
+          },
+          back: {
+            imageUrl: this.pages[this.pages.length - 1],
+          },
+        },
+        pages: [],
+        pageWidth: 500,
+        pageHeight: 500,
+        startPageType: PageType.Double,
+        endPageType: PageType.Double,
+      };
+
+      for (let i = 1; i < this.pages.length - 1; i++) {
+        this.book.pages.push({
+          imageUrl: this.pages[i],
+          backgroundColor: '#f0f0f0',
+        });
+      }
     }
+    this.readyToRender = true;
   }
 
   @HostListener('window:resize', ['$event'])
