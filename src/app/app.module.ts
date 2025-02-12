@@ -34,6 +34,7 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './auth/auth.service';
 import { AsyncPipe } from '@angular/common';
 import { environment } from '../environments/environment';
+import { OurProjectsService } from './pages/our-projects-page/our-projects.service';
 
 @NgModule({
   declarations: [
@@ -59,11 +60,12 @@ import { environment } from '../environments/environment';
     RouterModule.forRoot(routes),
     FlipBookModule,
     FormsModule,
-    AsyncPipe
+    AsyncPipe,
   ],
   providers: [
     BookService,
     AuthService,
+    OurProjectsService,
     importProvidersFrom(
       provideFirebaseApp(() => initializeApp(environment.firebaseConfig))
     ),

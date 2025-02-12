@@ -12,10 +12,9 @@ export class BookComponent implements OnInit {
   @Input()
   pages?: Array<string>;
 
-  bookImages: string[] = [];
   windowWidth: number;
-  frontImage = 'images/milyen-szin-lennel/borito_front.jpg';
-  backImage = 'images/milyen-szin-lennel/borito_back.jpg';
+  frontImage = '';
+  backImage = '';
 
   book?: Book;
   readyToRender = false;

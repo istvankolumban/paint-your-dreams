@@ -1,17 +1,18 @@
 <div *ngIf="windowWidth >= 1200 && readyToRender" class="flipbook-container">
   <flipbook [model]="book!" [startAt]="0"></flipbook>
 </div>
-<!-- <div
+<div
   *ngIf="windowWidth < 1200"
   id="carouselBook"
   class="carousel slide"
   data-bs-ride="carousel"
 >
   <div class="carousel-inner">
-    <div class="carousel-item" [class.active]="true">
-      <img [src]="frontImage" class="d-block w-100" alt="carousel_0" />
-    </div>
-    <div *ngFor="let page of bookImages; let i = index" class="carousel-item">
+    <div
+      *ngFor="let page of pages; let i = index"
+      class="carousel-item"
+      [class.active]="i == 0"
+    >
       <img [src]="page" class="d-block w-100" [alt]="'Page ' + (i + 1)" />
     </div>
   </div>
@@ -33,4 +34,4 @@
     <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-</div> -->
+</div>

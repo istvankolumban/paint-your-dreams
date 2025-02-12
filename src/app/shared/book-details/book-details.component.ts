@@ -25,7 +25,6 @@ export class BookDetailsComponent implements OnInit {
     this.book$?.subscribe((book) => {
       this.attachments = book.attachments ? book.attachments : [];
       this.pages = book.pages ? book.pages : [];
-      console.log(this.pages)
     });
   }
 
