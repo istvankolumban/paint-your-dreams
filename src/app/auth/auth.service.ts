@@ -25,7 +25,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        `${environment.fireBaseLoginURL}${environment.fireBaseAPIKey}`,
+        `${environment.fireBaseLoginURL}${environment.firebaseConfig.apiKey}`,
         {
           email: email,
           password: password,
