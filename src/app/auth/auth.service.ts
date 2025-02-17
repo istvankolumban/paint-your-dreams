@@ -83,6 +83,10 @@ export class AuthService {
     }
   }
 
+  isAuthenticated(): boolean {
+    return this.user.value !== null;
+  }
+
   private handleAuthentication(
     email: string,
     localId: string,
