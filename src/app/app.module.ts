@@ -35,6 +35,7 @@ import { AuthService } from './auth/auth.service';
 import { AsyncPipe } from '@angular/common';
 import { environment } from '../environments/environment';
 import { OurProjectsService } from './pages/our-projects-page/our-projects.service';
+import { ProjectCardEditComponent } from './pages/our-projects-page/project-card-edit/project-card-edit.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { OurProjectsService } from './pages/our-projects-page/our-projects.servi
     LoadingSpinnerComponent,
     AlertComponent,
     AuthComponent,
+    ProjectCardEditComponent,
   ],
   imports: [
     BrowserModule,

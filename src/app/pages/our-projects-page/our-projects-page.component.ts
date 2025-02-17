@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { OurProjectsService, ProjectModel } from './our-projects.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-our-projects-page',
@@ -10,10 +11,18 @@ import { OurProjectsService, ProjectModel } from './our-projects.service';
 export class OurProjectsPageComponent {
   projects: Array<ProjectModel> = [];
   filteredProjects: Array<ProjectModel> = [];
+  isLoggedIn = false;
+  isCreating = false;
+  isEditing = false;
+  newProject: ProjectModel | null = null;
+  editedProject: ProjectModel | null = null;
 
-  constructor(private ourProjectsService: OurProjectsService) {
+  constructor(
+    private ourProjectsService: OurProjectsService,
+    private authService: AuthService
+  ) {
+    this.isLoggedIn = this.authService.isAuthenticated();
     this.ourProjectsService.getProjects().subscribe((projects) => {
-      
       this.projects = projects;
       this.filteredProjects = [...this.projects];
     });
@@ -33,5 +42,27 @@ export class OurProjectsPageComponent {
         ) ||
         project.description.toLowerCase().includes(value)
     );
+  }
+
+  createProject() {
+    this.isCreating = true;
+    this.newProject = this.ourProjectsService.createDefaultProject();
+  }
+
+  editProject(project: ProjectModel) {
+    this.isEditing = true;
+    this.editedProject = project;
+  }
+
+  onProjectCreated() {
+    this.isCreating = false;
+    this.newProject = null;
+    this.ourProjectsService.fetchProjects();
+  }
+
+  onProjectUpdated() {
+    this.isEditing = false;
+    this.editedProject = null;
+    this.ourProjectsService.fetchProjects();
   }
 }
