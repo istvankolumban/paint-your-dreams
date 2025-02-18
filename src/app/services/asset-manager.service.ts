@@ -89,4 +89,21 @@ export class AssetManagerService {
     });
     await Promise.all(uploadPromises);
   }
+
+  async deleteAsset(asset: Asset): Promise<void> {
+    const assetRef = ref(this.storage, asset.url);
+    await deleteObject(assetRef);
+  }
+
+  async deleteFolder(folder: Folder): Promise<void> {
+    const folderRef = ref(this.storage, folder.path);
+    const assetsList = await listAll(folderRef);
+
+    const deletePromises = [
+      ...assetsList.items.map((item) => deleteObject(item)),
+      ...assetsList.prefixes.map((prefix) => this.deleteFolder({ ...folder, path: prefix.fullPath })),
+    ];
+
+    await Promise.all(deletePromises);
+  }
 }

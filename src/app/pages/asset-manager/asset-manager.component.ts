@@ -55,4 +55,18 @@ export class AssetManagerComponent implements OnInit {
       this.loadAssets();
     }
   }
+
+  async deleteAsset(asset: Asset): Promise<void> {
+    if (confirm(`Are you sure you want to delete ${asset.name}?`)) {
+      await this.assetManagerService.deleteAsset(asset);
+      this.loadAssets();
+    }
+  }
+
+  async deleteFolder(folder: Folder): Promise<void> {
+    if (confirm(`Are you sure you want to delete the folder ${folder.name} and all its contents?`)) {
+      await this.assetManagerService.deleteFolder(folder);
+      this.loadAssets();
+    }
+  }
 }

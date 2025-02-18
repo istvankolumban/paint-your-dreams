@@ -51,27 +51,47 @@
             id="dropdownMenuButton"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >
-            Add
-          </button>
+          ></button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
-              <a class="dropdown-item" (click)="createFolder(folder)">+ Folder</a>
+              <a class="dropdown-item" (click)="createFolder(folder)"
+                >+ Folder</a
+              >
             </li>
             <li>
-              <a class="dropdown-item" (click)="fileInput.click(); setCurrentFolder(folder)">+ Asset</a>
+              <a
+                class="dropdown-item"
+                (click)="fileInput.click(); setCurrentFolder(folder)"
+                >+ Asset</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item text-danger"
+                (click)="deleteFolder(folder)"
+                ><i class="bi bi-trash" style="margin-right: 0px;"></i> Delete</a
+              >
             </li>
           </ul>
         </div>
       </div>
       <ul class="list-group list-group-flush" *ngIf="folder.expanded">
         <li
-          class="list-group-item"
+          class="list-group-item d-flex justify-content-between align-items-center"
           *ngFor="let asset of folder.assets"
-          (click)="selectImage(asset)"
-          [ngClass]="{ selected: selectedAsset === asset }"
         >
-          <i class="bi bi-file-earmark"></i> {{ asset.name }}
+          <div
+            (click)="selectImage(asset)"
+            [ngClass]="{ selected: selectedAsset === asset }"
+          >
+            <i class="bi bi-file-earmark"></i> {{ asset.name }}
+          </div>
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="deleteAsset(asset)"
+          >
+            <i class="bi bi-trash" style="margin-right: 0px;"></i>
+          </button>
         </li>
         <li class="list-group-item" *ngFor="let subFolder of folder.folders">
           <ng-container
