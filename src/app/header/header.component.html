@@ -44,6 +44,15 @@
             >Írásaink</a
           >
         </li>
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <a
+            class="nav-link"
+            routerLink="/asset-manager"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Asset Manager</a
+          >
+        </li>
         <li class="nav-item" *ngIf="!isAuthenticated">
           <button
             class="btn btn-outline-light"

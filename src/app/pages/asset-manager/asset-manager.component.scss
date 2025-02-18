@@ -1,0 +1,32 @@
+/* filepath: /d:/repos/paint-your-dreams/src/app/pages/asset-manager/asset-manager.component.scss */
+.folder {
+  margin-left: 20px;
+}
+
+.folder-name {
+  font-size: 1.2em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.folder-name i {
+  margin-right: 10px;
+}
+
+.list-group-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+}
+
+.list-group-item.selected {
+  background-color: #d0d0d0;
+}
+
+.list-group-item i {
+  margin-right: 10px;
+}

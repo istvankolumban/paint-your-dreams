@@ -1,0 +1,41 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-5">
+      <div *ngIf="rootFolder">
+        <ng-container *ngTemplateOutlet="folderTemplate; context: { folder: rootFolder }"></ng-container>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-7">
+      <div *ngIf="selectedAsset">
+        <ng-container *ngIf="isPdf(selectedAsset.name); else imageTemplate">
+          <iframe [src]="selectedAsset.url | safeUrl" width="100%" height="600px"></iframe>
+        </ng-container>
+        <ng-template #imageTemplate>
+          <img [src]="selectedAsset.url" alt="{{ selectedAsset.name }}" class="img-fluid">
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #folderTemplate let-folder="folder">
+  <div class="folder">
+    <div class="card mb-2">
+      <div class="card-header folder-name" (click)="folder.expanded = !folder.expanded">
+        <i class="bi" [ngClass]="folder.expanded ? 'bi-folder2-open' : 'bi-folder'"></i>
+        {{ folder.name || 'Assets' }}
+      </div>
+      <ul class="list-group list-group-flush" *ngIf="folder.expanded">
+        <li class="list-group-item" 
+            *ngFor="let asset of folder.assets" 
+            (click)="selectImage(asset)"
+            [ngClass]="{'selected': selectedAsset === asset}">
+          <i class="bi bi-file-earmark"></i> {{ asset.name }}
+        </li>
+        <li class="list-group-item" *ngFor="let subFolder of folder.folders">
+          <ng-container *ngTemplateOutlet="folderTemplate; context: { folder: subFolder }"></ng-container>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>
