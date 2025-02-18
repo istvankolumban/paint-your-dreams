@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { getDownloadURL, listAll, ref, Storage } from '@angular/fire/storage';
+import { getDownloadURL, listAll, ref, Storage, uploadBytes, uploadString, deleteObject } from '@angular/fire/storage';
 
 export interface Asset {
   name: string;
@@ -10,7 +10,7 @@ export interface Folder {
   name: string;
   assets: Asset[];
   folders: Folder[];
-  expanded?: boolean; // Add this property
+  expanded?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -27,19 +27,16 @@ export class AssetManagerService {
     return rootFolder;
   }
 
-  private async processFolder(
-    assetsList: any,
-    folderName: string
-  ): Promise<Folder> {
-    const folderObservables = assetsList.prefixes.map((folderRef: any) =>
+  private async processFolder(assetsList: any, folderName: string): Promise<Folder> {
+    const folderPromises = assetsList.prefixes.map((folderRef: any) =>
       this.fetchFolder(folderRef)
     );
-    const assetObservables = assetsList.items.map((item: any) =>
+    const assetPromises = assetsList.items.map((item: any) =>
       this.fetchAsset(item)
     );
 
-    const folders = await Promise.all(folderObservables);
-    const assets = await Promise.all(assetObservables);
+    const folders = await Promise.all(folderPromises);
+    const assets = await Promise.all(assetPromises);
 
     return {
       name: folderName,
@@ -62,5 +59,17 @@ export class AssetManagerService {
       console.error(`Failed to get download URL for ${item.name}:`, error);
       return { name: item.name, url: '' };
     }
+  }
+
+  async createFolder(parentFolder: Folder, folderName: string): Promise<void> {
+    const folderPath = `${parentFolder.name}/${folderName}/.placeholder`;
+    const folderRef = ref(this.storage, folderPath);
+    await uploadString(folderRef, '', 'raw');
+  }
+
+  async uploadAsset(parentFolder: Folder, file: File): Promise<void> {
+    const assetPath = `${parentFolder.name}/${file.name}`;
+    const assetRef = ref(this.storage, assetPath);
+    await uploadBytes(assetRef, file);
   }
 }

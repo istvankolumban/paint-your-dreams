@@ -2,16 +2,26 @@
   <div class="row">
     <div class="col-12 col-md-6 col-lg-5">
       <div *ngIf="rootFolder">
-        <ng-container *ngTemplateOutlet="folderTemplate; context: { folder: rootFolder }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="folderTemplate; context: { folder: rootFolder }"
+        ></ng-container>
       </div>
     </div>
     <div class="col-12 col-md-6 col-lg-7">
       <div *ngIf="selectedAsset">
         <ng-container *ngIf="isPdf(selectedAsset.name); else imageTemplate">
-          <iframe [src]="selectedAsset.url | safeUrl" width="100%" height="600px"></iframe>
+          <iframe
+            [src]="selectedAsset.url | safeUrl"
+            width="100%"
+            height="600px"
+          ></iframe>
         </ng-container>
         <ng-template #imageTemplate>
-          <img [src]="selectedAsset.url" alt="{{ selectedAsset.name }}" class="img-fluid">
+          <img
+            [src]="selectedAsset.url"
+            alt="{{ selectedAsset.name }}"
+            class="img-fluid"
+          />
         </ng-template>
       </div>
     </div>
@@ -19,23 +29,63 @@
 </div>
 
 <ng-template #folderTemplate let-folder="folder">
-  <div class="folder">
+  <div class="folder w-100">
     <div class="card mb-2">
-      <div class="card-header folder-name" (click)="folder.expanded = !folder.expanded">
-        <i class="bi" [ngClass]="folder.expanded ? 'bi-folder2-open' : 'bi-folder'"></i>
-        {{ folder.name || 'Assets' }}
+      <div
+        class="card-header folder-name d-flex justify-content-between align-items-center"
+      >
+        <div
+          (click)="folder.expanded = !folder.expanded"
+          class="d-flex align-items-center flex-grow-1"
+        >
+          <i
+            class="bi"
+            [ngClass]="folder.expanded ? 'bi-folder2-open' : 'bi-folder'"
+          ></i>
+          {{ folder.name || "Assets" }}
+        </div>
+        <div class="dropdown">
+          <button
+            class="btn btn-sm btn-outline-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Add
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a class="dropdown-item" (click)="createFolder(folder)">+ Folder</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="fileInput.click(); setCurrentFolder(folder)">+ Asset</a>
+            </li>
+          </ul>
+        </div>
       </div>
       <ul class="list-group list-group-flush" *ngIf="folder.expanded">
-        <li class="list-group-item" 
-            *ngFor="let asset of folder.assets" 
-            (click)="selectImage(asset)"
-            [ngClass]="{'selected': selectedAsset === asset}">
+        <li
+          class="list-group-item"
+          *ngFor="let asset of folder.assets"
+          (click)="selectImage(asset)"
+          [ngClass]="{ selected: selectedAsset === asset }"
+        >
           <i class="bi bi-file-earmark"></i> {{ asset.name }}
         </li>
         <li class="list-group-item" *ngFor="let subFolder of folder.folders">
-          <ng-container *ngTemplateOutlet="folderTemplate; context: { folder: subFolder }"></ng-container>
+          <ng-container
+            *ngTemplateOutlet="folderTemplate; context: { folder: subFolder }"
+          ></ng-container>
         </li>
       </ul>
     </div>
   </div>
 </ng-template>
+
+<input
+  type="file"
+  #fileInput
+  (change)="onFileSelected($event)"
+  style="display: none"
+/>

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/paint-your-dreams/browser",
+    "public": "dist/paint-your-dreams",
     "ignore": [
       "firebase.json",
       "**/.*",
