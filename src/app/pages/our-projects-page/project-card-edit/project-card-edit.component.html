@@ -5,6 +5,9 @@
     class="border p-3 rounded"
   >
     <div class="mb-3">
+      <app-asset-selector (assetSelected)="onAssetSelected($event)"></app-asset-selector>
+    </div>
+    <div class="mb-3" *ngIf="projectForm.get('coverImage')?.value">
       <img
         [src]="projectForm.get('coverImage')?.value"
         class="img-fluid mb-3"
@@ -52,14 +55,14 @@
         Description is required.
       </div>
       <small class="form-text text-muted">
-        Use <b>&lt;p&gt;</b>new paragraph text<b>&lt;/p&gt;</b> for new paragraphs.
+        Use <b>&lt;p&gt;</b>new paragraph text<b>&lt;/p&gt;</b> for new parag aphs.
       </small>
     </div>
 
     <div class="mb-3">
       <label for="year" class="form-label"
-        >Year:</label
-      >
+>Year:</label
+>
       <input
         id="year"
         formControlName="year"
@@ -78,8 +81,8 @@
 
     <div class="mb-3">
       <label for="month" class="form-label"
-        >Month:</label
-      >
+>Month:</label
+>
       <input
         id="month"
         formControlName="month"
@@ -98,8 +101,8 @@
 
     <div class="mb-3">
       <label for="location" class="form-label"
-        >Location:</label
-      >
+>Location:</label
+>
       <input
         id="location"
         formControlName="location"
@@ -119,8 +122,8 @@
 
     <div class="mb-3">
       <label for="participants" class="form-label"
-        >Participants:</label
-      >
+>Participants:</label
+>
       <input
         id="participants"
         formControlName="participants"

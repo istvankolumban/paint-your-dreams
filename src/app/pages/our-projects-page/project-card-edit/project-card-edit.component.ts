@@ -27,7 +27,7 @@ export class ProjectCardEditComponent {
       location: [''],
       participants: [''],
       organizers: this.fb.array([], Validators.required),
-      coverImage: [''],
+      coverImage: '',
       images: this.fb.array([]),
     });
   }
@@ -86,6 +86,10 @@ export class ProjectCardEditComponent {
       this.setOrganizers(this.project.organizers || []);
       this.setImages(this.project.images || []);
     }
+  }
+
+  onAssetSelected(assetUrl: string) {
+    this.projectForm.patchValue({ coverImage: assetUrl });
   }
 
   saveProject() {
