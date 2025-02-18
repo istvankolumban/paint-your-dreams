@@ -15,54 +15,44 @@ export class AssetManagerComponent implements OnInit {
 
   constructor(private assetManagerService: AssetManagerService, private sanitizer: DomSanitizer) {}
 
-  async ngOnInit() {
-    try {
-      this.rootFolder = await this.assetManagerService.fetchAssets();
-      console.log(this.rootFolder);
-      this.rootFolder.expanded = true;
-    } catch (error) {
-      console.error('Failed to fetch assets:', error);
-    }
+  ngOnInit(): void {
+    this.loadAssets();
   }
 
-  selectImage(asset: Asset) {
+  async loadAssets(): Promise<void> {
+    this.rootFolder = await this.assetManagerService.fetchAssets();
+    this.rootFolder.expanded = true;
+  }
+
+  selectImage(asset: Asset): void {
     this.selectedAsset = asset;
   }
 
-  isPdf(url: string): boolean {
-    return url.endsWith('.pdf');
+  isPdf(fileName: string): boolean {
+    return fileName.toLowerCase().endsWith('.pdf');
   }
 
   safeUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  async createFolder(parentFolder: Folder) {
+  async createFolder(parentFolder: Folder): Promise<void> {
     const folderName = prompt('Enter folder name:');
     if (folderName) {
-      try {
-        await this.assetManagerService.createFolder(parentFolder, folderName);
-        this.rootFolder = await this.assetManagerService.fetchAssets();
-      } catch (error) {
-        console.error('Failed to create folder:', error);
-      }
+      await this.assetManagerService.createFolder(parentFolder, folderName);
+      this.loadAssets();
     }
   }
 
-  setCurrentFolder(folder: Folder) {
+  setCurrentFolder(folder: Folder): void {
     this.currentFolder = folder;
   }
 
-  async onFileSelected(event: Event) {
+  async onFilesSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0 && this.currentFolder) {
-      const file = input.files[0];
-      try {
-        await this.assetManagerService.uploadAsset(this.currentFolder, file);
-        this.rootFolder = await this.assetManagerService.fetchAssets();
-      } catch (error) {
-        console.error('Failed to upload asset:', error);
-      }
+    if (input.files && this.currentFolder) {
+      await this.assetManagerService.uploadAssets(this.currentFolder, input.files);
+      this.loadAssets();
     }
   }
 }

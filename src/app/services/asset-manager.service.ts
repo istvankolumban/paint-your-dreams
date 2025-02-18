@@ -1,5 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { getDownloadURL, listAll, ref, Storage, uploadBytes, uploadString, deleteObject } from '@angular/fire/storage';
+import {
+  getDownloadURL,
+  listAll,
+  ref,
+  Storage,
+  uploadBytes,
+  uploadString,
+  deleteObject,
+} from '@angular/fire/storage';
 
 export interface Asset {
   name: string;
@@ -11,6 +19,7 @@ export interface Folder {
   assets: Asset[];
   folders: Folder[];
   expanded?: boolean;
+  path: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -22,14 +31,18 @@ export class AssetManagerService {
   async fetchAssets(): Promise<Folder> {
     const storageRef = ref(this.storage, '');
     const assetsList = await listAll(storageRef);
-    const rootFolder = await this.processFolder(assetsList, '');
+    const rootFolder = await this.processFolder(assetsList, '', '');
 
     return rootFolder;
   }
 
-  private async processFolder(assetsList: any, folderName: string): Promise<Folder> {
+  private async processFolder(
+    assetsList: any,
+    folderName: string,
+    parentPath: string
+  ): Promise<Folder> {
     const folderPromises = assetsList.prefixes.map((folderRef: any) =>
-      this.fetchFolder(folderRef)
+      this.fetchFolder(folderRef, `${parentPath}${folderName}/`)
     );
     const assetPromises = assetsList.items.map((item: any) =>
       this.fetchAsset(item)
@@ -43,12 +56,13 @@ export class AssetManagerService {
       assets: assets,
       folders: folders,
       expanded: false,
+      path: `${parentPath}${folderName}`,
     };
   }
 
-  private async fetchFolder(folderRef: any): Promise<Folder> {
+  private async fetchFolder(folderRef: any, parentPath: string): Promise<Folder> {
     const assetsList = await listAll(folderRef);
-    return this.processFolder(assetsList, folderRef.name);
+    return this.processFolder(assetsList, folderRef.name, parentPath);
   }
 
   private async fetchAsset(item: any): Promise<Asset> {
@@ -62,14 +76,17 @@ export class AssetManagerService {
   }
 
   async createFolder(parentFolder: Folder, folderName: string): Promise<void> {
-    const folderPath = `${parentFolder.name}/${folderName}/.placeholder`;
+    const folderPath = `${parentFolder.path}/${folderName}/.placeholder`;
     const folderRef = ref(this.storage, folderPath);
     await uploadString(folderRef, '', 'raw');
   }
 
-  async uploadAsset(parentFolder: Folder, file: File): Promise<void> {
-    const assetPath = `${parentFolder.name}/${file.name}`;
-    const assetRef = ref(this.storage, assetPath);
-    await uploadBytes(assetRef, file);
+  async uploadAssets(parentFolder: Folder, files: FileList): Promise<void> {
+    const uploadPromises = Array.from(files).map((file) => {
+      const assetPath = `${parentFolder.path}/${file.name}`;
+      const assetRef = ref(this.storage, assetPath);
+      return uploadBytes(assetRef, file);
+    });
+    await Promise.all(uploadPromises);
   }
 }
