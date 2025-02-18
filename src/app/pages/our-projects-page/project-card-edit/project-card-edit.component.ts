@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ProjectModel } from '../our-projects.service';
 import { OurProjectsService } from '../our-projects.service';
+import { Asset } from '../../../services/asset-manager.service';
 
 @Component({
   selector: 'app-project-card-edit',
@@ -64,12 +65,16 @@ export class ProjectCardEditComponent {
     this.organizers.removeAt(index);
   }
 
-  addImage() {
-    this.images.push(this.fb.control('', Validators.required));
+  addImage(): void {
+    this.images.push(this.fb.control(''));
   }
 
-  removeImage(index: number) {
+  removeImage(index: number): void {
     this.images.removeAt(index);
+  }
+
+  addImageWithUrl(url: string): void {
+    this.images.push(this.fb.control(url, Validators.required));
   }
 
   ngOnInit() {
@@ -88,8 +93,12 @@ export class ProjectCardEditComponent {
     }
   }
 
-  onAssetSelected(assetUrl: string) {
-    this.projectForm.patchValue({ coverImage: assetUrl });
+  onCoverImageSelected(coverImage: Asset): void {
+    this.projectForm.patchValue({ coverImage: coverImage.url });
+  }
+
+  onImageSelected(image: Asset): void {
+    this.addImageWithUrl(image.url);
   }
 
   saveProject() {
