@@ -37,6 +37,7 @@ export interface ProjectModel {
   organizers: Array<string>;
   description: string;
   images: Array<string>;
+  order: number;
 }
 
 @Injectable({
@@ -49,41 +50,12 @@ export class OurProjectsService {
 
   private projectsSubject = new BehaviorSubject<ProjectModel[] | null>(null);
   projects$ = this.projectsSubject.asObservable();
+  private projectsCount = 0;
 
   fetchProjects(): void {
     if (this.projectsSubject.value) return; // Prevent duplicate API calls
 
-    const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
-
-    getDocs(itemCollection).then((querySnapshot) => {
-      const projects: ProjectModel[] = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as Omit<ProjectModel, 'id'>;
-        projects.push({ id: doc.id, ...data });
-      });
-
-      const projectsWithFetchedImages = projects.map((project) =>
-        forkJoin({
-          images: project.images && project.images.length > 0
-            ? forkJoin(project.images.map((image) => this.getImageUrl(image)))
-            : of([]), // Handle empty images list case
-          coverImage: project.coverImage
-            ? this.getImageUrl(project.coverImage)
-            : of(''), // Handle empty coverImage case
-        }).pipe(
-          map(({ images, coverImage }) => ({
-            ...project,
-            images,
-            coverImage,
-          }))
-        )
-      );
-
-      forkJoin(projectsWithFetchedImages).subscribe((projects) => {
-        console.log(projects);
-        this.projectsSubject.next(projects);
-      });
-    });
+    this.fetchProjectsObservable().subscribe();
   }
 
   getProjects(): Observable<ProjectModel[]> {
@@ -101,16 +73,24 @@ export class OurProjectsService {
   }
 
   updateProject(projectId: string, project: ProjectModel): Observable<void> {
-    const projectDocRef = doc(this.firestore, `${this.COLLECTION_NAME}/${projectId}`);
+    const projectDocRef = doc(
+      this.firestore,
+      `${this.COLLECTION_NAME}/${projectId}`
+    );
     return from(updateDoc(projectDocRef, { ...project })).pipe(
       switchMap(() => this.fetchProjectsObservable())
     );
   }
 
-  createProject(project: Omit<ProjectModel, 'id'>): Observable<DocumentReference<DocumentData>> {
+  createProject(
+    project: Omit<ProjectModel, 'id'>
+  ): Observable<DocumentReference<DocumentData>> {
+    project = { ...project, order: this.projectsCount };
     const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
     return from(addDoc(itemCollection, { ...project })).pipe(
-      switchMap((docRef) => this.fetchProjectsObservable().pipe(map(() => docRef)))
+      switchMap((docRef) =>
+        this.fetchProjectsObservable().pipe(map(() => docRef))
+      )
     );
   }
 
@@ -127,6 +107,7 @@ export class OurProjectsService {
       organizers: [],
       description: '',
       images: [],
+      order: -1,
     };
   }
 
@@ -143,9 +124,12 @@ export class OurProjectsService {
 
         const projectsWithFetchedImages = projects.map((project) =>
           forkJoin({
-            images: project.images && project.images.length > 0
-              ? forkJoin(project.images.map((image) => this.getImageUrl(image)))
-              : of([]), // Handle empty images list case
+            images:
+              project.images && project.images.length > 0
+                ? forkJoin(
+                    project.images.map((image) => this.getImageUrl(image))
+                  )
+                : of([]), // Handle empty images list case
             coverImage: project.coverImage
               ? this.getImageUrl(project.coverImage)
               : of(''), // Handle empty coverImage case
@@ -160,6 +144,10 @@ export class OurProjectsService {
 
         return forkJoin(projectsWithFetchedImages).pipe(
           map((projects) => {
+            // Update projects count
+            this.projectsCount = projects.length;
+            // Order projects by project.order
+            projects.sort((a, b) => a.order - b.order);
             console.log(projects);
             this.projectsSubject.next(projects);
           })

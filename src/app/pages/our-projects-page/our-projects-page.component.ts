@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OurProjectsService, ProjectModel } from './our-projects.service';
 import { AuthService } from '../../auth/auth.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-our-projects-page',
@@ -16,6 +17,8 @@ export class OurProjectsPageComponent {
   isEditing = false;
   newProject: ProjectModel | null = null;
   editedProject: ProjectModel | null = null;
+  isChangingOrder = false;
+  searchValue = '';
 
   constructor(
     private ourProjectsService: OurProjectsService,
@@ -30,6 +33,7 @@ export class OurProjectsPageComponent {
 
   filterProjectsBySearch(event: Event): void {
     const value = (event.target as HTMLInputElement).value.toLowerCase();
+    this.searchValue = value;
     this.filteredProjects = this.projects.filter(
       (project) =>
         project.title.toLowerCase().includes(value) ||
@@ -49,6 +53,10 @@ export class OurProjectsPageComponent {
     this.newProject = this.ourProjectsService.createDefaultProject();
   }
 
+  changeOrder() {
+    
+  }
+
   editProject(project: ProjectModel) {
     this.isEditing = true;
     this.editedProject = project;
@@ -64,5 +72,48 @@ export class OurProjectsPageComponent {
     this.isEditing = false;
     this.editedProject = null;
     this.ourProjectsService.fetchProjects();
+  }
+
+  startChangingOrder() {
+    this.isChangingOrder = true;
+    this.searchValue = '';
+    this.filteredProjects = [...this.projects];
+  }
+
+  saveOrder() {
+    const updateObservables = this.projects.map((project, index) => {
+      project.order = index;
+      return this.ourProjectsService.updateProject(project.id, project);
+    });
+
+    forkJoin(updateObservables).subscribe(() => {
+      this.isChangingOrder = false;
+      this.ourProjectsService.fetchProjects();
+    });
+  }
+
+  moveUp(index: number) {
+    if (index > 0) {
+      const temp = this.projects[index];
+      this.projects[index] = this.projects[index - 1];
+      this.projects[index - 1] = temp;
+      this.updateProjectOrders();
+    }
+  }
+
+  moveDown(index: number) {
+    if (index < this.projects.length - 1) {
+      const temp = this.projects[index];
+      this.projects[index] = this.projects[index + 1];
+      this.projects[index + 1] = temp;
+      this.updateProjectOrders();
+    }
+  }
+
+  updateProjectOrders() {
+    this.projects.forEach((project, index) => {
+      project.order = index;
+    });
+    this.filteredProjects = [...this.projects];
   }
 }

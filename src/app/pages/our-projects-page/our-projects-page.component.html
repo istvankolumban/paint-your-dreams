@@ -34,29 +34,50 @@
             class="form-control"
             (input)="filterProjectsBySearch($event)"
             placeholder="Keress cím, időpont, helyszín vagy leírás alapján"
+            [disabled]="isChangingOrder"
+            [value]="isChangingOrder ? '' : searchValue"
           />
         </div>
       </div>
       <div class="col-lg-6">
         <div class="mb-4">
+          <p style="margin-bottom: 8px;">Edit: </p>
           <button
-            *ngIf="isLoggedIn"
-            class="btn btn-primary mb-3"
+            *ngIf="isLoggedIn && !isChangingOrder"
+            class="btn btn-primary mx-1"
             (click)="createProject()"
           >
             Create Project
+          </button>
+          <button
+            *ngIf="isLoggedIn && !isChangingOrder"
+            class="btn btn-secondary mx-1"
+            (click)="startChangingOrder()"
+          >
+            Change Order
+          </button>
+          <button
+            *ngIf="isLoggedIn && isChangingOrder"
+            class="btn btn-success m-3"
+            (click)="saveOrder()"
+          >
+            Save Order
           </button>
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row d-none d-lg-flex">
       <div class="col-lg-6 mb-3">
         <ng-container *ngFor="let project of filteredProjects; let i = index">
           <ng-container *ngIf="i % 2 !== 1">
             <app-project-card
               [project]="project"
               (editProject)="editProject($event)"
+              [isChangingOrder]="isChangingOrder"
+              [maxOrder]="filteredProjects.length - 1"
+              (moveUp)="moveUp(i)"
+              (moveDown)="moveDown(i)"
             ></app-project-card>
           </ng-container>
         </ng-container>
@@ -67,8 +88,27 @@
             <app-project-card
               [project]="project"
               (editProject)="editProject($event)"
+              [isChangingOrder]="isChangingOrder"
+              [maxOrder]="filteredProjects.length - 1"
+              (moveUp)="moveUp(i)"
+              (moveDown)="moveDown(i)"
             ></app-project-card>
           </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="row d-lg-none">
+      <div class="col mb-3">
+        <ng-container *ngFor="let project of filteredProjects; let i = index">
+          <app-project-card
+            [project]="project"
+            (editProject)="editProject($event)"
+            [isChangingOrder]="isChangingOrder"
+            [maxOrder]="filteredProjects.length - 1"
+            (moveUp)="moveUp(i)"
+            (moveDown)="moveDown(i)"
+          ></app-project-card>
         </ng-container>
       </div>
     </div>

@@ -10,7 +10,11 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class ProjectCardComponent {
   @Input() project!: ProjectModel;
+  @Input() isChangingOrder = false;
+  @Input() maxOrder!: number;
   @Output() editProject = new EventEmitter<ProjectModel>();
+  @Output() moveUp = new EventEmitter<void>();
+  @Output() moveDown = new EventEmitter<void>();
 
   isLoggedIn = false;
 

@@ -42,5 +42,21 @@
     >
       {{ project.expanded ? "Kevesebb" : "Tovább" }}
     </button>
+    <div *ngIf="isChangingOrder" class="d-flex justify-content-between mt-2">
+      <button
+        class="btn btn-outline-secondary"
+        (click)="moveUp.emit()"
+        *ngIf="project.order > 0"
+      >
+        <i class="bi bi-arrow-up"></i>
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        (click)="moveDown.emit()"
+        *ngIf="project.order < maxOrder"
+      >
+        <i class="bi bi-arrow-down"></i>
+      </button>
+    </div>
   </div>
 </div>

@@ -114,6 +114,7 @@ export class ProjectCardEditComponent {
         organizers: this.projectForm.value.organizers,
         coverImage: this.projectForm.value.coverImage,
         images: this.projectForm.value.images,
+        order: -1,
       };
 
       if (this.project.id) {
