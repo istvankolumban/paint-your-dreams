@@ -10,8 +10,9 @@
       ></app-asset-selector>
     </div>
     <div class="mb-3" *ngIf="projectForm.get('coverImage')?.value">
+      <p>{{ projectForm.get("coverImage")?.value.name }}</p>
       <img
-        [src]="projectForm.get('coverImage')?.value"
+        [src]="projectForm.get('coverImage')?.value.url"
         class="img-fluid mb-3"
         alt="Cover Image"
       />
@@ -57,13 +58,14 @@
         Description is required.
       </div>
       <small class="form-text text-muted">
-        Use <b>&lt;p&gt;</b>new paragraph text<b>&lt;/p&gt;</b> for new parag
-        aphs.
+        Use <b>&lt;p&gt;</b>new paragraph text<b>&lt;/p&gt;</b> for new paragraphs.
       </small>
     </div>
 
     <div class="mb-3">
-      <label for="year" class="form-label">Year:</label>
+      <label for="year" class="form-label"
+        >Year:</label
+      >
       <input
         id="year"
         formControlName="year"
@@ -81,7 +83,9 @@
     </div>
 
     <div class="mb-3">
-      <label for="month" class="form-label">Month:</label>
+      <label for="month" class="form-label"
+        >Month:</label
+      >
       <input
         id="month"
         formControlName="month"
@@ -99,7 +103,9 @@
     </div>
 
     <div class="mb-3">
-      <label for="location" class="form-label">Location:</label>
+      <label for="location" class="form-label"
+        >Location:</label
+      >
       <input
         id="location"
         formControlName="location"
@@ -118,7 +124,9 @@
     </div>
 
     <div class="mb-3">
-      <label for="participants" class="form-label">Participants:</label>
+      <label for="participants" class="form-label"
+        >Participants:</label
+      >
       <input
         id="participants"
         formControlName="participants"
@@ -176,17 +184,13 @@
           *ngFor="let image of images.controls; let i = index"
           class="input-group mb-2"
         >
-          <label class="form-control">{{ image.value }}</label>
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="removeImage(i)"
-          >
+          <label class="form-control">{{ image.value.name }}</label>
+          <button type="button" class="btn btn-danger" (click)="removeImage(i)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
         <div *ngFor="let image of projectForm.get('images')?.value" class="p-1">
-          <img [src]="image" class="img-fluid" alt="Project Image" />
+          <img [src]="image.url" class="img-fluid" alt="Project Image" />
         </div>
       </div>
       <app-asset-selector

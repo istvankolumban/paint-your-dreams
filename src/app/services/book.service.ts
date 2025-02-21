@@ -5,28 +5,31 @@ import {
   Firestore,
   Query,
 } from '@angular/fire/firestore';
-import { getDownloadURL, ref, Storage } from '@angular/fire/storage';
 
-import { BookDetailsModel } from '../shared/book-details/book/book.types';
+import {
+  Attachment,
+  BookDetailsModel,
+} from '../shared/book-details/book/book.types';
 import {
   BehaviorSubject,
   filter,
   forkJoin,
-  from,
   map,
   Observable,
   of,
   switchMap,
 } from 'rxjs';
+import { Asset, AssetManagerService } from './asset-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class BookService {
-  storage = inject(Storage);
   firestore = inject(Firestore);
   private readonly COLLECTION_NAME = 'books';
 
   private booksSubject = new BehaviorSubject<BookDetailsModel[] | null>(null);
   books$ = this.booksSubject.asObservable();
+
+  constructor(private assetManagerService: AssetManagerService) {}
 
   fetchBooks(): void {
     if (this.booksSubject.value) return; // Prevent duplicate API calls
@@ -40,7 +43,11 @@ export class BookService {
           const booksWithAttachments$ = books.map((book) =>
             forkJoin({
               pages: book.pages
-                ? forkJoin(book.pages.map((page) => this.getPageUrl(page)))
+                ? forkJoin(
+                    book.pages.map((page) =>
+                      this.assetManagerService.getImageUrl(page)
+                    )
+                  )
                 : of([]),
               attachments: book.attachments
                 ? forkJoin(
@@ -73,18 +80,10 @@ export class BookService {
     return this.getBooks().pipe(map((books) => books[0]));
   }
 
-  private getPageUrl(page: string): Observable<string> {
-    const pathReference = ref(this.storage, page);
-    return from(getDownloadURL(pathReference));
-  }
-
-  private getAttachmentUrl(attachment: {
-    title: string;
-    url: string;
-  }): Observable<{ title: string; url: string }> {
-    const pathReference = ref(this.storage, attachment.url);
-    return from(getDownloadURL(pathReference)).pipe(
-      map((url) => ({ ...attachment, url }))
-    );
+  private getAttachmentUrl(attachment: Attachment): Observable<Attachment> {
+    const asset = { name: attachment.title, url: attachment.url } as Asset;
+    return this.assetManagerService
+      .getAsset(asset)
+      .pipe(map((asset) => ({ ...attachment, url: asset.url })));
   }
 }

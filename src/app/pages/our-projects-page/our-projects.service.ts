@@ -1,15 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import {
   collection,
-  collectionData,
   Firestore,
-  Query,
   updateDoc,
   doc,
   DocumentData,
   DocumentReference,
-  query,
-  where,
   getDocs,
   addDoc,
 } from '@angular/fire/firestore';
@@ -23,12 +19,12 @@ import {
   of,
   switchMap,
 } from 'rxjs';
-import { getDownloadURL, ref, Storage } from '@angular/fire/storage';
+import { Asset, AssetManagerService } from '../../services/asset-manager.service';
 
 export interface ProjectModel {
   id: string;
   expanded: boolean;
-  coverImage: string;
+  coverImage: Asset;
   title: string;
   year: number;
   month: string;
@@ -36,7 +32,7 @@ export interface ProjectModel {
   participants: string;
   organizers: Array<string>;
   description: string;
-  images: Array<string>;
+  images: Array<Asset>;
   order: number;
 }
 
@@ -44,13 +40,14 @@ export interface ProjectModel {
   providedIn: 'root',
 })
 export class OurProjectsService {
-  storage = inject(Storage);
   firestore = inject(Firestore);
   private readonly COLLECTION_NAME = 'our-projects';
 
   private projectsSubject = new BehaviorSubject<ProjectModel[] | null>(null);
   projects$ = this.projectsSubject.asObservable();
   private projectsCount = 0;
+
+  constructor(private assetManagerService: AssetManagerService) {}
 
   fetchProjects(): void {
     if (this.projectsSubject.value) return; // Prevent duplicate API calls
@@ -65,11 +62,6 @@ export class OurProjectsService {
     return this.projects$.pipe(
       filter((project): project is ProjectModel[] => project !== null)
     );
-  }
-
-  private getImageUrl(url: string): Observable<string> {
-    const pathReference = ref(this.storage, url);
-    return from(getDownloadURL(pathReference));
   }
 
   updateProject(projectId: string, project: ProjectModel): Observable<void> {
@@ -98,7 +90,7 @@ export class OurProjectsService {
     return {
       id: '',
       expanded: false,
-      coverImage: '',
+      coverImage: this.assetManagerService.createDefaultAsset(),
       title: '',
       year: new Date().getFullYear(),
       month: '',
@@ -127,12 +119,14 @@ export class OurProjectsService {
             images:
               project.images && project.images.length > 0
                 ? forkJoin(
-                    project.images.map((image) => this.getImageUrl(image))
+                    project.images.map((image) =>
+                      this.assetManagerService.getAsset(image)
+                    )
                   )
                 : of([]), // Handle empty images list case
             coverImage: project.coverImage
-              ? this.getImageUrl(project.coverImage)
-              : of(''), // Handle empty coverImage case
+              ? this.assetManagerService.getAsset(project.coverImage)
+              : of(this.assetManagerService.createDefaultAsset()), // Handle empty coverImage case
           }).pipe(
             map(({ images, coverImage }) => ({
               ...project,

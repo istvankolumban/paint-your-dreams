@@ -7,7 +7,7 @@
 </button>
 <div class="card mb-3">
   <img
-    src="{{ project.coverImage }}"
+    src="{{ project.coverImage.url }}"
     class="card-img-top"
     alt="{{ project.title }}"
   />
@@ -32,7 +32,7 @@
     <div *ngIf="project.expanded === true">
       <div id="column-wrapper-3">
         <ng-container *ngFor="let image of project.images; let i = index">
-          <img [src]="image" alt="{{ project.title }}_{{ i }}" />
+          <img [src]="image.url" alt="{{ project.title }}_{{ i }}" />
         </ng-container>
       </div>
     </div>

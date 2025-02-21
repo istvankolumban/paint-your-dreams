@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { Asset, AssetManagerService } from '../../services/asset-manager.service';
+import {
+  Asset,
+  AssetManagerService,
+} from '../../services/asset-manager.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -10,13 +13,15 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class AssetSelectorComponent implements OnInit {
   @Output() assetSelected = new EventEmitter<Asset>();
   isModalVisible = false;
-  selectedAsset: any;
+  selectedAsset: Asset | null;
   rootFolder: any;
 
   constructor(
     private assetManagerService: AssetManagerService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) {
+    this.selectedAsset = null;
+  }
 
   ngOnInit(): void {
     this.loadAssets();
@@ -48,6 +53,7 @@ export class AssetSelectorComponent implements OnInit {
   }
 
   saveSelection() {
+    if (!this.selectedAsset) return;
     this.assetSelected.emit(this.selectedAsset);
     this.hideModal();
   }

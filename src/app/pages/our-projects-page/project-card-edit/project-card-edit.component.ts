@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ProjectModel } from '../our-projects.service';
 import { OurProjectsService } from '../our-projects.service';
@@ -7,9 +7,9 @@ import { Asset } from '../../../services/asset-manager.service';
 @Component({
   selector: 'app-project-card-edit',
   templateUrl: './project-card-edit.component.html',
-  styleUrls: ['./project-card-edit.component.scss']
+  styleUrls: ['./project-card-edit.component.scss'],
 })
-export class ProjectCardEditComponent {
+export class ProjectCardEditComponent implements OnInit {
   @Input() project!: ProjectModel;
   @Output() projectSaved = new EventEmitter<void>();
   projectForm: FormGroup;
@@ -28,7 +28,7 @@ export class ProjectCardEditComponent {
       location: [''],
       participants: [''],
       organizers: this.fb.array([], Validators.required),
-      coverImage: '',
+      coverImage: [null, Validators.required],
       images: this.fb.array([]),
     });
   }
@@ -49,7 +49,7 @@ export class ProjectCardEditComponent {
     });
   }
 
-  setImages(images: string[]) {
+  setImages(images: Asset[]) {
     const imagesFormArray = this.projectForm.get('images') as FormArray;
     imagesFormArray.clear();
     images.forEach((image) => {
@@ -65,16 +65,12 @@ export class ProjectCardEditComponent {
     this.organizers.removeAt(index);
   }
 
-  addImage(): void {
-    this.images.push(this.fb.control(''));
+  addImage(image: Asset) {
+    this.images.push(this.fb.control(image, Validators.required));
   }
 
-  removeImage(index: number): void {
+  removeImage(index: number) {
     this.images.removeAt(index);
-  }
-
-  addImageWithUrl(url: string): void {
-    this.images.push(this.fb.control(url, Validators.required));
   }
 
   ngOnInit() {
@@ -93,12 +89,12 @@ export class ProjectCardEditComponent {
     }
   }
 
-  onCoverImageSelected(coverImage: Asset): void {
-    this.projectForm.patchValue({ coverImage: coverImage.url });
+  onCoverImageSelected(asset: Asset): void {
+    this.projectForm.patchValue({ coverImage: asset });
   }
 
-  onImageSelected(image: Asset): void {
-    this.addImageWithUrl(image.url);
+  onImageSelected(asset: Asset): void {
+    this.addImage(asset);
   }
 
   saveProject() {
@@ -118,13 +114,18 @@ export class ProjectCardEditComponent {
       };
 
       if (this.project.id) {
-        this.ourProjectsService.updateProject(this.project.id, { ...projectData, id: this.project.id }).subscribe({
-          next: () => {
-            console.log('Project updated successfully');
-            this.projectSaved.emit();
-          },
-          error: (err) => console.error('Error updating project:', err),
-        });
+        this.ourProjectsService
+          .updateProject(this.project.id, {
+            ...projectData,
+            id: this.project.id,
+          })
+          .subscribe({
+            next: () => {
+              console.log('Project updated successfully');
+              this.projectSaved.emit();
+            },
+            error: (err) => console.error('Error updating project:', err),
+          });
       } else {
         this.ourProjectsService.createProject(projectData).subscribe({
           next: (docRef) => {

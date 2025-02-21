@@ -8,6 +8,7 @@ import {
   uploadString,
   deleteObject,
 } from '@angular/fire/storage';
+import { from, map, Observable } from 'rxjs';
 
 export interface Asset {
   name: string;
@@ -60,7 +61,10 @@ export class AssetManagerService {
     };
   }
 
-  private async fetchFolder(folderRef: any, parentPath: string): Promise<Folder> {
+  private async fetchFolder(
+    folderRef: any,
+    parentPath: string
+  ): Promise<Folder> {
     const assetsList = await listAll(folderRef);
     return this.processFolder(assetsList, folderRef.name, parentPath);
   }
@@ -73,6 +77,18 @@ export class AssetManagerService {
       console.error(`Failed to get download URL for ${item.name}:`, error);
       return { name: item.name, url: '' };
     }
+  }
+
+  public getImageUrl(url: string): Observable<string> {
+    const pathReference = ref(this.storage, url);
+    return from(getDownloadURL(pathReference));
+  }
+
+  public getAsset(asset: Asset): Observable<Asset> {
+    const pathReference = ref(this.storage, asset.url);
+    return from(getDownloadURL(pathReference)).pipe(
+      map((url) => ({ ...asset, url }))
+    );
   }
 
   async createFolder(parentFolder: Folder, folderName: string): Promise<void> {
@@ -101,9 +117,15 @@ export class AssetManagerService {
 
     const deletePromises = [
       ...assetsList.items.map((item) => deleteObject(item)),
-      ...assetsList.prefixes.map((prefix) => this.deleteFolder({ ...folder, path: prefix.fullPath })),
+      ...assetsList.prefixes.map((prefix) =>
+        this.deleteFolder({ ...folder, path: prefix.fullPath })
+      ),
     ];
 
     await Promise.all(deletePromises);
+  }
+
+  public createDefaultAsset(): Asset {
+    return { name: '', url: '' };
   }
 }
