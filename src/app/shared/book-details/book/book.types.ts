@@ -1,3 +1,5 @@
+import { Asset } from '../../../services/asset-manager.service';
+
 export interface Cover {
   front: BookPageSide;
   back: BookPageSide;
@@ -27,10 +29,11 @@ export interface Book {
 }
 
 export interface BookDetailsModel {
+  id: string;
   title: string;
   description: string;
-  attachments: Array<Attachment>;
-  pages: Array<string>;
+  attachments: Array<Asset>;
+  pages: Array<Asset>;
 }
 
 export interface Attachment {

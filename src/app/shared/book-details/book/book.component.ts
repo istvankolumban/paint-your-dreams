@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Book, PageType } from './book.types';
-import { Observable } from 'rxjs';
+import { Asset } from '../../../services/asset-manager.service';
 
 @Component({
   selector: 'app-book',
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class BookComponent implements OnInit {
   @Input()
-  pages?: Array<string>;
+  pages?: Array<Asset>;
 
   windowWidth: number;
   frontImage = '';
@@ -25,18 +25,18 @@ export class BookComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.pages) {
-      this.frontImage = this.pages[0];
-      this.backImage = this.pages[this.pages.length - 1];
+      this.frontImage = this.pages[0].url;
+      this.backImage = this.pages[this.pages.length - 1].url;
       this.book = {
         width: 1020,
         height: 520,
         zoom: 1,
         cover: {
           front: {
-            imageUrl: this.pages[0],
+            imageUrl: this.frontImage,
           },
           back: {
-            imageUrl: this.pages[this.pages.length - 1],
+            imageUrl: this.backImage,
           },
         },
         pages: [],
@@ -48,7 +48,7 @@ export class BookComponent implements OnInit {
 
       for (let i = 1; i < this.pages.length - 1; i++) {
         this.book.pages.push({
-          imageUrl: this.pages[i],
+          imageUrl: this.pages[i].url,
           backgroundColor: '#f0f0f0',
         });
       }
