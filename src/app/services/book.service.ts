@@ -1,16 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, Firestore, getDocs } from '@angular/fire/firestore';
-
+import { collection, Firestore, getDocs, addDoc, updateDoc, deleteDoc, doc, DocumentReference, DocumentData } from '@angular/fire/firestore';
 import { BookDetailsModel } from '../shared/book-details/book/book.types';
-import {
-  BehaviorSubject,
-  filter,
-  from,
-  map,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
+import { BehaviorSubject, filter, from, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BookService {
@@ -32,7 +23,6 @@ export class BookService {
 
         return of(books).pipe(
           map((books) => {
-            // Update projects count
             this.booksSubject.next(books);
           })
         );
@@ -46,6 +36,27 @@ export class BookService {
     }
     return this.books$.pipe(
       filter((books): books is BookDetailsModel[] => books !== null)
+    );
+  }
+
+  createBook(book: Omit<BookDetailsModel, 'id'>): Observable<DocumentReference<DocumentData>> {
+    const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
+    return from(addDoc(itemCollection, { ...book })).pipe(
+      switchMap((docRef) => this.fetchBooksObservable().pipe(map(() => docRef)))
+    );
+  }
+
+  updateBook(bookId: string, book: BookDetailsModel): Observable<void> {
+    const bookDocRef = doc(this.firestore, `${this.COLLECTION_NAME}/${bookId}`);
+    return from(updateDoc(bookDocRef, { ...book })).pipe(
+      switchMap(() => this.fetchBooksObservable())
+    );
+  }
+
+  deleteBook(bookId: string): Observable<void> {
+    const bookDocRef = doc(this.firestore, `${this.COLLECTION_NAME}/${bookId}`);
+    return from(deleteDoc(bookDocRef)).pipe(
+      switchMap(() => this.fetchBooksObservable())
     );
   }
 

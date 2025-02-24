@@ -1,0 +1,103 @@
+<div class="mb-3">
+  <form
+    [formGroup]="bookForm"
+    (ngSubmit)="saveBook()"
+    class="border p-3 rounded"
+  >
+    <div class="mb-3">
+      <label for="title" class="form-label"
+        >Title: <span class="text-danger">*</span></label
+      >
+      <input
+        id="title"
+        formControlName="title"
+        type="text"
+        class="form-control"
+      />
+      <div
+        *ngIf="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
+        class="text-danger"
+      >
+        Title is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label"
+        >Description: <span class="text-danger">*</span></label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        rows="10"
+      ></textarea>
+      <div
+        *ngIf="
+          bookForm.get('description')?.invalid &&
+          bookForm.get('description')?.touched
+        "
+        class="text-danger"
+      >
+        Description is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="attachments" class="form-label">Attachments:</label>
+      <div formArrayName="attachments">
+        <div
+          *ngFor="let attachment of attachments.controls; let i = index"
+          class="input-group mb-2"
+        >
+          <label class="form-control">{{ attachment.value.name }}</label>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="removeAttachment(i)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+      <app-asset-selector
+        (assetSelected)="onAttachmentSelected($event)"
+      ></app-asset-selector>
+    </div>
+
+    <div class="mb-3">
+      <label for="pages" class="form-label">Pages:</label>
+      <div formArrayName="pages">
+        <div
+          *ngFor="let page of pages.controls; let i = index"
+          class="input-group mb-2"
+        >
+          <label class="form-control">{{ page.value.name }}</label>
+          <button type="button" class="btn btn-danger" (click)="removePage(i)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+      <app-asset-selector
+        (assetSelected)="onPageSelected($event)"
+      ></app-asset-selector>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="bookForm.invalid"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="bookSaved.emit()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

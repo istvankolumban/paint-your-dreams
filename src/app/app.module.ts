@@ -39,6 +39,7 @@ import { ProjectCardEditComponent } from './pages/our-projects-page/project-card
 import { AssetManagerComponent } from './pages/asset-manager/asset-manager.component';
 import { SafeUrlPipe } from './pages/asset-manager/safe-url-pipe';
 import { AssetSelectorComponent } from './shared/asset-selector/asset-selector.component';
+import { BookDetailesEditComponent } from './shared/book-detailes-edit/book-detailes-edit.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { AssetSelectorComponent } from './shared/asset-selector/asset-selector.c
     AssetManagerComponent,
     SafeUrlPipe,
     AssetSelectorComponent,
+    BookDetailesEditComponent,
   ],
   imports: [
     BrowserModule,
