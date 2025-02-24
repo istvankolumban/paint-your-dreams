@@ -5,6 +5,13 @@
 >
   <i class="bi bi-pencil"></i>
 </button>
+<button
+  *ngIf="isLoggedIn"
+  class="btn btn-danger mb-1 ms-1"
+  (click)="onDeleteProject()"
+>
+  <i class="bi bi-trash"></i>
+</button>
 <div class="card mb-3">
   <img
     src="{{ project.coverImage.url }}"

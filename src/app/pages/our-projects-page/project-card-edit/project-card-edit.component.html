@@ -12,6 +12,7 @@
     <div class="mb-3" *ngIf="projectForm.get('coverImage')?.value">
       <p>{{ projectForm.get("coverImage")?.value.name }}</p>
       <img
+        *ngIf="projectForm.get('coverImage')?.value.url"
         [src]="projectForm.get('coverImage')?.value.url"
         class="img-fluid mb-3"
         alt="Cover Image"

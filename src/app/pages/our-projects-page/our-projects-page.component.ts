@@ -116,4 +116,12 @@ export class OurProjectsPageComponent {
     });
     this.filteredProjects = [...this.projects];
   }
+
+  deleteProject(project: ProjectModel) {
+    this.ourProjectsService.deleteProject(project.id).subscribe(() => {
+      this.projects = this.projects.filter((p) => p.id !== project.id);
+      this.updateProjectOrders();
+      this.filteredProjects = [...this.projects];
+    });
+  }
 }

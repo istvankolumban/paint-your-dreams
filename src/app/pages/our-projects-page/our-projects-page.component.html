@@ -58,7 +58,7 @@
           </button>
           <button
             *ngIf="isLoggedIn && isChangingOrder"
-            class="btn btn-success m-3"
+            class="btn btn-success mb-4"
             (click)="saveOrder()"
           >
             Save Order
@@ -74,6 +74,7 @@
             <app-project-card
               [project]="project"
               (editProject)="editProject($event)"
+              (deleteProject)="deleteProject($event)"
               [isChangingOrder]="isChangingOrder"
               [maxOrder]="filteredProjects.length - 1"
               (moveUp)="moveUp(i)"
@@ -88,6 +89,7 @@
             <app-project-card
               [project]="project"
               (editProject)="editProject($event)"
+              (deleteProject)="deleteProject($event)"
               [isChangingOrder]="isChangingOrder"
               [maxOrder]="filteredProjects.length - 1"
               (moveUp)="moveUp(i)"
@@ -104,6 +106,7 @@
           <app-project-card
             [project]="project"
             (editProject)="editProject($event)"
+            (deleteProject)="deleteProject($event)"
             [isChangingOrder]="isChangingOrder"
             [maxOrder]="filteredProjects.length - 1"
             (moveUp)="moveUp(i)"

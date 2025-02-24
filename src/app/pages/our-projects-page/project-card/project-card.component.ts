@@ -15,6 +15,7 @@ export class ProjectCardComponent {
   @Output() editProject = new EventEmitter<ProjectModel>();
   @Output() moveUp = new EventEmitter<void>();
   @Output() moveDown = new EventEmitter<void>();
+  @Output() deleteProject = new EventEmitter<ProjectModel>();
 
   isLoggedIn = false;
 
@@ -24,5 +25,11 @@ export class ProjectCardComponent {
 
   onEditProject() {
     this.editProject.emit(this.project);
+  }
+
+  onDeleteProject() {
+    if (confirm('Are you sure you want to delete this project?')) {
+      this.deleteProject.emit(this.project);
+    }
   }
 }

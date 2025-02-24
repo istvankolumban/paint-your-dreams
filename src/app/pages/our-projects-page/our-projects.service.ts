@@ -8,18 +8,21 @@ import {
   DocumentReference,
   getDocs,
   addDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import {
   BehaviorSubject,
   filter,
-  forkJoin,
   from,
   map,
   Observable,
   of,
   switchMap,
 } from 'rxjs';
-import { Asset, AssetManagerService } from '../../services/asset-manager.service';
+import {
+  Asset,
+  AssetManagerService,
+} from '../../services/asset-manager.service';
 
 export interface ProjectModel {
   id: string;
@@ -103,9 +106,15 @@ export class OurProjectsService {
     };
   }
 
+  deleteProject(projectId: string): Observable<void> {
+    const projectDocRef = doc(this.firestore, `${this.COLLECTION_NAME}/${projectId}`);
+    return from(deleteDoc(projectDocRef)).pipe(
+      switchMap(() => this.fetchProjectsObservable())
+    );
+  }
+
   private fetchProjectsObservable(): Observable<void> {
     const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
-
     return from(getDocs(itemCollection)).pipe(
       switchMap((querySnapshot) => {
         const projects: ProjectModel[] = [];
@@ -114,29 +123,7 @@ export class OurProjectsService {
           projects.push({ id: doc.id, ...data });
         });
 
-        const projectsWithFetchedImages = projects.map((project) =>
-          forkJoin({
-            images:
-              project.images && project.images.length > 0
-                ? forkJoin(
-                    project.images.map((image) =>
-                      this.assetManagerService.getAsset(image)
-                    )
-                  )
-                : of([]), // Handle empty images list case
-            coverImage: project.coverImage
-              ? this.assetManagerService.getAsset(project.coverImage)
-              : of(this.assetManagerService.createDefaultAsset()), // Handle empty coverImage case
-          }).pipe(
-            map(({ images, coverImage }) => ({
-              ...project,
-              images,
-              coverImage,
-            }))
-          )
-        );
-
-        return forkJoin(projectsWithFetchedImages).pipe(
+        return of(projects).pipe(
           map((projects) => {
             // Update projects count
             this.projectsCount = projects.length;
