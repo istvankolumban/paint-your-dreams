@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { BookDetailsModel } from '../book-details/book/book.types';
 import { BookService } from '../../services/book.service';
 import { Asset } from '../../services/asset-manager.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-book-detailes-edit',
@@ -15,12 +16,16 @@ export class BookDetailesEditComponent implements OnInit {
   bookForm: FormGroup;
   isValid = true;
 
-  constructor(private fb: FormBuilder, private bookService: BookService) {
+  constructor(
+    private fb: FormBuilder,
+    private bookService: BookService,
+    private authService: AuthService
+  ) {
     this.bookForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       attachments: this.fb.array([]),
-      pages: this.fb.array([]),
+      pages: this.fb.array([], [Validators.required, Validators.minLength(4)]), // Require at least 4 pages
     });
   }
 
@@ -86,7 +91,7 @@ export class BookDetailesEditComponent implements OnInit {
   }
 
   saveBook() {
-    if (this.bookForm.valid) {
+    if (this.bookForm.valid && this.authService.isAuthenticated()) {
       const bookData: Omit<BookDetailsModel, 'id'> = {
         title: this.bookForm.value.title,
         description: this.bookForm.value.description,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookDetailsModel } from '../../shared/book-details/book/book.types';
 import { BookService } from '../../services/book.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-our-writings-page',
@@ -15,7 +16,7 @@ export class OurWritingsPageComponent implements OnInit {
   newBook: BookDetailsModel | null = null;
   editedBook: BookDetailsModel | null = null;
 
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookService, private authService: AuthService) {}
 
   ngOnInit() {
     this.loadBooks();
@@ -28,13 +29,17 @@ export class OurWritingsPageComponent implements OnInit {
   }
 
   createBook() {
-    this.isCreating = true;
-    this.newBook = { id: '', title: '', description: '', attachments: [], pages: [] };
+    if (this.isAuthenticated()) {
+      this.isCreating = true;
+      this.newBook = { id: '', title: '', description: '', attachments: [], pages: [] };
+    }
   }
 
   editBook(book: BookDetailsModel) {
-    this.isEditing = true;
-    this.editedBook = book;
+    if (this.isAuthenticated()) {
+      this.isEditing = true;
+      this.editedBook = book;
+    }
   }
 
   onBookSaved() {
@@ -46,8 +51,14 @@ export class OurWritingsPageComponent implements OnInit {
   }
 
   deleteBook(bookId: string) {
-    this.bookService.deleteBook(bookId).subscribe(() => {
-      this.books = this.books.filter((book) => book.id !== bookId);
-    });
+    if (this.isAuthenticated()) {
+      this.bookService.deleteBook(bookId).subscribe(() => {
+        this.books = this.books.filter((book) => book.id !== bookId);
+      });
+    }
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 }

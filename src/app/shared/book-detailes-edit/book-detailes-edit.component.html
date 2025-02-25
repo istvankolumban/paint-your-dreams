@@ -66,7 +66,9 @@
     </div>
 
     <div class="mb-3">
-      <label for="pages" class="form-label">Pages:</label>
+      <label for="pages" class="form-label"
+        >Pages: <span class="text-danger">*</span></label
+      >
       <div formArrayName="pages">
         <div
           *ngFor="let page of pages.controls; let i = index"
@@ -77,10 +79,19 @@
             <i class="bi bi-trash"></i>
           </button>
         </div>
+        <div *ngFor="let page of bookForm.get('pages')?.value" class="p-1">
+          <img [src]="page.url" class="img-fluid" alt="Page Image" />
+        </div>
       </div>
       <app-asset-selector
         (assetSelected)="onPageSelected($event)"
       ></app-asset-selector>
+      <div
+        *ngIf="bookForm.get('pages')?.invalid && bookForm.get('pages')?.touched"
+        class="text-danger"
+      >
+        At least 4 pages are required.
+      </div>
     </div>
 
     <div class="d-flex justify-content-between">
