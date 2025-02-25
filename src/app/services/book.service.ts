@@ -27,6 +27,7 @@ import { AuthService } from '../auth/auth.service';
 export class BookService {
   firestore = inject(Firestore);
   private readonly COLLECTION_NAME = 'books';
+  private booksCount = 0;
 
   constructor(private authService: AuthService) {}
 
@@ -45,6 +46,9 @@ export class BookService {
 
         return of(books).pipe(
           map((books) => {
+            // Order books by book.order
+            books.sort((a, b) => a.order - b.order);
+            this.booksCount = books.length;
             this.booksSubject.next(books);
           })
         );
@@ -66,6 +70,7 @@ export class BookService {
   ): Observable<DocumentReference<DocumentData>> {
     if (this.authService.isAuthenticated()) {
       const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
+      book = { ...book, order: this.booksCount };
       return from(addDoc(itemCollection, { ...book })).pipe(
         switchMap((docRef) =>
           this.fetchBooksObservable().pipe(map(() => docRef))

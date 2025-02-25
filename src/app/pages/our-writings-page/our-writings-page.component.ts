@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BookDetailsModel } from '../../shared/book-details/book/book.types';
 import { BookService } from '../../services/book.service';
 import { AuthService } from '../../auth/auth.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-our-writings-page',
@@ -15,6 +16,7 @@ export class OurWritingsPageComponent implements OnInit {
   isEditing = false;
   newBook: BookDetailsModel | null = null;
   editedBook: BookDetailsModel | null = null;
+  isChangingOrder = false;
 
   constructor(private bookService: BookService, private authService: AuthService) {}
 
@@ -31,7 +33,7 @@ export class OurWritingsPageComponent implements OnInit {
   createBook() {
     if (this.isAuthenticated()) {
       this.isCreating = true;
-      this.newBook = { id: '', title: '', description: '', attachments: [], pages: [] };
+      this.newBook = { id: '', title: '', description: '', attachments: [], pages: [], order: 0 };
     }
   }
 
@@ -54,11 +56,53 @@ export class OurWritingsPageComponent implements OnInit {
     if (this.isAuthenticated()) {
       this.bookService.deleteBook(bookId).subscribe(() => {
         this.books = this.books.filter((book) => book.id !== bookId);
+        this.updateBookOrders();
+        this.saveOrder();
       });
     }
   }
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
+  }
+
+  startChangingOrder() {
+    this.isChangingOrder = true;
+  }
+
+  saveOrder() {
+    const updateObservables = this.books.map((book, index) => {
+      book.order = index;
+      return this.bookService.updateBook(book.id, book);
+    });
+
+    forkJoin(updateObservables).subscribe(() => {
+      this.isChangingOrder = false;
+      this.loadBooks();
+    });
+  }
+
+  moveUp(index: number) {
+    if (index > 0) {
+      const temp = this.books[index];
+      this.books[index] = this.books[index - 1];
+      this.books[index - 1] = temp;
+      this.updateBookOrders();
+    }
+  }
+
+  moveDown(index: number) {
+    if (index < this.books.length - 1) {
+      const temp = this.books[index];
+      this.books[index] = this.books[index + 1];
+      this.books[index + 1] = temp;
+      this.updateBookOrders();
+    }
+  }
+
+  updateBookOrders() {
+    this.books.forEach((book, index) => {
+      book.order = index;
+    });
   }
 }

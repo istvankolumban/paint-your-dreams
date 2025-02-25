@@ -36,6 +36,7 @@ export interface BookDetailsModel {
   backgroundColor?: string;
   attachments: Array<Asset>;
   pages: Array<Asset>;
+  order: number;
 }
 
 export interface Attachment {

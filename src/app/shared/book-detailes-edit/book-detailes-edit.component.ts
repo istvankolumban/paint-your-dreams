@@ -103,6 +103,7 @@ export class BookDetailesEditComponent implements OnInit {
         pages: this.bookForm.value.pages,
         backgroundColor: this.bookForm.value.backgroundColor,
         color: this.bookForm.value.color,
+        order: this.book.order,
       };
 
       if (this.book.id) {
