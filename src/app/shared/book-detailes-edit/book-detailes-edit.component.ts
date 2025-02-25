@@ -25,7 +25,9 @@ export class BookDetailesEditComponent implements OnInit {
       title: ['', Validators.required],
       description: ['', Validators.required],
       attachments: this.fb.array([]),
-      pages: this.fb.array([], [Validators.required, Validators.minLength(4)]), // Require at least 4 pages
+      pages: this.fb.array([], [Validators.required, Validators.minLength(4)]),
+      backgroundColor: [''],
+      color: [''],
     });
   }
 
@@ -76,6 +78,8 @@ export class BookDetailesEditComponent implements OnInit {
       this.bookForm.patchValue({
         title: this.book.title,
         description: this.book.description,
+        backgroundColor: this.book.backgroundColor || '',
+        color: this.book.color || '',
       });
       this.setAttachments(this.book.attachments || []);
       this.setPages(this.book.pages || []);
@@ -97,6 +101,8 @@ export class BookDetailesEditComponent implements OnInit {
         description: this.bookForm.value.description,
         attachments: this.bookForm.value.attachments,
         pages: this.bookForm.value.pages,
+        backgroundColor: this.bookForm.value.backgroundColor,
+        color: this.bookForm.value.color,
       };
 
       if (this.book.id) {

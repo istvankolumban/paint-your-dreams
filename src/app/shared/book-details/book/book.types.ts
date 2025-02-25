@@ -32,6 +32,8 @@ export interface BookDetailsModel {
   id: string;
   title: string;
   description: string;
+  color?: string;
+  backgroundColor?: string;
   attachments: Array<Asset>;
   pages: Array<Asset>;
 }

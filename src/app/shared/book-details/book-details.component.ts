@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Attachment, BookDetailsModel } from './book/book.types';
-import { Observable } from 'rxjs';
 import { Asset } from '../../services/asset-manager.service';
 
 @Component({
@@ -17,21 +16,21 @@ export class BookDetailsComponent implements OnInit {
   showOrderButton = false;
 
   @Input()
-  book$?: Observable<BookDetailsModel>;
+  book?: BookDetailsModel;
 
   attachments?: Array<Attachment>;
   pages?: Array<Asset>;
 
   ngOnInit(): void {
-    this.book$?.subscribe((book) => {
-      this.attachments = book.attachments
-        ? book.attachments.map((attachment) => ({
+    if (this.book) {
+      this.attachments = this.book.attachments
+        ? this.book.attachments.map((attachment) => ({
             title: attachment.name,
             url: attachment.url,
           }))
         : [];
-      this.pages = book.pages ? book.pages : [];
-    });
+      this.pages = this.book.pages ? this.book.pages : [];
+    }
   }
 
   onOrderNowClick() {

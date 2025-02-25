@@ -31,26 +31,19 @@
   </div>
   <div class="row" *ngIf="!isCreating && !isEditing">
     <div class="col col-lg-12 my-2" *ngFor="let book of books">
-      <div class="card mb-3">
-        <div class="card-header d-flex justify-content-between">
-          <h5 class="card-title">{{ book.title }}</h5>
-          <div *ngIf="isAuthenticated()">
-            <button (click)="editBook(book)" class="btn btn btn-primary mb-1">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button
-              (click)="deleteBook(book.id)"
-              class="btn btn-danger mb-1 ms-1"
-            >
-              <i class="bi bi-trash"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-text">{{ book.description }}</p>
-          <app-book [pages]="book.pages"></app-book>
-        </div>
+      <div *ngIf="isAuthenticated()">
+        <button (click)="editBook(book)" class="btn btn btn-primary mb-1">
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button (click)="deleteBook(book.id)" class="btn btn-danger mb-1 ms-1">
+          <i class="bi bi-trash"></i>
+        </button>
       </div>
+      <app-book-details
+        [book]="book"
+        [showAttachments]="true"
+        [showOrderButton]="false"
+      ></app-book-details>
     </div>
   </div>
 </div>

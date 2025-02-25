@@ -1,8 +1,8 @@
-<ng-container *ngIf="book$">
-  <div class="row row-book-details">
-    <div class="col">
-      <h2 class="mb-3">{{ (book$ | async)?.title }}</h2>
-      <p [innerHTML]="(book$ | async)?.description"></p>
+<ng-container *ngIf="book">
+  <div class="row row-book-details mb-4">
+    <div class="col" [ngStyle]="{ 'background-color': book.backgroundColor, 'color': book.color }">
+      <h2 class="mb-3">{{ book.title }}</h2>
+      <p [innerHTML]="book.description"></p>
     </div>
   </div>
   <div class="row" *ngIf="pages">
