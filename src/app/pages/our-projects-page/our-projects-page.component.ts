@@ -12,7 +12,6 @@ import { forkJoin } from 'rxjs';
 export class OurProjectsPageComponent {
   projects: Array<ProjectModel> = [];
   filteredProjects: Array<ProjectModel> = [];
-  isLoggedIn = false;
   isCreating = false;
   isEditing = false;
   newProject: ProjectModel | null = null;
@@ -24,11 +23,14 @@ export class OurProjectsPageComponent {
     private ourProjectsService: OurProjectsService,
     private authService: AuthService
   ) {
-    this.isLoggedIn = this.authService.isAuthenticated();
     this.ourProjectsService.getProjects().subscribe((projects) => {
       this.projects = projects;
       this.filteredProjects = [...this.projects];
     });
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   filterProjectsBySearch(event: Event): void {
@@ -51,10 +53,6 @@ export class OurProjectsPageComponent {
   createProject() {
     this.isCreating = true;
     this.newProject = this.ourProjectsService.createDefaultProject();
-  }
-
-  changeOrder() {
-    
   }
 
   editProject(project: ProjectModel) {
@@ -121,6 +119,7 @@ export class OurProjectsPageComponent {
     this.ourProjectsService.deleteProject(project.id).subscribe(() => {
       this.projects = this.projects.filter((p) => p.id !== project.id);
       this.updateProjectOrders();
+      this.saveOrder();
       this.filteredProjects = [...this.projects];
     });
   }

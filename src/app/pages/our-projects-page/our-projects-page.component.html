@@ -1,7 +1,30 @@
 <div class="container">
   <div class="row">
-    <div class="col">
+    <div class="col my-2 d-flex justify-content-between">
       <h1 class="text-center mb-5 mt-3">Projektek</h1>
+      <div *ngIf="!isCreating && !isEditing && isAuthenticated()">
+        <button
+          *ngIf="!isChangingOrder"
+          class="btn btn-primary mx-1"
+          (click)="createProject()"
+        >
+          <i class="bi bi-plus-lg"></i> Add New Project
+        </button>
+        <button
+          *ngIf="!isChangingOrder"
+          class="btn btn-warning mx-1"
+          (click)="startChangingOrder()"
+        >
+          Change Order
+        </button>
+        <button
+          *ngIf="isChangingOrder"
+          class="btn btn-success mb-4"
+          (click)="saveOrder()"
+        >
+          Save Order
+        </button>
+      </div>
     </div>
   </div>
 
@@ -39,62 +62,20 @@
           />
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="mb-4">
-          <p style="margin-bottom: 8px;">Edit: </p>
-          <button
-            *ngIf="isLoggedIn && !isChangingOrder"
-            class="btn btn-primary mx-1"
-            (click)="createProject()"
-          >
-            Create Project
-          </button>
-          <button
-            *ngIf="isLoggedIn && !isChangingOrder"
-            class="btn btn-secondary mx-1"
-            (click)="startChangingOrder()"
-          >
-            Change Order
-          </button>
-          <button
-            *ngIf="isLoggedIn && isChangingOrder"
-            class="btn btn-success mb-4"
-            (click)="saveOrder()"
-          >
-            Save Order
-          </button>
-        </div>
-      </div>
     </div>
 
     <div class="row d-none d-lg-flex">
       <div class="col-lg-6 mb-3">
         <ng-container *ngFor="let project of filteredProjects; let i = index">
           <ng-container *ngIf="i % 2 !== 1">
-            <app-project-card
-              [project]="project"
-              (editProject)="editProject($event)"
-              (deleteProject)="deleteProject($event)"
-              [isChangingOrder]="isChangingOrder"
-              [maxOrder]="filteredProjects.length - 1"
-              (moveUp)="moveUp(i)"
-              (moveDown)="moveDown(i)"
-            ></app-project-card>
+            <app-project-card [project]="project"></app-project-card>
           </ng-container>
         </ng-container>
       </div>
       <div class="col-lg-6 mb-3">
         <ng-container *ngFor="let project of filteredProjects; let i = index">
           <ng-container *ngIf="i % 2 !== 0">
-            <app-project-card
-              [project]="project"
-              (editProject)="editProject($event)"
-              (deleteProject)="deleteProject($event)"
-              [isChangingOrder]="isChangingOrder"
-              [maxOrder]="filteredProjects.length - 1"
-              (moveUp)="moveUp(i)"
-              (moveDown)="moveDown(i)"
-            ></app-project-card>
+            <app-project-card [project]="project"></app-project-card>
           </ng-container>
         </ng-container>
       </div>
@@ -103,15 +84,35 @@
     <div class="row d-lg-none">
       <div class="col mb-3">
         <ng-container *ngFor="let project of filteredProjects; let i = index">
-          <app-project-card
-            [project]="project"
-            (editProject)="editProject($event)"
-            (deleteProject)="deleteProject($event)"
-            [isChangingOrder]="isChangingOrder"
-            [maxOrder]="filteredProjects.length - 1"
-            (moveUp)="moveUp(i)"
-            (moveDown)="moveDown(i)"
-          ></app-project-card>
+          <div *ngIf="isAuthenticated()">
+            <button
+              (click)="editProject(project)"
+              class="btn btn btn-primary mb-1"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button
+              (click)="deleteProject(project)"
+              class="btn btn-danger mb-1 ms-1"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+            <button
+              *ngIf="isChangingOrder && i > 0"
+              (click)="moveUp(i)"
+              class="btn btn-secondary mb-1 ms-1"
+            >
+              <i class="bi bi-arrow-up"></i>
+            </button>
+            <button
+              *ngIf="isChangingOrder && i < projects.length - 1"
+              (click)="moveDown(i)"
+              class="btn btn-secondary mb-1 ms-1"
+            >
+              <i class="bi bi-arrow-down"></i>
+            </button>
+          </div>
+          <app-project-card [project]="project"></app-project-card>
         </ng-container>
       </div>
     </div>

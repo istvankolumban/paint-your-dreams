@@ -40,6 +40,7 @@ import { AssetManagerComponent } from './pages/asset-manager/asset-manager.compo
 import { SafeUrlPipe } from './pages/asset-manager/safe-url-pipe';
 import { AssetSelectorComponent } from './shared/asset-selector/asset-selector.component';
 import { BookDetailesEditComponent } from './pages/our-writings-page/book-detailes-edit/book-detailes-edit.component';
+import { AdminHeaderComponent } from './shared/admin-header/admin-header.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { BookDetailesEditComponent } from './pages/our-writings-page/book-detail
     SafeUrlPipe,
     AssetSelectorComponent,
     BookDetailesEditComponent,
+    AdminHeaderComponent,
   ],
   imports: [
     BrowserModule,

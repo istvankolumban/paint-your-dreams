@@ -1,0 +1,22 @@
+<div *ngIf="isAuthenticated()">
+  <button (click)="onEdit()" class="btn btn btn-primary mb-1">
+    <i class="bi bi-pencil"></i>
+  </button>
+  <button (click)="onDelete()" class="btn btn-danger mb-1 ms-1">
+    <i class="bi bi-trash"></i>
+  </button>
+  <button
+    *ngIf="index > 0"
+    (click)="onMoveUp()"
+    class="btn btn-secondary mb-1 ms-1"
+  >
+    <i class="bi bi-arrow-up"></i>
+  </button>
+  <button
+    *ngIf="index < maxIndex"
+    (click)="onMoveDown()"
+    class="btn btn-secondary mb-1 ms-1"
+  >
+    <i class="bi bi-arrow-down"></i>
+  </button>
+</div>

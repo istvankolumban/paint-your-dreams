@@ -59,29 +59,12 @@ export class OurWritingsPageComponent implements OnInit {
       this.bookService.deleteBook(bookId).subscribe(() => {
         this.books = this.books.filter((book) => book.id !== bookId);
         this.updateBookOrders();
-        this.saveOrder();
       });
     }
   }
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
-  }
-
-  startChangingOrder() {
-    this.isChangingOrder = true;
-  }
-
-  saveOrder() {
-    const updateObservables = this.books.map((book, index) => {
-      book.order = index;
-      return this.bookService.updateBook(book.id, book);
-    });
-
-    forkJoin(updateObservables).subscribe(() => {
-      this.isChangingOrder = false;
-      this.loadBooks();
-    });
   }
 
   moveUp(index: number) {
@@ -105,6 +88,15 @@ export class OurWritingsPageComponent implements OnInit {
   updateBookOrders() {
     this.books.forEach((book, index) => {
       book.order = index;
+    });
+    const updateObservables = this.books.map((book, index) => {
+      book.order = index;
+      return this.bookService.updateBook(book.id, book);
+    });
+
+    forkJoin(updateObservables).subscribe(() => {
+      this.isChangingOrder = false;
+      this.loadBooks();
     });
   }
 }
