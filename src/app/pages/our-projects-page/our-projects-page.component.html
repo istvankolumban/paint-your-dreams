@@ -16,6 +16,7 @@
         <app-project-card-edit
           [project]="newProject!"
           (projectSaved)="onProjectCreated()"
+          (cancel)="onEditCanceled()"
         ></app-project-card-edit>
       </div>
 
@@ -23,6 +24,7 @@
         <app-project-card-edit
           [project]="editedProject!"
           (projectSaved)="onProjectUpdated()"
+          (cancel)="onEditCanceled()"
         ></app-project-card-edit>
       </div>
     </div>

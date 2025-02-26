@@ -60,15 +60,19 @@ export class OurProjectsPageComponent {
   }
 
   onProjectCreated() {
-    this.isCreating = false;
-    this.newProject = null;
-    this.ourProjectsService.fetchProjects();
+    if (confirm('Are you sure you want to save this project?')) {
+      this.isCreating = false;
+      this.newProject = null;
+      this.ourProjectsService.fetchProjects();
+    }
   }
 
   onProjectUpdated() {
-    this.isEditing = false;
-    this.editedProject = null;
-    this.ourProjectsService.fetchProjects();
+    if (confirm('Are you sure you want to update this project?')) {
+      this.isEditing = false;
+      this.editedProject = null;
+      this.ourProjectsService.fetchProjects();
+    }
   }
 
   moveUp(index: number) {
@@ -105,10 +109,19 @@ export class OurProjectsPageComponent {
   }
 
   deleteProject(id: string) {
-    this.ourProjectsService.deleteProject(id).subscribe(() => {
-      this.projects = this.projects.filter((project) => project.id !== id);
-      this.updateProjectOrders();
-      this.filteredProjects = [...this.projects];
-    });
+    if (confirm('Are you sure you want to delete this project?')) {
+      this.ourProjectsService.deleteProject(id).subscribe(() => {
+        this.projects = this.projects.filter((project) => project.id !== id);
+        this.updateProjectOrders();
+        this.filteredProjects = [...this.projects];
+      });
+    }
+  }
+
+  onEditCanceled() {
+    this.isCreating = false;
+    this.isEditing = false;
+    this.newProject = null;
+    this.editedProject = null;
   }
 }

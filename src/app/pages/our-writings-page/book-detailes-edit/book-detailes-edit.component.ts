@@ -12,6 +12,7 @@ import { AuthService } from '../../../auth/auth.service';
 export class BookDetailesEditComponent implements OnInit {
   @Input() book!: BookDetailsModel;
   @Output() bookSaved = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
   bookForm: FormGroup;
   isValid = true;
 

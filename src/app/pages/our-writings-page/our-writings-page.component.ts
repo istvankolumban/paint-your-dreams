@@ -47,15 +47,20 @@ export class OurWritingsPageComponent implements OnInit {
   }
 
   onBookSaved() {
-    this.isCreating = false;
-    this.isEditing = false;
-    this.newBook = null;
-    this.editedBook = null;
-    this.loadBooks();
+    if (confirm('Are you sure you want to save this book?')) {
+      this.isCreating = false;
+      this.isEditing = false;
+      this.newBook = null;
+      this.editedBook = null;
+      this.loadBooks();
+    }
   }
 
   deleteBook(bookId: string) {
-    if (this.isAuthenticated()) {
+    if (
+      this.isAuthenticated() &&
+      confirm('Are you sure you want to delete this book?')
+    ) {
       this.bookService.deleteBook(bookId).subscribe(() => {
         this.books = this.books.filter((book) => book.id !== bookId);
         this.updateBookOrders();
@@ -98,5 +103,12 @@ export class OurWritingsPageComponent implements OnInit {
       this.isChangingOrder = false;
       this.loadBooks();
     });
+  }
+
+  onEditCanceled() {
+    this.isCreating = false;
+    this.isEditing = false;
+    this.newBook = null;
+    this.editedBook = null;
   }
 }

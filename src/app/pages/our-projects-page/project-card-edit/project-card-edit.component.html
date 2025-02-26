@@ -59,14 +59,13 @@
         Description is required.
       </div>
       <small class="form-text text-muted">
-        Use <b>&lt;p&gt;</b>new paragraph text<b>&lt;/p&gt;</b> for new paragraphs.
+        Use <b>&lt;p&gt;</b>new paragraph text<b>&lt;/p&gt;</b> for new
+        paragraphs.
       </small>
     </div>
 
     <div class="mb-3">
-      <label for="year" class="form-label"
-        >Year:</label
-      >
+      <label for="year" class="form-label">Year:</label>
       <input
         id="year"
         formControlName="year"
@@ -84,9 +83,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="month" class="form-label"
-        >Month:</label
-      >
+      <label for="month" class="form-label">Month:</label>
       <input
         id="month"
         formControlName="month"
@@ -104,9 +101,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="location" class="form-label"
-        >Location:</label
-      >
+      <label for="location" class="form-label">Location:</label>
       <input
         id="location"
         formControlName="location"
@@ -125,9 +120,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="participants" class="form-label"
-        >Participants:</label
-      >
+      <label for="participants" class="form-label">Participants:</label>
       <input
         id="participants"
         formControlName="participants"
@@ -207,11 +200,7 @@
       >
         Save
       </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="projectSaved.emit()"
-      >
+      <button type="button" class="btn btn-secondary" (click)="cancel.emit()">
         Cancel
       </button>
     </div>

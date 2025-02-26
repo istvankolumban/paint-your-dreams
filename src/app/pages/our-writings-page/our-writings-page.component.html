@@ -20,6 +20,7 @@
         *ngIf="newBook"
         [book]="newBook"
         (bookSaved)="onBookSaved()"
+        (cancel)="onEditCanceled()"
       ></app-book-detailes-edit>
     </div>
   </div>
@@ -29,6 +30,7 @@
         *ngIf="editedBook"
         [book]="editedBook"
         (bookSaved)="onBookSaved()"
+        (cancel)="onEditCanceled()"
       ></app-book-detailes-edit>
     </div>
   </div>

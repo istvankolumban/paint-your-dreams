@@ -12,6 +12,7 @@ import { Asset } from '../../../services/asset-manager.service';
 export class ProjectCardEditComponent implements OnInit {
   @Input() project!: ProjectModel;
   @Output() projectSaved = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
   projectForm: FormGroup;
   isValid = true;
 
