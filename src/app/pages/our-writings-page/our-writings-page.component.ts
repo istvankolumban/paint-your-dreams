@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BookDetailsModel, OurWritingsService } from './our-writings.service';
+import {
+  BookDetailsModel,
+  OurWritingsService,
+  PublicationDetailsModel,
+} from './our-writings.service';
 import { AuthService } from '../../auth/auth.service';
 import { forkJoin } from 'rxjs';
 
@@ -11,19 +15,27 @@ import { forkJoin } from 'rxjs';
 })
 export class OurWritingsPageComponent implements OnInit {
   books: BookDetailsModel[] = [];
-  isCreating = false;
-  isEditing = false;
+  publications: PublicationDetailsModel[] = [];
+  isCreatingBook = false;
+  isEditingBook = false;
   newBook: BookDetailsModel | null = null;
   editedBook: BookDetailsModel | null = null;
-  isChangingOrder = false;
+  isEditingPublication = false;
+  editedPublication: PublicationDetailsModel | null = null;
 
   constructor(
     private bookService: OurWritingsService,
+    private publicationService: OurWritingsService,
     private authService: AuthService
   ) {}
 
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
   ngOnInit() {
     this.loadBooks();
+    this.loadPublications();
   }
 
   loadBooks() {
@@ -34,22 +46,22 @@ export class OurWritingsPageComponent implements OnInit {
 
   createBook() {
     if (this.isAuthenticated()) {
-      this.isCreating = true;
+      this.isCreatingBook = true;
       this.newBook = this.bookService.createDefaultBook();
     }
   }
 
   editBook(book: BookDetailsModel) {
     if (this.isAuthenticated()) {
-      this.isEditing = true;
+      this.isEditingBook = true;
       this.editedBook = book;
     }
   }
 
   onBookSaved() {
     if (confirm('Are you sure you want to save this book?')) {
-      this.isCreating = false;
-      this.isEditing = false;
+      this.isCreatingBook = false;
+      this.isEditingBook = false;
       this.newBook = null;
       this.editedBook = null;
       this.loadBooks();
@@ -68,11 +80,7 @@ export class OurWritingsPageComponent implements OnInit {
     }
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
-  moveUp(index: number) {
+  moveUpBook(index: number) {
     if (index > 0) {
       const temp = this.books[index];
       this.books[index] = this.books[index - 1];
@@ -81,7 +89,7 @@ export class OurWritingsPageComponent implements OnInit {
     }
   }
 
-  moveDown(index: number) {
+  moveDownBook(index: number) {
     if (index < this.books.length - 1) {
       const temp = this.books[index];
       this.books[index] = this.books[index + 1];
@@ -100,22 +108,51 @@ export class OurWritingsPageComponent implements OnInit {
     });
 
     forkJoin(updateObservables).subscribe(() => {
-      this.isChangingOrder = false;
       this.loadBooks();
     });
   }
 
-  onEditCanceled() {
-    this.isCreating = false;
-    this.isEditing = false;
+  onEditBookCanceled() {
+    this.isCreatingBook = false;
+    this.isEditingBook = false;
     this.newBook = null;
     this.editedBook = null;
   }
 
-  onVisible(book: BookDetailsModel) {
+  onVisibleBook(book: BookDetailsModel) {
     book.visible = !book.visible;
     this.bookService.updateBook(book.id, book).subscribe(() => {
       this.loadBooks();
     });
+  }
+
+  loadPublications() {
+    this.publicationService.getPublications().subscribe((publications) => {
+      this.publications = publications;
+    });
+  }
+
+  onEditPublication(publication: PublicationDetailsModel) {
+    if (this.isAuthenticated()) {
+      this.isEditingPublication = true;
+      this.editedPublication = publication;
+    }
+  }
+
+  onSavePublication(publication: PublicationDetailsModel) {
+    if (this.isAuthenticated()) {
+      this.publicationService
+        .updatePublication(publication.id, publication)
+        .subscribe(() => {
+          this.isEditingPublication = false;
+          this.editedPublication = null;
+          this.loadPublications();
+        });
+    }
+  }
+
+  onCancelPublication() {
+    this.isEditingPublication = false;
+    this.editedPublication = null;
   }
 }

@@ -36,19 +36,37 @@ export interface BookDetailsModel {
   visible: boolean;
 }
 
+export interface PublicationDetailsModel {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  attachment: Asset;
+  authors: Array<string>;
+  order: number;
+  visible: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OurWritingsService {
   firestore = inject(Firestore);
-  private readonly COLLECTION_NAME = 'books';
+  private readonly BOOK_COLLECTION = 'books';
+  private readonly PUBLICATION_COLLECTION = 'publications';
+
+  private booksSubject = new BehaviorSubject<BookDetailsModel[] | null>(null);
+  private books$ = this.booksSubject.asObservable();
   private booksCount = 0;
+
+  private publicationsSubject = new BehaviorSubject<
+    PublicationDetailsModel[] | null
+  >(null);
+  private publications$ = this.publicationsSubject.asObservable();
+  private publicationsCount = 0;
 
   constructor(private authService: AuthService) {}
 
-  private booksSubject = new BehaviorSubject<BookDetailsModel[] | null>(null);
-  books$ = this.booksSubject.asObservable();
-
   private fetchBooksObservable(): Observable<void> {
-    const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
+    const itemCollection = collection(this.firestore, this.BOOK_COLLECTION);
     return from(getDocs(itemCollection)).pipe(
       switchMap((querySnapshot) => {
         const books: BookDetailsModel[] = [];
@@ -82,7 +100,7 @@ export class OurWritingsService {
     book: Omit<BookDetailsModel, 'id'>
   ): Observable<DocumentReference<DocumentData>> {
     if (this.authService.isAuthenticated()) {
-      const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
+      const itemCollection = collection(this.firestore, this.BOOK_COLLECTION);
       book = { ...book, order: this.booksCount };
       return from(addDoc(itemCollection, { ...book })).pipe(
         switchMap((docRef) =>
@@ -98,7 +116,7 @@ export class OurWritingsService {
     if (this.authService.isAuthenticated()) {
       const bookDocRef = doc(
         this.firestore,
-        `${this.COLLECTION_NAME}/${bookId}`
+        `${this.BOOK_COLLECTION}/${bookId}`
       );
       return from(updateDoc(bookDocRef, { ...book })).pipe(
         switchMap(() => this.fetchBooksObservable())
@@ -112,7 +130,7 @@ export class OurWritingsService {
     if (this.authService.isAuthenticated()) {
       const bookDocRef = doc(
         this.firestore,
-        `${this.COLLECTION_NAME}/${bookId}`
+        `${this.BOOK_COLLECTION}/${bookId}`
       );
       return from(deleteDoc(bookDocRef)).pipe(
         switchMap(() => this.fetchBooksObservable())
@@ -140,6 +158,106 @@ export class OurWritingsService {
       pages: [],
       order: -1,
       forSale: false,
+      visible: false,
+    };
+  }
+
+  private fetchPublicationsObservable(): Observable<void> {
+    const itemCollection = collection(
+      this.firestore,
+      this.PUBLICATION_COLLECTION
+    );
+    return from(getDocs(itemCollection)).pipe(
+      switchMap((querySnapshot) => {
+        const publications: PublicationDetailsModel[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data() as Omit<PublicationDetailsModel, 'id'>;
+          publications.push({ id: doc.id, ...data });
+        });
+
+        return of(publications).pipe(
+          map((publications) => {
+            // Order publications by publication.order
+            publications.sort((a, b) => a.order - b.order);
+            this.publicationsCount = publications.length;
+            this.publicationsSubject.next(publications);
+          })
+        );
+      })
+    );
+  }
+
+  getPublications(): Observable<PublicationDetailsModel[]> {
+    if (!this.publicationsSubject.value) {
+      this.fetchPublicationsObservable().subscribe();
+    }
+    return this.publications$.pipe(
+      filter((books): books is PublicationDetailsModel[] => books !== null)
+    );
+  }
+
+  createPublication(
+    publication: Omit<PublicationDetailsModel, 'id'>
+  ): Observable<DocumentReference<DocumentData>> {
+    if (this.authService.isAuthenticated()) {
+      const itemCollection = collection(
+        this.firestore,
+        this.PUBLICATION_COLLECTION
+      );
+      publication = { ...publication, order: this.publicationsCount };
+      return from(addDoc(itemCollection, { ...publication })).pipe(
+        switchMap((docRef) =>
+          this.fetchPublicationsObservable().pipe(map(() => docRef))
+        )
+      );
+    } else {
+      return throwError(() => new Error('User not authenticated'));
+    }
+  }
+
+  updatePublication(
+    publicationId: string,
+    publication: PublicationDetailsModel
+  ): Observable<void> {
+    if (this.authService.isAuthenticated()) {
+      const publicationDocRef = doc(
+        this.firestore,
+        `${this.PUBLICATION_COLLECTION}/${publicationId}`
+      );
+      return from(updateDoc(publicationDocRef, { ...publication })).pipe(
+        switchMap(() => this.fetchPublicationsObservable())
+      );
+    } else {
+      return throwError(() => new Error('User not authenticated'));
+    }
+  }
+
+  deletePublication(publicationId: string): Observable<void> {
+    if (this.authService.isAuthenticated()) {
+      const publicationDocRef = doc(
+        this.firestore,
+        `${this.PUBLICATION_COLLECTION}/${publicationId}`
+      );
+      return from(deleteDoc(publicationDocRef)).pipe(
+        switchMap(() => this.fetchPublicationsObservable())
+      );
+    } else {
+      return throwError(() => new Error('User not authenticated'));
+    }
+  }
+
+  createDefaultPublication(): PublicationDetailsModel {
+    return {
+      id: '',
+      title: '',
+      description: '',
+      date: '',
+      attachment: {
+        name: '',
+        url: '',
+      },
+      authors: [],
+      order: -1,
       visible: false,
     };
   }

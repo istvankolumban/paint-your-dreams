@@ -2,55 +2,78 @@
   <div class="row">
     <div class="col my-2 d-flex justify-content-between">
       <h1 class="text-center mb-5 mt-3">Könyvek</h1>
-      <div *ngIf="!isCreating && !isEditing && isAuthenticated()">
-        <button
-          *ngIf="!isChangingOrder"
-          (click)="createBook()"
-          class="btn btn-primary"
-        >
+      <div *ngIf="!isCreatingBook && !isEditingBook && isAuthenticated()">
+        <button (click)="createBook()" class="btn btn-primary">
           <i class="bi bi-plus-lg"></i> Add New Book
         </button>
       </div>
     </div>
   </div>
 
-  <div class="row" *ngIf="isCreating">
+  <div class="row" *ngIf="isCreatingBook">
     <div class="col my-2">
       <app-book-details-edit
         *ngIf="newBook"
         [book]="newBook"
         (bookSaved)="onBookSaved()"
-        (cancel)="onEditCanceled()"
+        (cancel)="onEditBookCanceled()"
       ></app-book-details-edit>
     </div>
   </div>
-  <div class="row" *ngIf="isEditing">
+  <div class="row" *ngIf="isEditingBook">
     <div class="col my-2">
       <app-book-details-edit
         *ngIf="editedBook"
         [book]="editedBook"
         (bookSaved)="onBookSaved()"
-        (cancel)="onEditCanceled()"
+        (cancel)="onEditBookCanceled()"
       ></app-book-details-edit>
     </div>
   </div>
 
-  <div class="row" *ngIf="!isCreating && !isEditing">
+  <div class="row" *ngIf="!isCreatingBook && !isEditingBook">
     <div class="col col-lg-12 my-2" *ngFor="let book of books; let i = index">
       <app-admin-header
         [index]="i"
         [maxIndex]="books.length - 1"
         (edit)="editBook(book)"
         (delete)="deleteBook(book.id)"
-        (moveUp)="moveUp(i)"
-        (moveDown)="moveDown(i)"
+        (moveUp)="moveUpBook(i)"
+        (moveDown)="moveDownBook(i)"
         [isVisible]="book.visible"
-        (visible)="onVisible(book)"
+        (visible)="onVisibleBook(book)"
       ></app-admin-header>
       <app-book-details
         [book]="book"
         [showAttachments]="true"
       ></app-book-details>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col my-2 d-flex justify-content-between">
+      <h1 class="text-center mb-5 mt-3">Publikációk</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div
+      class="col col-lg-12 my-2"
+      *ngFor="let publication of publications; let j = index"
+    >
+      <app-admin-header
+        [index]="j"
+        [maxIndex]="publications.length - 1"
+        [isVisible]="publication.visible"
+        (edit)="onEditPublication(publication)"
+      ></app-admin-header>
+      <app-publication-details
+        [publication]="publication"
+        [editMode]="publication === editedPublication"
+        (save)="onSavePublication($event)"
+        (cancel)="onCancelPublication()"
+      ></app-publication-details>
     </div>
   </div>
 </div>

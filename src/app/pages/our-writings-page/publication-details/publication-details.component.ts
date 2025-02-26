@@ -1,0 +1,35 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { PublicationDetailsModel } from '../our-writings.service';
+
+@Component({
+  selector: 'app-publication-details',
+  templateUrl: './publication-details.component.html',
+  styleUrls: ['./publication-details.component.scss'],
+})
+export class PublicationDetailsComponent {
+  @Input()
+  publication?: PublicationDetailsModel;
+  @Input()
+  editMode = false;
+
+  @Output()
+  save = new EventEmitter<PublicationDetailsModel>();
+
+  @Output()
+  cancel = new EventEmitter<void>();
+
+  onEdit() {
+    this.editMode = true;
+  }
+
+  onSave() {
+    if (this.publication) {
+      this.save.emit(this.publication);
+      this.editMode = false;
+    }
+  }
+
+  onCancel() {
+    this.editMode = false;
+  }
+}
