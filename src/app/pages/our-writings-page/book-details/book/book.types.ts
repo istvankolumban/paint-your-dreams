@@ -1,5 +1,3 @@
-import { Asset } from '../../../services/asset-manager.service';
-
 export interface Cover {
   front: BookPageSide;
   back: BookPageSide;
@@ -26,18 +24,6 @@ export interface Book {
   pageHeight?: number;
   startPageType?: PageType;
   endPageType?: PageType;
-}
-
-export interface BookDetailsModel {
-  id: string;
-  title: string;
-  description: string;
-  color?: string;
-  backgroundColor?: string;
-  attachments: Array<Asset>;
-  pages: Array<Asset>;
-  order: number;
-  forSale: boolean;
 }
 
 export interface Attachment {

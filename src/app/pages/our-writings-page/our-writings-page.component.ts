@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BookDetailsModel } from '../../shared/book-details/book/book.types';
-import { BookService } from '../../services/book.service';
+import { BookDetailsModel, OurWritingsService } from './our-writings.service';
 import { AuthService } from '../../auth/auth.service';
 import { forkJoin } from 'rxjs';
 
@@ -19,7 +18,7 @@ export class OurWritingsPageComponent implements OnInit {
   isChangingOrder = false;
 
   constructor(
-    private bookService: BookService,
+    private bookService: OurWritingsService,
     private authService: AuthService
   ) {}
 

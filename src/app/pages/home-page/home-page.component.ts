@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { BookDetailsModel } from '../../shared/book-details/book/book.types';
-import { BookService } from '../../services/book.service';
+import {
+  BookDetailsModel,
+  OurWritingsService,
+} from '../our-writings-page/our-writings.service';
 
 @Component({
   selector: 'app-home-page',
@@ -14,7 +16,7 @@ export class HomePageComponent {
 
   milyenSzinLennelBook: BookDetailsModel | undefined = undefined;
 
-  constructor(private bookService: BookService) {
+  constructor(private bookService: OurWritingsService) {
     this.bookService.getMilyenSzinLennelBook().subscribe((book) => {
       this.milyenSzinLennelBook = book;
     });

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Attachment, BookDetailsModel } from './book/book.types';
-import { Asset } from '../../services/asset-manager.service';
+import { Attachment } from './book/book.types';
+import { Asset } from '../../../services/asset-manager.service';
+import { BookDetailsModel } from '../our-writings.service';
 
 @Component({
   selector: 'app-book-details',
@@ -21,7 +22,7 @@ export class BookDetailsComponent implements OnInit {
   ngOnInit(): void {
     if (this.book) {
       this.attachments = this.book.attachments
-        ? this.book.attachments.map((attachment) => ({
+        ? this.book.attachments.map((attachment: Asset) => ({
             title: attachment.name,
             url: attachment.url,
           }))

@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Book, PageType } from './book.types';
-import { Asset } from '../../../services/asset-manager.service';
+import { Asset } from '../../../../services/asset-manager.service';
 
 @Component({
   selector: 'app-book',

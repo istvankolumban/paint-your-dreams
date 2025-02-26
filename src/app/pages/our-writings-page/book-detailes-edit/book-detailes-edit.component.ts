@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { BookDetailsModel } from '../book-details/book/book.types';
-import { BookService } from '../../services/book.service';
-import { Asset } from '../../services/asset-manager.service';
-import { AuthService } from '../../auth/auth.service';
+import { BookDetailsModel, OurWritingsService } from '../our-writings.service';
+import { Asset } from '../../../services/asset-manager.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-book-detailes-edit',
@@ -18,7 +17,7 @@ export class BookDetailesEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private bookService: BookService,
+    private bookService: OurWritingsService,
     private authService: AuthService
   ) {
     this.bookForm = this.fb.group({

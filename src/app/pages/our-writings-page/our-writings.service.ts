@@ -10,7 +10,6 @@ import {
   DocumentReference,
   DocumentData,
 } from '@angular/fire/firestore';
-import { BookDetailsModel } from '../shared/book-details/book/book.types';
 import {
   BehaviorSubject,
   filter,
@@ -21,10 +20,23 @@ import {
   switchMap,
   throwError,
 } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
+import { Asset } from '../../services/asset-manager.service';
+
+export interface BookDetailsModel {
+  id: string;
+  title: string;
+  description: string;
+  color?: string;
+  backgroundColor?: string;
+  attachments: Array<Asset>;
+  pages: Array<Asset>;
+  order: number;
+  forSale: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
-export class BookService {
+export class OurWritingsService {
   firestore = inject(Firestore);
   private readonly COLLECTION_NAME = 'books';
   private booksCount = 0;

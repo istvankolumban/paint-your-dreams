@@ -20,13 +20,13 @@ import { OurWritingsPageComponent } from './pages/our-writings-page/our-writings
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 
-import { BookComponent } from './shared/book-details/book/book.component';
+import { BookComponent } from './pages/our-writings-page/book-details/book/book.component';
 import { FlipBookModule } from '@labsforge/flipbook';
 import { CarouselComponent } from './shared/carousel/carousel.component';
 import { OurServicesComponent } from './shared/our-services/our-services.component';
 import { TestimonialsComponent } from './shared/testimonials/testimonials.component';
-import { BookDetailsComponent } from './shared/book-details/book-details.component';
-import { BookService } from './services/book.service';
+import { BookDetailsComponent } from './pages/our-writings-page/book-details/book-details.component';
+import { OurWritingsService } from './pages/our-writings-page/our-writings.service';
 import { OrderModalComponent } from './order-modal/order-modal.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AlertComponent } from './shared/alert/alert.component';
@@ -39,7 +39,7 @@ import { ProjectCardEditComponent } from './pages/our-projects-page/project-card
 import { AssetManagerComponent } from './pages/asset-manager/asset-manager.component';
 import { SafeUrlPipe } from './pages/asset-manager/safe-url-pipe';
 import { AssetSelectorComponent } from './shared/asset-selector/asset-selector.component';
-import { BookDetailesEditComponent } from './shared/book-detailes-edit/book-detailes-edit.component';
+import { BookDetailesEditComponent } from './pages/our-writings-page/book-detailes-edit/book-detailes-edit.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +74,7 @@ import { BookDetailesEditComponent } from './shared/book-detailes-edit/book-deta
     AsyncPipe,
   ],
   providers: [
-    BookService,
+    OurWritingsService,
     AuthService,
     OurProjectsService,
     importProvidersFrom(
