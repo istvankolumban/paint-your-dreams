@@ -13,9 +13,6 @@ export class BookDetailsComponent implements OnInit {
   showAttachments = false;
 
   @Input()
-  showOrderButton = false;
-
-  @Input()
   book?: BookDetailsModel;
 
   attachments?: Array<Attachment>;

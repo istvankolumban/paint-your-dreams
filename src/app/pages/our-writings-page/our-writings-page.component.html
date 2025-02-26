@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col my-2 d-flex justify-content-between">
-      <h1 class="text-center">Books</h1>
+      <h1 class="text-center">Könyvek</h1>
       <div>
         <button
           *ngIf="isAuthenticated()"
@@ -72,7 +72,6 @@
       <app-book-details
         [book]="book"
         [showAttachments]="true"
-        [showOrderButton]="false"
       ></app-book-details>
     </div>
   </div>

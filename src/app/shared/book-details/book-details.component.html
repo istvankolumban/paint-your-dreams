@@ -11,7 +11,7 @@
     </div>
   </div>
   <div *ngIf="showAttachments && attachments?.length" class="row pdfRow mt-5">
-    <h2>Letölthető mellékletek</h2>
+    <h3>Letölthető mellékletek</h3>
     <div class="col-md-6" *ngFor="let attachment of attachments">
       <ul class="list-group">
         <li class="list-group-item">
@@ -22,7 +22,7 @@
       </ul>
     </div>
   </div>
-  <div *ngIf="showOrderButton" class="row" id="orderNow">
+  <div *ngIf="book.forSale" class="row" id="orderNow">
     <div class="text-center mt-4">
       <button
         id="orderNowButton"

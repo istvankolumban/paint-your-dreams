@@ -18,7 +18,10 @@ export class OurWritingsPageComponent implements OnInit {
   editedBook: BookDetailsModel | null = null;
   isChangingOrder = false;
 
-  constructor(private bookService: BookService, private authService: AuthService) {}
+  constructor(
+    private bookService: BookService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.loadBooks();
@@ -33,7 +36,7 @@ export class OurWritingsPageComponent implements OnInit {
   createBook() {
     if (this.isAuthenticated()) {
       this.isCreating = true;
-      this.newBook = { id: '', title: '', description: '', attachments: [], pages: [], order: 0 };
+      this.newBook = this.bookService.createDefaultBook();
     }
   }
 

@@ -28,6 +28,7 @@ export class BookDetailesEditComponent implements OnInit {
       pages: this.fb.array([], [Validators.required, Validators.minLength(4)]),
       backgroundColor: [''],
       color: [''],
+      forSale: [false],
     });
   }
 
@@ -80,6 +81,7 @@ export class BookDetailesEditComponent implements OnInit {
         description: this.book.description,
         backgroundColor: this.book.backgroundColor || '',
         color: this.book.color || '',
+        forSale: this.book.forSale || false,
       });
       this.setAttachments(this.book.attachments || []);
       this.setPages(this.book.pages || []);
@@ -104,6 +106,7 @@ export class BookDetailesEditComponent implements OnInit {
         backgroundColor: this.bookForm.value.backgroundColor,
         color: this.bookForm.value.color,
         order: this.book.order,
+        forSale: this.bookForm.value.forSale,
       };
 
       if (this.book.id) {

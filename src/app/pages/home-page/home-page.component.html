@@ -14,9 +14,9 @@
 <div class="container mb-5 app-testimonials-container">
   <app-testimonials></app-testimonials>
 </div>
-<div class="container mb-5 app-book-details-container">
-  <app-book-details
-    [book]="milyenSzinLennelBook"
-    [showOrderButton]="true"
-  ></app-book-details>
+<div
+  *ngIf="milyenSzinLennelBook"
+  class="container mb-5 app-book-details-container"
+>
+  <app-book-details [book]="milyenSzinLennelBook"></app-book-details>
 </div>

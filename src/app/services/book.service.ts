@@ -109,7 +109,24 @@ export class BookService {
     }
   }
 
-  getMilyenSzinLennelBook(): Observable<BookDetailsModel> {
-    return this.getBooks().pipe(map((books) => books[0]));
+  getMilyenSzinLennelBook(): Observable<BookDetailsModel | undefined> {
+    const bookId = '8QDNH2Y627lm30R9YLyy';
+    return this.getBooks().pipe(
+      map((books) => books.find((book) => book.id === bookId))
+    );
+  }
+
+  createDefaultBook(): BookDetailsModel {
+    return {
+      id: '',
+      title: '',
+      description: '',
+      backgroundColor: '',
+      color: '',
+      attachments: [],
+      pages: [],
+      order: -1,
+      forSale: false,
+    };
   }
 }

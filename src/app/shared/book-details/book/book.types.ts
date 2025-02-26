@@ -37,6 +37,7 @@ export interface BookDetailsModel {
   attachments: Array<Asset>;
   pages: Array<Asset>;
   order: number;
+  forSale: boolean;
 }
 
 export interface Attachment {
