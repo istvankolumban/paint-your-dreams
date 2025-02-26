@@ -16,7 +16,6 @@ export class OurProjectsPageComponent {
   isEditing = false;
   newProject: ProjectModel | null = null;
   editedProject: ProjectModel | null = null;
-  isChangingOrder = false;
   searchValue = '';
 
   constructor(
@@ -72,24 +71,6 @@ export class OurProjectsPageComponent {
     this.ourProjectsService.fetchProjects();
   }
 
-  startChangingOrder() {
-    this.isChangingOrder = true;
-    this.searchValue = '';
-    this.filteredProjects = [...this.projects];
-  }
-
-  saveOrder() {
-    const updateObservables = this.projects.map((project, index) => {
-      project.order = index;
-      return this.ourProjectsService.updateProject(project.id, project);
-    });
-
-    forkJoin(updateObservables).subscribe(() => {
-      this.isChangingOrder = false;
-      this.ourProjectsService.fetchProjects();
-    });
-  }
-
   moveUp(index: number) {
     if (index > 0) {
       const temp = this.projects[index];
@@ -113,13 +94,20 @@ export class OurProjectsPageComponent {
       project.order = index;
     });
     this.filteredProjects = [...this.projects];
+    const updateObservables = this.projects.map((project, index) => {
+      project.order = index;
+      return this.ourProjectsService.updateProject(project.id, project);
+    });
+
+    forkJoin(updateObservables).subscribe(() => {
+      this.ourProjectsService.fetchProjects();
+    });
   }
 
-  deleteProject(project: ProjectModel) {
-    this.ourProjectsService.deleteProject(project.id).subscribe(() => {
-      this.projects = this.projects.filter((p) => p.id !== project.id);
+  deleteProject(id: string) {
+    this.ourProjectsService.deleteProject(id).subscribe(() => {
+      this.projects = this.projects.filter((project) => project.id !== id);
       this.updateProjectOrders();
-      this.saveOrder();
       this.filteredProjects = [...this.projects];
     });
   }
