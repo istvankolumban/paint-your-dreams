@@ -14,7 +14,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { OurProjectsPageComponent } from './pages/our-projects-page/our-projects-page.component';
-import { ProjectCardComponent } from './pages/our-projects-page/project-card/project-card.component';
+import { ProjectDetailsComponent } from './pages/our-projects-page/project-details/project-details.component';
 import { OurWritingsPageComponent } from './pages/our-writings-page/our-writings-page.component';
 
 import { HeaderComponent } from './header/header.component';
@@ -35,11 +35,11 @@ import { AuthService } from './auth/auth.service';
 import { AsyncPipe } from '@angular/common';
 import { environment } from '../environments/environment';
 import { OurProjectsService } from './pages/our-projects-page/our-projects.service';
-import { ProjectCardEditComponent } from './pages/our-projects-page/project-card-edit/project-card-edit.component';
+import { ProjectDetailsEditComponent } from './pages/our-projects-page/project-details-edit/project-details-edit.component';
 import { AssetManagerComponent } from './pages/asset-manager/asset-manager.component';
 import { SafeUrlPipe } from './pages/asset-manager/safe-url-pipe';
 import { AssetSelectorComponent } from './shared/asset-selector/asset-selector.component';
-import { BookDetailesEditComponent } from './pages/our-writings-page/book-detailes-edit/book-detailes-edit.component';
+import { BookDetailsEditComponent } from './pages/our-writings-page/book-details-edit/book-details-edit.component';
 import { AdminHeaderComponent } from './shared/admin-header/admin-header.component';
 
 @NgModule({
@@ -55,16 +55,16 @@ import { AdminHeaderComponent } from './shared/admin-header/admin-header.compone
     OurServicesComponent,
     TestimonialsComponent,
     BookDetailsComponent,
-    ProjectCardComponent,
+    ProjectDetailsComponent,
     OrderModalComponent,
     LoadingSpinnerComponent,
     AlertComponent,
     AuthComponent,
-    ProjectCardEditComponent,
+    ProjectDetailsEditComponent,
     AssetManagerComponent,
     SafeUrlPipe,
     AssetSelectorComponent,
-    BookDetailesEditComponent,
+    BookDetailsEditComponent,
     AdminHeaderComponent,
   ],
   imports: [

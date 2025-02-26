@@ -5,11 +5,11 @@ import { Asset } from '../../../services/asset-manager.service';
 import { AuthService } from '../../../auth/auth.service';
 
 @Component({
-  selector: 'app-book-detailes-edit',
-  templateUrl: './book-detailes-edit.component.html',
-  styleUrls: ['./book-detailes-edit.component.scss'],
+  selector: 'app-book-details-edit',
+  templateUrl: './book-details-edit.component.html',
+  styleUrls: ['./book-details-edit.component.scss'],
 })
-export class BookDetailesEditComponent implements OnInit {
+export class BookDetailsEditComponent implements OnInit {
   @Input() book!: BookDetailsModel;
   @Output() bookSaved = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();

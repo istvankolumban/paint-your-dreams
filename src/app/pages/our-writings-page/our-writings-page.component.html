@@ -16,22 +16,22 @@
 
   <div class="row" *ngIf="isCreating">
     <div class="col my-2">
-      <app-book-detailes-edit
+      <app-book-details-edit
         *ngIf="newBook"
         [book]="newBook"
         (bookSaved)="onBookSaved()"
         (cancel)="onEditCanceled()"
-      ></app-book-detailes-edit>
+      ></app-book-details-edit>
     </div>
   </div>
   <div class="row" *ngIf="isEditing">
     <div class="col my-2">
-      <app-book-detailes-edit
+      <app-book-details-edit
         *ngIf="editedBook"
         [book]="editedBook"
         (bookSaved)="onBookSaved()"
         (cancel)="onEditCanceled()"
-      ></app-book-detailes-edit>
+      ></app-book-details-edit>
     </div>
   </div>
 

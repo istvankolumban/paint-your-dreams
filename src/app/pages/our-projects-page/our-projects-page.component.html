@@ -13,19 +13,19 @@
   <div class="row">
     <div class="col">
       <div *ngIf="isCreating">
-        <app-project-card-edit
+        <app-project-details-edit
           [project]="newProject!"
           (projectSaved)="onProjectCreated()"
           (cancel)="onEditCanceled()"
-        ></app-project-card-edit>
+        ></app-project-details-edit>
       </div>
 
       <div *ngIf="isEditing">
-        <app-project-card-edit
+        <app-project-details-edit
           [project]="editedProject!"
           (projectSaved)="onProjectUpdated()"
           (cancel)="onEditCanceled()"
-        ></app-project-card-edit>
+        ></app-project-details-edit>
       </div>
     </div>
   </div>
@@ -59,7 +59,7 @@
               (moveUp)="moveUp(i)"
               (moveDown)="moveDown(i)"
             ></app-admin-header>
-            <app-project-card [project]="project"></app-project-card>
+            <app-project-details [project]="project"></app-project-details>
           </ng-container>
         </ng-container>
       </div>
@@ -74,7 +74,7 @@
               (moveUp)="moveUp(i)"
               (moveDown)="moveDown(i)"
             ></app-admin-header>
-            <app-project-card [project]="project"></app-project-card>
+            <app-project-details [project]="project"></app-project-details>
           </ng-container>
         </ng-container>
       </div>
@@ -91,7 +91,7 @@
             (moveUp)="moveUp(i)"
             (moveDown)="moveDown(i)"
           ></app-admin-header>
-          <app-project-card [project]="project"></app-project-card>
+          <app-project-details [project]="project"></app-project-details>
         </ng-container>
       </div>
     </div>

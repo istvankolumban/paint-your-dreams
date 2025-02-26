@@ -5,11 +5,11 @@ import { OurProjectsService } from '../our-projects.service';
 import { Asset } from '../../../services/asset-manager.service';
 
 @Component({
-  selector: 'app-project-card-edit',
-  templateUrl: './project-card-edit.component.html',
-  styleUrls: ['./project-card-edit.component.scss'],
+  selector: 'app-project-details-edit',
+  templateUrl: './project-details-edit.component.html',
+  styleUrls: ['./project-details-edit.component.scss'],
 })
-export class ProjectCardEditComponent implements OnInit {
+export class ProjectDetailsEditComponent implements OnInit {
   @Input() project!: ProjectModel;
   @Output() projectSaved = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
