@@ -19,4 +19,12 @@
   >
     <i class="bi bi-arrow-down"></i>
   </button>
+  <button
+    (click)="onVisible()"
+    class="btn mb-1 ms-1"
+    [ngClass]="{ 'btn-success': isVisible, 'btn-secondary': !isVisible }"
+  >
+    <i *ngIf="isVisible" class="bi bi-eye"></i>
+    <i *ngIf="!isVisible" class="bi bi-eye-slash"></i>
+  </button>
 </div>

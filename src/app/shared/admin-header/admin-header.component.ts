@@ -9,10 +9,12 @@ import { AuthService } from '../../auth/auth.service';
 export class AdminHeaderComponent {
   @Input() index: number = -1;
   @Input() maxIndex: number = -1;
+  @Input() isVisible: boolean = false;
   @Output() edit = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
   @Output() moveUp = new EventEmitter<number>();
   @Output() moveDown = new EventEmitter<number>();
+  @Output() visible = new EventEmitter<number>();
 
   constructor(private authService: AuthService) {}
 
@@ -34,5 +36,9 @@ export class AdminHeaderComponent {
 
   onMoveDown() {
     this.moveDown.emit(this.index);
+  }
+
+  onVisible() {
+    this.visible.emit(this.index);
   }
 }

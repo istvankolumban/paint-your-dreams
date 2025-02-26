@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ProjectModel } from '../our-projects.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-project-details',
@@ -9,4 +10,10 @@ import { ProjectModel } from '../our-projects.service';
 })
 export class ProjectDetailsComponent {
   @Input() project!: ProjectModel;
+
+  constructor(private authService: AuthService) {}
+
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
+  }
 }

@@ -111,4 +111,11 @@ export class OurWritingsPageComponent implements OnInit {
     this.newBook = null;
     this.editedBook = null;
   }
+
+  onVisible(book: BookDetailsModel) {
+    book.visible = !book.visible;
+    this.bookService.updateBook(book.id, book).subscribe(() => {
+      this.loadBooks();
+    });
+  }
 }

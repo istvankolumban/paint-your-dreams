@@ -1,51 +1,53 @@
 <ng-container *ngIf="book">
-  <div class="card">
-    <div
-      class="card-header"
-      [ngStyle]="{
-        'background-color': book.backgroundColor,
-        color: book.color
-      }"
-    >
-      <h2>{{ book.title }}</h2>
-    </div>
-    <div class="card-body">
-      <div class="row row-book-details mb-4">
-        <div class="col">
-          <p [innerHTML]="book.description"></p>
-        </div>
-      </div>
-      <div class="row" *ngIf="pages">
-        <div class="col">
-          <app-book [pages]="pages"></app-book>
-        </div>
-      </div>
+  <ng-container *ngIf="book.visible || isAuthenticated()">
+    <div class="card">
       <div
-        *ngIf="showAttachments && attachments?.length"
-        class="row pdfRow mt-5"
+        class="card-header"
+        [ngStyle]="{
+          'background-color': book.backgroundColor,
+          color: book.color
+        }"
       >
-        <h3>Letölthető mellékletek</h3>
-        <div class="col-md-6" *ngFor="let attachment of attachments">
-          <ul class="list-group">
-            <li class="list-group-item">
-              <a [href]="attachment.url" target="_blank" class="pdf-link">{{
-                attachment.title
-              }}</a>
-            </li>
-          </ul>
-        </div>
+        <h2>{{ book.title }}</h2>
       </div>
-      <div *ngIf="book.forSale" class="row" id="orderNow">
-        <div class="text-center mt-4">
-          <button
-            id="orderNowButton"
-            class="btn btn-primary btn-lg"
-            (click)="onOrderNowClick()"
-          >
-            Megrendelem a könyvet!
-          </button>
+      <div class="card-body">
+        <div class="row row-book-details mb-4">
+          <div class="col">
+            <p [innerHTML]="book.description"></p>
+          </div>
+        </div>
+        <div class="row" *ngIf="pages">
+          <div class="col">
+            <app-book [pages]="pages"></app-book>
+          </div>
+        </div>
+        <div
+          *ngIf="showAttachments && attachments?.length"
+          class="row pdfRow mt-5"
+        >
+          <h3>Letölthető mellékletek</h3>
+          <div class="col-md-6" *ngFor="let attachment of attachments">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a [href]="attachment.url" target="_blank" class="pdf-link">{{
+                  attachment.title
+                }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div *ngIf="book.forSale" class="row" id="orderNow">
+          <div class="text-center mt-4">
+            <button
+              id="orderNowButton"
+              class="btn btn-primary btn-lg"
+              (click)="onOrderNowClick()"
+            >
+              Megrendelem a könyvet!
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </ng-container>

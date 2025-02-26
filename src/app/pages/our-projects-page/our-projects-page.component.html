@@ -58,6 +58,8 @@
               (delete)="deleteProject(project.id)"
               (moveUp)="moveUp(i)"
               (moveDown)="moveDown(i)"
+              [isVisible]="project.visible"
+              (visible)="onVisible(project)"
             ></app-admin-header>
             <app-project-details [project]="project"></app-project-details>
           </ng-container>
@@ -73,6 +75,8 @@
               (delete)="deleteProject(project.id)"
               (moveUp)="moveUp(i)"
               (moveDown)="moveDown(i)"
+              [isVisible]="project.visible"
+              (visible)="onVisible(project)"
             ></app-admin-header>
             <app-project-details [project]="project"></app-project-details>
           </ng-container>
@@ -90,6 +94,8 @@
             (delete)="deleteProject(project.id)"
             (moveUp)="moveUp(i)"
             (moveDown)="moveDown(i)"
+            [isVisible]="project.visible"
+            (visible)="onVisible(project)"
           ></app-admin-header>
           <app-project-details [project]="project"></app-project-details>
         </ng-container>

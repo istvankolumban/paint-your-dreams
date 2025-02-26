@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Attachment } from './book/book.types';
 import { Asset } from '../../../services/asset-manager.service';
 import { BookDetailsModel } from '../our-writings.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-book-details',
@@ -18,6 +19,12 @@ export class BookDetailsComponent implements OnInit {
 
   attachments?: Array<Attachment>;
   pages?: Array<Asset>;
+
+  constructor(private authService: AuthService) {}
+
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
+  }
 
   ngOnInit(): void {
     if (this.book) {

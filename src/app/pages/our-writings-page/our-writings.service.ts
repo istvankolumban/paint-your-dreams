@@ -33,6 +33,7 @@ export interface BookDetailsModel {
   pages: Array<Asset>;
   order: number;
   forSale: boolean;
+  visible: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -139,6 +140,7 @@ export class OurWritingsService {
       pages: [],
       order: -1,
       forSale: false,
+      visible: false,
     };
   }
 }

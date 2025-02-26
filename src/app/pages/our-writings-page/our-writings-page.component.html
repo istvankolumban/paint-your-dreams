@@ -44,6 +44,8 @@
         (delete)="deleteBook(book.id)"
         (moveUp)="moveUp(i)"
         (moveDown)="moveDown(i)"
+        [isVisible]="book.visible"
+        (visible)="onVisible(book)"
       ></app-admin-header>
       <app-book-details
         [book]="book"

@@ -107,6 +107,7 @@ export class BookDetailsEditComponent implements OnInit {
         color: this.bookForm.value.color,
         order: this.book.order,
         forSale: this.bookForm.value.forSale,
+        visible: this.book.visible,
       };
 
       if (this.book.id) {

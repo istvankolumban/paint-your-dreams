@@ -37,6 +37,7 @@ export interface ProjectModel {
   description: string;
   images: Array<Asset>;
   order: number;
+  visible: boolean;
 }
 
 @Injectable({
@@ -103,11 +104,15 @@ export class OurProjectsService {
       description: '',
       images: [],
       order: -1,
+      visible: false,
     };
   }
 
   deleteProject(projectId: string): Observable<void> {
-    const projectDocRef = doc(this.firestore, `${this.COLLECTION_NAME}/${projectId}`);
+    const projectDocRef = doc(
+      this.firestore,
+      `${this.COLLECTION_NAME}/${projectId}`
+    );
     return from(deleteDoc(projectDocRef)).pipe(
       switchMap(() => this.fetchProjectsObservable())
     );
@@ -129,7 +134,6 @@ export class OurProjectsService {
             this.projectsCount = projects.length;
             // Order projects by project.order
             projects.sort((a, b) => a.order - b.order);
-            console.log(projects);
             this.projectsSubject.next(projects);
           })
         );

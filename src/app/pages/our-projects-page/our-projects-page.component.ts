@@ -124,4 +124,11 @@ export class OurProjectsPageComponent {
     this.newProject = null;
     this.editedProject = null;
   }
+
+  onVisible(project: ProjectModel) {
+    project.visible = !project.visible;
+    this.ourProjectsService.updateProject(project.id, project).subscribe(() => {
+      this.ourProjectsService.fetchProjects();
+    });
+  }
 }

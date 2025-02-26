@@ -112,6 +112,7 @@ export class ProjectDetailsEditComponent implements OnInit {
         coverImage: this.projectForm.value.coverImage,
         images: this.projectForm.value.images,
         order: -1,
+        visible: this.project.visible,
       };
 
       if (this.project.id) {
