@@ -42,7 +42,7 @@ export interface PublicationDetailsModel {
   description: string;
   date: string;
   attachment: Asset;
-  authors: Array<string>;
+  authors: string;
   order: number;
   visible: boolean;
 }
@@ -256,7 +256,7 @@ export class OurWritingsService {
         name: '',
         url: '',
       },
-      authors: [],
+      authors: '',
       order: -1,
       visible: false,
     };

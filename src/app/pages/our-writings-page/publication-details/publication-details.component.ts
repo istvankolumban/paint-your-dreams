@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PublicationDetailsModel } from '../our-writings.service';
+import { Asset } from '../../../services/asset-manager.service';
 
 @Component({
   selector: 'app-publication-details',
@@ -31,5 +32,11 @@ export class PublicationDetailsComponent {
 
   onCancel() {
     this.editMode = false;
+  }
+
+  onAssetSelected(asset: Asset) {
+    if (this.publication) {
+      this.publication.attachment = asset;
+    }
   }
 }

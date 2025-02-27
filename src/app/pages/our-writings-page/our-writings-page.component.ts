@@ -22,10 +22,11 @@ export class OurWritingsPageComponent implements OnInit {
   editedBook: BookDetailsModel | null = null;
   isEditingPublication = false;
   editedPublication: PublicationDetailsModel | null = null;
+  isCreatingPublication = false;
+  newPublication: PublicationDetailsModel | null = null;
 
   constructor(
-    private bookService: OurWritingsService,
-    private publicationService: OurWritingsService,
+    private ourWritingService: OurWritingsService,
     private authService: AuthService
   ) {}
 
@@ -39,7 +40,7 @@ export class OurWritingsPageComponent implements OnInit {
   }
 
   loadBooks() {
-    this.bookService.getBooks().subscribe((books) => {
+    this.ourWritingService.getBooks().subscribe((books) => {
       this.books = books;
     });
   }
@@ -47,7 +48,14 @@ export class OurWritingsPageComponent implements OnInit {
   createBook() {
     if (this.isAuthenticated()) {
       this.isCreatingBook = true;
-      this.newBook = this.bookService.createDefaultBook();
+      this.newBook = this.ourWritingService.createDefaultBook();
+    }
+  }
+
+  createPublication() {
+    if (this.isAuthenticated()) {
+      this.isCreatingPublication = true;
+      this.newPublication = this.ourWritingService.createDefaultPublication();
     }
   }
 
@@ -73,7 +81,7 @@ export class OurWritingsPageComponent implements OnInit {
       this.isAuthenticated() &&
       confirm('Are you sure you want to delete this book?')
     ) {
-      this.bookService.deleteBook(bookId).subscribe(() => {
+      this.ourWritingService.deleteBook(bookId).subscribe(() => {
         this.books = this.books.filter((book) => book.id !== bookId);
         this.updateBookOrders();
       });
@@ -104,7 +112,7 @@ export class OurWritingsPageComponent implements OnInit {
     });
     const updateObservables = this.books.map((book, index) => {
       book.order = index;
-      return this.bookService.updateBook(book.id, book);
+      return this.ourWritingService.updateBook(book.id, book);
     });
 
     forkJoin(updateObservables).subscribe(() => {
@@ -121,13 +129,13 @@ export class OurWritingsPageComponent implements OnInit {
 
   onVisibleBook(book: BookDetailsModel) {
     book.visible = !book.visible;
-    this.bookService.updateBook(book.id, book).subscribe(() => {
+    this.ourWritingService.updateBook(book.id, book).subscribe(() => {
       this.loadBooks();
     });
   }
 
   loadPublications() {
-    this.publicationService.getPublications().subscribe((publications) => {
+    this.ourWritingService.getPublications().subscribe((publications) => {
       this.publications = publications;
     });
   }
@@ -141,13 +149,23 @@ export class OurWritingsPageComponent implements OnInit {
 
   onSavePublication(publication: PublicationDetailsModel) {
     if (this.isAuthenticated()) {
-      this.publicationService
+      this.ourWritingService
         .updatePublication(publication.id, publication)
         .subscribe(() => {
           this.isEditingPublication = false;
           this.editedPublication = null;
           this.loadPublications();
         });
+    }
+  }
+
+  onCreatePublication(publication: PublicationDetailsModel) {
+    if (this.isAuthenticated()) {
+      this.ourWritingService.createPublication(publication).subscribe(() => {
+        this.isCreatingPublication = false;
+        this.newPublication = null;
+        this.loadPublications();
+      });
     }
   }
 
