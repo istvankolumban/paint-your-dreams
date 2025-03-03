@@ -197,15 +197,16 @@ export class OurWritingsService {
   }
 
   createPublication(
-    publication: Omit<PublicationDetailsModel, 'id'>
+    publication: PublicationDetailsModel
   ): Observable<DocumentReference<DocumentData>> {
     if (this.authService.isAuthenticated()) {
       const itemCollection = collection(
         this.firestore,
         this.PUBLICATION_COLLECTION
       );
-      publication = { ...publication, order: this.publicationsCount };
-      return from(addDoc(itemCollection, { ...publication })).pipe(
+      const { id, ...publicationData } = publication; // Exclude the id attribute
+      publicationData.order = this.publicationsCount;
+      return from(addDoc(itemCollection, { ...publicationData })).pipe(
         switchMap((docRef) =>
           this.fetchPublicationsObservable().pipe(map(() => docRef))
         )

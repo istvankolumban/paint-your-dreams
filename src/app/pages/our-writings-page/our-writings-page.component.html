@@ -86,6 +86,10 @@
         [maxIndex]="publications.length - 1"
         [isVisible]="publication.visible"
         (edit)="onEditPublication(publication)"
+        (delete)="onDeletePublication(publication.id)"
+        (moveUp)="moveUpPublication(j)"
+        (moveDown)="moveDownPublication(j)"
+        (visible)="onVisiblePublication(publication)"
       ></app-admin-header>
       <app-publication-details
         [publication]="publication"

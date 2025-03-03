@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PublicationDetailsModel } from '../our-writings.service';
 import { Asset } from '../../../services/asset-manager.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-publication-details',
@@ -18,6 +19,8 @@ export class PublicationDetailsComponent {
 
   @Output()
   cancel = new EventEmitter<void>();
+
+  constructor(private authService: AuthService) {}
 
   onEdit() {
     this.editMode = true;
@@ -38,5 +41,9 @@ export class PublicationDetailsComponent {
     if (this.publication) {
       this.publication.attachment = asset;
     }
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 }

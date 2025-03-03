@@ -148,29 +148,91 @@ export class OurWritingsPageComponent implements OnInit {
   }
 
   onSavePublication(publication: PublicationDetailsModel) {
-    if (this.isAuthenticated()) {
-      this.ourWritingService
-        .updatePublication(publication.id, publication)
-        .subscribe(() => {
-          this.isEditingPublication = false;
-          this.editedPublication = null;
-          this.loadPublications();
-        });
+    if (confirm('Are you sure you want to save this publication?')) {
+      if (this.isAuthenticated()) {
+        this.ourWritingService
+          .updatePublication(publication.id, publication)
+          .subscribe(() => {
+            this.isEditingPublication = false;
+            this.editedPublication = null;
+            this.loadPublications();
+          });
+      }
     }
   }
 
   onCreatePublication(publication: PublicationDetailsModel) {
-    if (this.isAuthenticated()) {
-      this.ourWritingService.createPublication(publication).subscribe(() => {
-        this.isCreatingPublication = false;
-        this.newPublication = null;
-        this.loadPublications();
+    if (confirm('Are you sure you want to create this publication?')) {
+      if (this.isAuthenticated()) {
+        this.ourWritingService.createPublication(publication).subscribe(() => {
+          this.isCreatingPublication = false;
+          this.newPublication = null;
+          this.loadPublications();
+        });
+      }
+    }
+  }
+
+  onDeletePublication(publicationId: string) {
+    if (
+      this.isAuthenticated() &&
+      confirm('Are you sure you want to delete this publication?')
+    ) {
+      this.ourWritingService.deletePublication(publicationId).subscribe(() => {
+        this.publications = this.publications.filter(
+          (publication) => publication.id !== publicationId
+        );
+        this.updatePublicationOrders();
       });
     }
+  }
+
+  moveUpPublication(index: number) {
+    if (index > 0) {
+      const temp = this.publications[index];
+      this.publications[index] = this.publications[index - 1];
+      this.publications[index - 1] = temp;
+      this.updatePublicationOrders();
+    }
+  }
+
+  moveDownPublication(index: number) {
+    if (index < this.publications.length - 1) {
+      const temp = this.publications[index];
+      this.publications[index] = this.publications[index + 1];
+      this.publications[index + 1] = temp;
+      this.updatePublicationOrders();
+    }
+  }
+
+  updatePublicationOrders() {
+    this.publications.forEach((publication, index) => {
+      publication.order = index;
+    });
+    const updateObservables = this.publications.map((publication, index) => {
+      publication.order = index;
+      return this.ourWritingService.updatePublication(
+        publication.id,
+        publication
+      );
+    });
+
+    forkJoin(updateObservables).subscribe(() => {
+      this.loadPublications();
+    });
   }
 
   onCancelPublication() {
     this.isEditingPublication = false;
     this.editedPublication = null;
+  }
+
+  onVisiblePublication(publication: PublicationDetailsModel) {
+    publication.visible = !publication.visible;
+    this.ourWritingService
+      .updatePublication(publication.id, publication)
+      .subscribe(() => {
+        this.loadPublications();
+      });
   }
 }
