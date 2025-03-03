@@ -1,44 +1,126 @@
 <div class="row m-0">
   <div class="col p-0">
-    <div id="homeCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        <button
-          *ngFor="let image of carouselImages; let i = index"
-          type="button"
-          [attr.data-bs-target]="'#homeCarousel'"
-          [attr.data-bs-slide-to]="i"
-          [class.active]="i === 0"
-          [attr.aria-current]="i === 0 ? 'true' : null"
-          [attr.aria-label]="'Slide ' + i"
-        ></button>
-      </div>
-      <div class="carousel-inner">
-        <div
-          *ngFor="let image of carouselImages; let i = index"
-          class="carousel-item"
-          [class.active]="i === 0"
-        >
-          <img src="{{ image }}" class="d-block w-100" alt="carousel_{{ i }}" />
+    <div *ngIf="isEditing; else carouselTemplate">
+      <form [formGroup]="carouselForm" (ngSubmit)="saveCarouselItems()">
+        <div formArrayName="items">
+          <div
+            *ngFor="let item of items.controls; let i = index"
+            [formGroupName]="i"
+            class="mb-3 border p-3 rounded"
+          >
+            <div class="mb-3">
+              <label for="image-{{ i }}" class="form-label">Image:</label>
+              <div class="mb-3" *ngIf="item.get('image')?.value">
+                <p>{{ item.get("image")?.value.name }}</p>
+                <img
+                  *ngIf="item.get('image')?.value.url"
+                  [src]="item.get('image')?.value.url"
+                  class="img-fluid mb-3"
+                  alt="Image"
+                />
+              </div>
+              <app-asset-selector
+                (assetSelected)="onImageSelected($event, i)"
+              ></app-asset-selector>
+            </div>
+            <div class="mb-3">
+              <label for="text-{{ i }}" class="form-label">Text:</label>
+              <textarea
+                id="text-{{ i }}"
+                formControlName="text"
+                class="form-control"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="order-{{ i }}" class="form-label">Order:</label>
+              <input
+                id="order-{{ i }}"
+                formControlName="order"
+                type="number"
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3 form-check">
+              <input
+                id="visible-{{ i }}"
+                formControlName="visible"
+                type="checkbox"
+                class="form-check-input"
+              />
+              <label for="visible-{{ i }}" class="form-check-label"
+                >Visible</label
+              >
+            </div>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="removeCarouselItem(i)"
+            >
+              Remove
+            </button>
+          </div>
         </div>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#homeCarousel"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#homeCarousel"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="addCarouselItem()"
+        >
+          Add Item
+        </button>
+        <button type="submit" class="btn btn-success">Save</button>
+      </form>
     </div>
+
+    <ng-template #carouselTemplate>
+      <div
+        id="carouselExampleIndicators"
+        class="carousel slide"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-indicators">
+          <button
+            type="button"
+            *ngFor="let carouselItem of carouselItems; let i = index"
+            [attr.data-bs-target]="'#carouselExampleIndicators'"
+            [attr.data-bs-slide-to]="i"
+            [class.active]="i === 0"
+            aria-current="i === 0 ? 'true' : 'false'"
+            [attr.aria-label]="'Slide ' + (i + 1)"
+          ></button>
+        </div>
+        <div class="carousel-inner">
+          <div
+            *ngFor="let carouselItem of carouselItems; let i = index"
+            class="carousel-item"
+            [class.active]="i === 0"
+          >
+            <img
+              [src]="carouselItem.image.url"
+              class="d-block w-100"
+              alt="Carousel Image {{ i + 1 }}"
+            />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </ng-template>
   </div>
 </div>
