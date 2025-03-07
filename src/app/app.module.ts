@@ -23,7 +23,7 @@ import { FooterComponent } from './footer/footer.component';
 import { BookComponent } from './pages/our-writings-page/book-details/book/book.component';
 import { FlipBookModule } from '@labsforge/flipbook';
 import { CarouselComponent } from './pages/home-page/home-carousel/carousel/carousel.component';
-import { OurServicesComponent } from './shared/our-services/our-services.component';
+import { OurServicesComponent } from './pages/home-page/our-services/our-services.component';
 import { TestimonialsComponent } from './shared/testimonials/testimonials.component';
 import { BookDetailsComponent } from './pages/our-writings-page/book-details/book-details.component';
 import { OurWritingsService } from './pages/our-writings-page/our-writings.service';
