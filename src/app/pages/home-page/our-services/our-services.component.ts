@@ -8,6 +8,7 @@ export interface OurService {
   description: string;
   order: number;
   visible: boolean;
+  isEditing?: boolean;
 }
 
 @Component({
@@ -32,8 +33,9 @@ export class OurServicesComponent implements OnInit {
   }
 
   addService(service: OurService): void {
-    this.ourServicesService.addService(service).subscribe(() => {
-      this.fetchServices();
+    this.ourServicesService.addService(service).subscribe((id) => {
+      service.id = id;
+      this.updateService(service);
     });
   }
 
@@ -50,11 +52,17 @@ export class OurServicesComponent implements OnInit {
   }
 
   onEdit(service: OurService): void {
-    // Implement edit functionality
+    service.isEditing = true;
   }
 
   onDelete(service: OurService): void {
-    // Implement delete functionality
+    if (confirm('Are you sure you want to delete this service?')) {
+      this.ourServicesService.deleteService(service.id).subscribe(() => {
+        this.ourServices = this.ourServices.filter(s => s.id !== service.id);
+        this.ourServices.forEach((s, i) => s.order = i);
+        this.updateServices(this.ourServices);
+      });
+    }
   }
 
   onMoveUp(index: number): void {
@@ -80,5 +88,38 @@ export class OurServicesComponent implements OnInit {
   onVisible(index: number): void {
     this.ourServices[index].visible = !this.ourServices[index].visible;
     this.updateService(this.ourServices[index]);
+  }
+
+  onSave(service: OurService): void {
+    if (confirm('Are you sure you want to save changes?')) {
+      service.isEditing = false;
+      if (!service.id) {
+        this.addService(service);
+      } else {
+        this.updateService(service);
+      }
+    }
+  }
+
+  onCancel(service: OurService): void {
+    service.isEditing = false;
+    this.fetchServices();
+  }
+
+  onAddNewService(): void {
+    const newService: OurService = {
+      id: '',
+      image: '',
+      title: '',
+      description: '',
+      order: this.ourServices.length,
+      visible: true,
+      isEditing: true
+    };
+    this.ourServices.unshift(newService);
+  }
+
+  onImageSelected(service: OurService, asset: any): void {
+    service.image = asset.url;
   }
 }

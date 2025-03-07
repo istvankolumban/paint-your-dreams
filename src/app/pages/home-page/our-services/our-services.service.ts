@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, getDocs, addDoc, updateDoc, doc, writeBatch } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, addDoc, updateDoc, doc, writeBatch, deleteDoc } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OurService } from './our-services.component';
@@ -23,9 +23,12 @@ export class OurServicesService {
     );
   }
 
-  addService(service: OurService): Observable<void> {
+  addService(service: OurService): Observable<string> {
     const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
-    return from(addDoc(itemCollection, service)).pipe(map(() => void 0));
+    const { id, ...serviceData } = service; // Exclude the id attribute
+    return from(addDoc(itemCollection, serviceData)).pipe(
+      map((docRef) => docRef.id)
+    );
   }
 
   updateService(service: OurService): Observable<void> {
@@ -34,12 +37,16 @@ export class OurServicesService {
   }
 
   updateServices(services: OurService[]): Observable<void> {
-    console.log(services);
     const batch = writeBatch(this.firestore);
     services.forEach((service) => {
       const serviceDoc = doc(this.firestore, `${this.COLLECTION_NAME}/${service.id}`);
       batch.update(serviceDoc, { ...service });
     });
     return from(batch.commit()).pipe(map(() => void 0));
+  }
+
+  deleteService(serviceId: string): Observable<void> {
+    const serviceDoc = doc(this.firestore, `${this.COLLECTION_NAME}/${serviceId}`);
+    return from(deleteDoc(serviceDoc)).pipe(map(() => void 0));
   }
 }
