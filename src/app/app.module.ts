@@ -22,7 +22,7 @@ import { FooterComponent } from './footer/footer.component';
 
 import { BookComponent } from './pages/our-writings-page/book-details/book/book.component';
 import { FlipBookModule } from '@labsforge/flipbook';
-import { CarouselComponent } from './pages/home-page/carousel/carousel.component';
+import { CarouselComponent } from './pages/home-page/home-carousel/carousel/carousel.component';
 import { OurServicesComponent } from './shared/our-services/our-services.component';
 import { TestimonialsComponent } from './shared/testimonials/testimonials.component';
 import { BookDetailsComponent } from './pages/our-writings-page/book-details/book-details.component';
@@ -42,6 +42,7 @@ import { AssetSelectorComponent } from './shared/asset-selector/asset-selector.c
 import { BookDetailsEditComponent } from './pages/our-writings-page/book-details-edit/book-details-edit.component';
 import { AdminHeaderComponent } from './shared/admin-header/admin-header.component';
 import { PublicationDetailsComponent } from './pages/our-writings-page/publication-details/publication-details.component';
+import { HomeCarouselComponent } from './pages/home-page/home-carousel/home-carousel.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { PublicationDetailsComponent } from './pages/our-writings-page/publicati
     BookDetailsEditComponent,
     AdminHeaderComponent,
     PublicationDetailsComponent,
+    HomeCarouselComponent,
   ],
   imports: [
     BrowserModule,

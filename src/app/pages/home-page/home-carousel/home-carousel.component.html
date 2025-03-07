@@ -1,0 +1,7 @@
+<div *ngIf="isAuthenticated()">
+    <button (click)="onEditCarousel()" class="btn btn btn-primary m-1">
+        <i class="bi bi-pencil"></i>
+    </button>
+</div>
+<app-carousel *ngIf="carouselItems" [carouselItems]="carouselItems" [isEditing]="isEditingCarousel"
+    (carouselItemsSaved)="onCarouselItemSaved($event)"></app-carousel>

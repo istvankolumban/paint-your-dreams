@@ -46,5 +46,6 @@ src/
 
 ### Todos
 
-Home page - carousel item: 
-- I am not 
+Home page: 
+
+

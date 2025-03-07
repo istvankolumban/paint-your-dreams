@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { CarouselItemModel } from '../home.service';
-import { Asset } from '../../../services/asset-manager.service';
-import { HomeService } from '../home.service';
+import { CarouselItemModel } from '../../home.service';
+import { Asset } from '../../../../services/asset-manager.service';
+import { HomeService } from '../../home.service';
 
 @Component({
   selector: 'app-carousel',

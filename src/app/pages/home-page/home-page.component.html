@@ -1,21 +1,12 @@
 <div class="container-fluid p-0 mb-5 app-carousel-container">
-  <div *ngIf="isAuthenticated()">
-    <button (click)="onEditCarousel()" class="btn btn btn-primary m-1">
-      <i class="bi bi-pencil"></i>
-    </button>
-  </div>
-  <app-carousel
-    *ngIf="carouselItems"
-    [carouselItems]="carouselItems"
-    [isEditing]="isEditingCarousel"
-    (carouselItemsSaved)="onCarouselItemSaved($event)"
-  ></app-carousel>
+  <app-home-carousel></app-home-carousel>
 </div>
-<div class="container mb-5 text-center introduction-container">
-  <div class="row">
-    <div class="col">
-      <p [innerHTML]="introductionText"></p>
-    </div>
+<div *ngIf="aboutText" class="container mb-5">
+  <button (click)="onEditAboutText()" *ngIf="!isEditingAboutText && isAuthenticated()" class="btn btn btn-primary m-1"><i class="bi bi-pencil"></i></button>
+  <div [innerHTML]="aboutText.text" *ngIf="!isEditingAboutText"></div>
+  <div *ngIf="isEditingAboutText">
+    <textarea [(ngModel)]="aboutText.text" class="form-control w-100"></textarea>
+    <button (click)="onAboutTextSaved(aboutText)" class="btn btn-primary mt-2">Save</button>
   </div>
 </div>
 <div class="container mb-5 app-our-services-container">
@@ -24,9 +15,6 @@
 <div class="container mb-5 app-testimonials-container">
   <app-testimonials></app-testimonials>
 </div>
-<div
-  *ngIf="milyenSzinLennelBook"
-  class="container mb-5 app-book-details-container"
->
+<div *ngIf="milyenSzinLennelBook" class="container mb-5 app-book-details-container">
   <app-book-details [book]="milyenSzinLennelBook"></app-book-details>
 </div>
