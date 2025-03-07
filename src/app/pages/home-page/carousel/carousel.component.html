@@ -37,6 +37,9 @@
         <div class="carousel-inner">
           <div *ngFor="let carouselItem of carouselItems; let i = index" class="carousel-item" [class.active]="i === 0">
             <img [src]="carouselItem.image.url" class="d-block w-100" alt="Carousel Image {{ i + 1 }}" />
+            <div *ngIf="carouselItem.text" class="carousel-caption d-none d-md-block">
+              <p>{{ carouselItem.text }}</p>
+            </div>
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"

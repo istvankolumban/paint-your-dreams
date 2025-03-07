@@ -1,5 +1,7 @@
 .carousel-inner {
-  height: 80vh;
+  height: 460px;
+  display: flex;
+  align-items: center;
 
   img {
     display: flex;
@@ -7,7 +9,15 @@
   }
 
   @media (max-width: 992px) {
-    height: unset;
+    height: 240px;
+  }
+}
+
+.carousel-caption {
+  top: 30%;
+
+  p {
+    font-size: 40px;
   }
 }
 
