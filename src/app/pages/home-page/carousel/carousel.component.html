@@ -1,0 +1,55 @@
+<div class="row m-0">
+  <div class="col p-0">
+    <div *ngIf="isEditing; else carouselTemplate">
+      <div class="carousel-edit-container">
+        <form [formGroup]="carouselForm" (ngSubmit)="saveCarouselItems()">
+          <div formArrayName="items">
+            <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="carousel-item-form">
+              <div class="form-group">
+                <span for="image">Image </span>
+                <app-asset-selector (assetSelected)="onImageSelected($event, i)"></app-asset-selector>
+                <img *ngIf="item.get('image')?.value.url" [src]="item.get('image')?.value.url" class="img-thumbnail" />
+              </div>
+              <div class="form-group">
+                <label for="text">Text</label>
+                <input formControlName="text" type="text" class="form-control" />
+              </div>
+              <button type="button" class="btn btn-danger mt-1" (click)="removeCarouselItem(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div class="justify-content-between d-flex">
+            <button type="button" class="btn btn-primary" (click)="addCarouselItem()">Add Item</button>
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <ng-template #carouselTemplate>
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" *ngFor="let carouselItem of carouselItems; let i = index"
+            [attr.data-bs-target]="'#carouselExampleIndicators'" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+            aria-current="i === 0 ? 'true' : 'false'" [attr.aria-label]="'Slide ' + (i + 1)"></button>
+        </div>
+        <div class="carousel-inner">
+          <div *ngFor="let carouselItem of carouselItems; let i = index" class="carousel-item" [class.active]="i === 0">
+            <img [src]="carouselItem.image.url" class="d-block w-100" alt="Carousel Image {{ i + 1 }}" />
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

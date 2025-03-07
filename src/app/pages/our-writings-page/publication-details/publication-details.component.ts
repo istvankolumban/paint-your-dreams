@@ -35,6 +35,7 @@ export class PublicationDetailsComponent {
 
   onCancel() {
     this.editMode = false;
+    this.cancel.emit();
   }
 
   onAssetSelected(asset: Asset) {

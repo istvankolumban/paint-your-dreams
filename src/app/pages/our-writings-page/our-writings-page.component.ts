@@ -224,6 +224,7 @@ export class OurWritingsPageComponent implements OnInit {
 
   onCancelPublication() {
     this.isEditingPublication = false;
+    this.isCreatingPublication = false;
     this.editedPublication = null;
   }
 

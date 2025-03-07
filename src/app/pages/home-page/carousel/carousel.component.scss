@@ -1,0 +1,31 @@
+.carousel-inner {
+  height: 80vh;
+
+  img {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 992px) {
+    height: unset;
+  }
+}
+
+.carousel-edit-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.carousel-item-form {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.img-thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+  display: block;
+  margin-top: 10px;
+}

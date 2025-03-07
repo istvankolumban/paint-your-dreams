@@ -15,11 +15,7 @@
         </p>
 
         <div *ngIf="publication.attachment" class="mt-3">
-          <a
-            [href]="publication.attachment.url"
-            target="_blank"
-            class="btn btn-outline-primary"
-          >
+          <a [href]="publication.attachment.url" target="_blank" class="btn btn-outline-primary">
             <i class="bi bi-file-earmark-text"></i> Publikáció megteknitése
           </a>
         </div>
@@ -34,35 +30,21 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Description:</label>
-          <textarea
-            [(ngModel)]="publication.description"
-            class="form-control"
-          ></textarea>
+          <textarea [(ngModel)]="publication.description" class="form-control"></textarea>
         </div>
         <div class="mb-3">
           <label class="form-label">Date:</label>
-          <input
-            [(ngModel)]="publication.date"
-            type="date"
-            class="form-control"
-          />
+          <input [(ngModel)]="publication.date" type="date" class="form-control" />
         </div>
         <div class="mb-3">
           <label class="form-label">Authors:</label>
           <input [(ngModel)]="publication.authors" class="form-control" />
         </div>
         <div class="mb-3">
-          <label class="form-label">Attachment: </label>
-          <app-asset-selector
-            #assetSelector
-            (assetSelected)="onAssetSelected($event)"
-          ></app-asset-selector>
+          <span class="form-label">Attachment: </span>
+          <app-asset-selector #assetSelector (assetSelected)="onAssetSelected($event)"></app-asset-selector>
           <div *ngIf="publication.attachment" class="mt-3">
-            <a
-              [href]="publication.attachment.url"
-              target="_blank"
-              class="btn btn-outline-primary"
-            >
+            <a [href]="publication.attachment.url" target="_blank" class="btn btn-outline-primary">
               <i class="bi bi-file-earmark-text"></i>
               {{ publication.attachment.name }}
             </a>

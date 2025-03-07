@@ -25,15 +25,6 @@ Paint Your Dreams is an Angular-based web application that helps users explore a
 5. Implement proper error handling
 6. Write unit tests for new features
 
-### Key Features
-- Authentication system
-- Asset management
-- Project showcase
-- Blog/writings section
-- Service offerings display
-- Testimonials
-- Admin functionality
-
 ### Project Structure
 ```
 src/
@@ -47,9 +38,13 @@ src/
 └── environments/     # Environment configs
 ```
 
-
 ### Tests
 - Use the following command when you run the tests: ng test --no-watch --browsers ChromeHeadless
 - The tests should be written in Jasmine/Karma
 - When you write a test, never update the component or service
 - Tests should pass
+
+### Todos
+
+Home page - carousel item: 
+- I am not 

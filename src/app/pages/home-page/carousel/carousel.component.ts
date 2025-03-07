@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { CarouselItemModel } from '../../pages/home-page/home.service';
-import { Asset } from '../../services/asset-manager.service';
+import { CarouselItemModel } from '../home.service';
+import { Asset } from '../../../services/asset-manager.service';
+import { HomeService } from '../home.service';
 
 @Component({
   selector: 'app-carousel',
@@ -17,7 +18,7 @@ export class CarouselComponent implements OnInit {
   carouselForm: FormGroup;
   selectedImageIndex: number | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private homeService: HomeService) {
     this.carouselForm = this.fb.group({
       items: this.fb.array([]),
     });
@@ -42,7 +43,7 @@ export class CarouselComponent implements OnInit {
   setCarouselItems(items: CarouselItemModel[]): void {
     const itemsFormArray = this.carouselForm.get('items') as FormArray;
     itemsFormArray.clear();
-    items.forEach((item) => {
+    items.forEach((item, index) => {
       itemsFormArray.push(this.createCarouselItemFormGroup(item));
     });
   }
@@ -52,7 +53,7 @@ export class CarouselComponent implements OnInit {
       id: [item.id],
       image: [item.image, Validators.required],
       text: [item.text],
-      order: [item.order],
+      order: item.order,
       visible: [item.visible],
     });
   }
@@ -69,14 +70,27 @@ export class CarouselComponent implements OnInit {
   }
 
   removeCarouselItem(index: number): void {
-    this.items.removeAt(index);
+    const itemId = this.items.at(index).get('id')?.value;
+    if (itemId) {
+      this.homeService.deleteCarouselItem(itemId).subscribe(() => {
+        this.items.removeAt(index);
+        this.reorderItems();
+      });
+    } else {
+      this.items.removeAt(index);
+      this.reorderItems();
+    }
+  }
+
+  reorderItems(): void {
+    this.items.controls.forEach((control, index) => {
+      control.get('order')?.setValue(index);
+    });
   }
 
   saveCarouselItems(): void {
     if (this.carouselForm.valid) {
-      this.carouselItemsSaved.emit(
-        this.carouselForm.value.items as CarouselItemModel[]
-      );
+      this.carouselItemsSaved.emit(this.carouselForm.value.items);
     }
   }
 
