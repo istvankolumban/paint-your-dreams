@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OurServicesService } from './our-services.service';
+import { AuthService } from '../../../auth/auth.service';
 
 export interface OurService {
   id: string;
@@ -20,7 +21,14 @@ export interface OurService {
 export class OurServicesComponent implements OnInit {
   ourServices: OurService[] = [];
 
-  constructor(private ourServicesService: OurServicesService) {}
+  constructor(
+    private ourServicesService: OurServicesService,
+    private authService: AuthService
+  ) {}
+
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
+  }
 
   ngOnInit(): void {
     this.fetchServices();
@@ -58,8 +66,8 @@ export class OurServicesComponent implements OnInit {
   onDelete(service: OurService): void {
     if (confirm('Are you sure you want to delete this service?')) {
       this.ourServicesService.deleteService(service.id).subscribe(() => {
-        this.ourServices = this.ourServices.filter(s => s.id !== service.id);
-        this.ourServices.forEach((s, i) => s.order = i);
+        this.ourServices = this.ourServices.filter((s) => s.id !== service.id);
+        this.ourServices.forEach((s, i) => (s.order = i));
         this.updateServices(this.ourServices);
       });
     }
@@ -70,7 +78,7 @@ export class OurServicesComponent implements OnInit {
       const temp = this.ourServices[index - 1];
       this.ourServices[index - 1] = this.ourServices[index];
       this.ourServices[index] = temp;
-      this.ourServices.forEach((service, i) => service.order = i);
+      this.ourServices.forEach((service, i) => (service.order = i));
       this.updateServices(this.ourServices);
     }
   }
@@ -80,7 +88,7 @@ export class OurServicesComponent implements OnInit {
       const temp = this.ourServices[index + 1];
       this.ourServices[index + 1] = this.ourServices[index];
       this.ourServices[index] = temp;
-      this.ourServices.forEach((service, i) => service.order = i);
+      this.ourServices.forEach((service, i) => (service.order = i));
       this.updateServices(this.ourServices);
     }
   }
@@ -114,7 +122,7 @@ export class OurServicesComponent implements OnInit {
       description: '',
       order: this.ourServices.length,
       visible: true,
-      isEditing: true
+      isEditing: true,
     };
     this.ourServices.unshift(newService);
   }
