@@ -24,7 +24,7 @@ import { BookComponent } from './pages/our-writings-page/book-details/book/book.
 import { FlipBookModule } from '@labsforge/flipbook';
 import { CarouselComponent } from './pages/home-page/home-carousel/carousel/carousel.component';
 import { OurServicesComponent } from './pages/home-page/our-services/our-services.component';
-import { TestimonialsComponent } from './shared/testimonials/testimonials.component';
+import { TestimonialsComponent } from './pages/home-page/testimonials/testimonials.component';
 import { BookDetailsComponent } from './pages/our-writings-page/book-details/book-details.component';
 import { OurWritingsService } from './pages/our-writings-page/our-writings.service';
 import { OrderModalComponent } from './order-modal/order-modal.component';

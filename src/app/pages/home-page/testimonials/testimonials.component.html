@@ -1,0 +1,127 @@
+<div class="row">
+  <div class="col">
+    <h1 class="text-center mb-5">Rólunk írták</h1>
+    <button
+      *ngIf="isAuthenticated()"
+      class="btn btn-primary mb-3"
+      (click)="onAddNewTestimonial()"
+    >
+      Add New Testimonial
+    </button>
+    <ul class="list-group mt-5">
+      <ng-container *ngFor="let testimonial of testimonials; let i = index">
+        <ng-container *ngIf="!testimonial.isEditing">
+          <app-admin-header
+            [index]="i"
+            [maxIndex]="testimonials.length - 1"
+            [isVisible]="testimonial.visible"
+            (edit)="onEdit(testimonial)"
+            (delete)="onDelete(testimonial)"
+            (moveUp)="onMoveUp($event)"
+            (moveDown)="onMoveDown($event)"
+            (visible)="onVisible($event)"
+          ></app-admin-header>
+        </ng-container>
+        <li
+          class="list-group-item d-flex flex-column flex-md-row align-items-start"
+          [ngClass]="{ 'flex-md-row-reverse': i % 2 !== 0 }"
+        >
+          <ng-container *ngIf="!testimonial.isEditing">
+            <img
+              src="{{ testimonial.image }}"
+              alt="{{ testimonial.author }}"
+              class="img-thumbnail me-3 mb-3 mb-md-0"
+            />
+            <div>
+              <h5 class="mb-1">{{ testimonial.title }}</h5>
+              <p
+                class="mb-1"
+                [innerHTML]="
+                  testimonial.expanded
+                    ? testimonial.content
+                    : (testimonial.content | slice : 0 : 600) + '...'
+                "
+              ></p>
+              <button
+                class="btn btn-link p-0"
+                (click)="testimonial.expanded = !testimonial.expanded"
+              >
+                {{ testimonial.expanded ? "Kevesebb" : "Tovább" }}
+              </button>
+              <p class="text-muted mt-2">
+                {{ testimonial.author }}, (<a
+                  [href]="testimonial.link"
+                  target="_blank"
+                  class="text-muted"
+                  >Forrás</a
+                >)
+              </p>
+            </div>
+          </ng-container>
+          <div class="card w-100" *ngIf="testimonial.isEditing">
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  [(ngModel)]="testimonial.title"
+                />
+              </div>
+              <div class="mb-3">
+                <span for="image" class="form-label">Image </span>
+                <app-asset-selector
+                  (assetSelected)="onImageSelected(testimonial, $event)"
+                ></app-asset-selector>
+                <div *ngIf="testimonial.image">
+                  <img
+                    [src]="testimonial.image"
+                    alt="Selected Image"
+                    class="img-thumbnail mt-2"
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="content" class="form-label">Content</label>
+                <textarea
+                  class="form-control"
+                  id="content"
+                  rows="10"
+                  [(ngModel)]="testimonial.content"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="author" class="form-label">Author</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="author"
+                  [(ngModel)]="testimonial.author"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="link" class="form-label">Link</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="link"
+                  [(ngModel)]="testimonial.link"
+                />
+              </div>
+              <button
+                class="btn btn-primary me-2"
+                (click)="onSave(testimonial)"
+              >
+                Save
+              </button>
+              <button class="btn btn-secondary" (click)="onCancel(testimonial)">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

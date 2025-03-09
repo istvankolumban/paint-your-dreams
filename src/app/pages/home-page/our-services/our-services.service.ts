@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, getDocs, addDoc, updateDoc, doc, writeBatch, deleteDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  writeBatch,
+  deleteDoc,
+} from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OurService } from './our-services.component';
@@ -14,11 +23,13 @@ export class OurServicesService {
     const itemCollection = collection(this.firestore, this.COLLECTION_NAME);
     return from(getDocs(itemCollection)).pipe(
       map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => {
-          const data = doc.data() as OurService;
-          data.id = doc.id;
-          return data;
-        }).sort((a, b) => a.order - b.order)
+        querySnapshot.docs
+          .map((doc) => {
+            const data = doc.data() as OurService;
+            data.id = doc.id;
+            return data;
+          })
+          .sort((a, b) => a.order - b.order)
       )
     );
   }
@@ -32,21 +43,30 @@ export class OurServicesService {
   }
 
   updateService(service: OurService): Observable<void> {
-    const serviceDoc = doc(this.firestore, `${this.COLLECTION_NAME}/${service.id}`);
+    const serviceDoc = doc(
+      this.firestore,
+      `${this.COLLECTION_NAME}/${service.id}`
+    );
     return from(updateDoc(serviceDoc, { ...service })).pipe(map(() => void 0));
   }
 
   updateServices(services: OurService[]): Observable<void> {
     const batch = writeBatch(this.firestore);
     services.forEach((service) => {
-      const serviceDoc = doc(this.firestore, `${this.COLLECTION_NAME}/${service.id}`);
+      const serviceDoc = doc(
+        this.firestore,
+        `${this.COLLECTION_NAME}/${service.id}`
+      );
       batch.update(serviceDoc, { ...service });
     });
     return from(batch.commit()).pipe(map(() => void 0));
   }
 
   deleteService(serviceId: string): Observable<void> {
-    const serviceDoc = doc(this.firestore, `${this.COLLECTION_NAME}/${serviceId}`);
+    const serviceDoc = doc(
+      this.firestore,
+      `${this.COLLECTION_NAME}/${serviceId}`
+    );
     return from(deleteDoc(serviceDoc)).pipe(map(() => void 0));
   }
 }
