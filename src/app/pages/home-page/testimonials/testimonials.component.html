@@ -3,12 +3,12 @@
     <h1 class="text-center mb-5">Rólunk írták</h1>
     <button
       *ngIf="isAuthenticated()"
-      class="btn btn-primary mb-3"
+      class="btn btn-primary mb-1"
       (click)="onAddNewTestimonial()"
     >
       Add New Testimonial
     </button>
-    <ul class="list-group mt-5">
+    <ul class="list-group mt-1">
       <ng-container *ngFor="let testimonial of testimonials; let i = index">
         <ng-container *ngIf="!testimonial.isEditing">
           <app-admin-header
