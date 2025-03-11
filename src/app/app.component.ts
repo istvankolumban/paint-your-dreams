@@ -10,9 +10,7 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent implements OnInit {
   title = 'paint-your-dreams';
 
-  constructor(private authService: AuthService) {}
+  constructor() { }
 
-  ngOnInit(): void {
-    this.authService.autoLogin();
-  }
+  ngOnInit(): void {}
 }

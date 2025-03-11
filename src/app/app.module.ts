@@ -10,6 +10,7 @@ import { routes } from './app.routes';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -88,6 +89,7 @@ import { HomeCarouselComponent } from './pages/home-page/home-carousel/home-caro
     ),
     importProvidersFrom(provideStorage(() => getStorage())),
     importProvidersFrom(provideFirestore(() => getFirestore())),
+    importProvidersFrom(provideAuth(() => getAuth())),
     provideHttpClient(withInterceptorsFromDi()),
   ],
   bootstrap: [AppComponent],
