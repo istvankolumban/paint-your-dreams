@@ -1,14 +1,12 @@
 <ng-container *ngIf="book">
   <ng-container *ngIf="book.visible || isAuthenticated()">
     <div class="card">
-      <div
-        class="card-header"
-        [ngStyle]="{
+      <div class="card-header" [ngStyle]="{
           'background-color': book.backgroundColor,
+        }">
+        <h2 [ngStyle]="{
           color: book.color
-        }"
-      >
-        <h2>{{ book.title }}</h2>
+        }">{{ book.title }}</h2>
       </div>
       <div class="card-body">
         <div class="row row-book-details mb-4">
@@ -21,28 +19,21 @@
             <app-book [pages]="pages"></app-book>
           </div>
         </div>
-        <div
-          *ngIf="showAttachments && attachments?.length"
-          class="row pdfRow mt-5"
-        >
+        <div *ngIf="showAttachments && attachments?.length" class="row pdfRow mt-5">
           <h3>Letölthető mellékletek</h3>
           <div class="col-md-6" *ngFor="let attachment of attachments">
-            <ul class="list-group">
+            <ul class="list-group mb-1">
               <li class="list-group-item">
                 <a [href]="attachment.url" target="_blank" class="pdf-link">{{
                   attachment.title
-                }}</a>
+                  }}</a>
               </li>
             </ul>
           </div>
         </div>
         <div *ngIf="book.forSale" class="row" id="orderNow">
           <div class="text-center mt-4">
-            <button
-              id="orderNowButton"
-              class="btn btn-primary btn-lg"
-              (click)="onOrderNowClick()"
-            >
+            <button id="orderNowButton" class="btn btn-primary btn-lg" (click)="onOrderNowClick()">
               Megrendelem a könyvet!
             </button>
           </div>
