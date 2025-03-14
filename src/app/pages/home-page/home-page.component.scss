@@ -4,13 +4,12 @@ textarea {
 
 .home-page-title {
   color: #f3f3f3;
-  // font-family: 'Playfair Display', serif;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   margin: 0px;
   text-align: center;
 }
 
 .home-page-title-container {
-  background-color: brown;
+  background-color: var(--primary-background-color);
   padding: 1rem;
 }

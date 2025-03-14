@@ -7,7 +7,7 @@ html {
 
   body {
     height: 100%;
-    font-family: 'Caveat', cursive;
+    font-family: 'Lora', serif;
     font-size: 18px;
     color: #333;
     line-height: 1.6;
@@ -26,26 +26,28 @@ html {
     h1,
     h2,
     h3 {
-      font-family: 'Caveat', cursive;
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       font-size: 2.5em;
       color: #2c3e50;
     }
 
     h5 {
+      font-family: 'Lora', serif;
       font-weight: 400;
       color: #444;
       font-size: 1.5em;
     }
 
     p {
-      font-family: 'Caveat', cursive;
+      font-family: 'Lora', serif;
       font-weight: 400;
       font-size: 1em;
       color: #444;
     }
 
     a {
+      font-family: 'Lora', serif;
       color: #0077cc;
       text-decoration: none;
       font-weight: 700;
@@ -57,7 +59,7 @@ html {
     }
 
     button {
-      font-family: 'Caveat', cursive;
+      font-family: 'Lora', serif;
       font-weight: 700;
       font-size: 1.4em;
       background-color: #0077cc;

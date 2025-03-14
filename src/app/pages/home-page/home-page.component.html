@@ -6,7 +6,7 @@
 </div>
 <div *ngIf="aboutText" class="container mb-5">
   <button (click)="onEditAboutText()" *ngIf="!isEditingAboutText && isAuthenticated()" class="btn btn btn-primary m-1"><i class="bi bi-pencil"></i></button>
-  <div [innerHTML]="aboutText.text" *ngIf="!isEditingAboutText"></div>
+  <div [innerHTML]="aboutText.text" *ngIf="!isEditingAboutText" class="text-center"></div>
   <div *ngIf="isEditingAboutText">
     <textarea [(ngModel)]="aboutText.text" class="form-control w-100"></textarea>
     <button (click)="onAboutTextSaved(aboutText)" class="btn btn-primary mt-2">Save</button>
