@@ -9,12 +9,12 @@ export class AuthService {
   error = new BehaviorSubject<string>('');
 
   constructor(private router: Router, public auth: Auth) {
-    this.auth.onAuthStateChanged((user) => {
-      this.user.next(user);
-      if (!user) {
-        this.router.navigate(['/login']);
-      }
-    });
+    // this.auth.onAuthStateChanged((user) => {
+    //   this.user.next(user);
+    //   if (!user) {
+    //     this.router.navigate(['/login']);
+    //   }
+    // });
   }
 
   logout(): void {
@@ -34,6 +34,4 @@ export class AuthService {
       })
       .catch((error) => this.error.next(error.message));
   }
-
-
 }

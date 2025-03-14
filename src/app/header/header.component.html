@@ -3,65 +3,32 @@
     <a class="navbar-brand" routerLink="/">
       <img src="images/logo.png" alt="Header logo" />
     </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a
-            class="nav-link"
-            aria-current="page"
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Otthon</a
-          >
+          <a class="nav-link" aria-current="page" routerLink="/" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">Otthon</a>
         </li>
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/our-projects-page"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Projektek</a
-          >
+          <a class="nav-link" routerLink="/our-projects-page" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">Projektek</a>
         </li>
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/our-writings-page"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Írásaink</a
-          >
+          <a class="nav-link" routerLink="/our-writings-page" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">Írásaink</a>
         </li>
         <li class="nav-item" *ngIf="isAuthenticated">
-          <a
-            class="nav-link"
-            routerLink="/asset-manager"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Asset Manager</a
-          >
+          <a class="nav-link" routerLink="/asset-manager" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">Asset Manager</a>
         </li>
-        <li class="nav-item" *ngIf="!isAuthenticated">
-          <button
-            class="btn btn-outline-light"
-            routerLink="/login"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            ><i class="bi bi-box-arrow-in-right"></i
-          ></button>
-        </li>
+        <!-- <li class="nav-item" *ngIf="!isAuthenticated">
+          <button class="btn btn-outline-light" routerLink="/login" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"><i class="bi bi-box-arrow-in-right"></i></button>
+        </li> -->
         <li class="nav-item" *ngIf="isAuthenticated">
           <button class="btn btn-outline-light" (click)="logout()">
             <i class="bi bi-box-arrow-right"></i>

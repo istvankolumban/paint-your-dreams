@@ -7,7 +7,11 @@ html {
 
   body {
     height: 100%;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
     color: #333;
+    line-height: 1.6;
+    background-color: #f9f9f9;
 
     app-root {
       height: 100%;
@@ -19,22 +23,53 @@ html {
       }
     }
 
+    h1,
+    h2,
+    h3 {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 2.5em;
+      color: #2c3e50;
+    }
+
     h5 {
-      font-size: 1.5rem;
+      font-weight: 400;
+      color: #444;
+      font-size: 1.5em;
     }
 
     p {
-      font-size: 1rem;
+      font-family: 'Caveat', cursive;
+      font-weight: 400;
+      font-size: 1em;
+      color: #444;
     }
 
     a {
-      color: #ed145b;
+      color: #0077cc;
       text-decoration: none;
+      font-weight: 700;
     }
 
     a:hover {
-      color: darken(#ed145b, 10%);
+      color: darken(#0077cc, 10%);
       text-decoration: underline;
+    }
+
+    button {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.4em;
+      background-color: #0077cc;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
     }
   }
 }
