@@ -72,7 +72,7 @@ export class OurWritingsService {
         const books: BookDetailsModel[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data() as Omit<BookDetailsModel, 'id'>;
-          books.push({ id: doc.id, ...data });
+          books.push({ ...data, id: doc.id });
         });
 
         return of(books).pipe(
